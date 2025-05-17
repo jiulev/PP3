@@ -104,7 +104,8 @@ namespace FotoRoman
             int idCliente = Convert.ToInt32(dataGridViewClientes.SelectedRows[0].Cells["IDCliente"].Value);
 
             // Buscar el cliente por su ID (opcional, para obtener todos los datos)
-            var cliente = CNCliente.ListarClientes().FirstOrDefault(c => c.IDCliente == idCliente);
+            var cliente = CNCliente.ObtenerClientePorId(idCliente);
+
 
             if (cliente == null)
             {

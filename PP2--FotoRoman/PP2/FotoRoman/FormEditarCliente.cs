@@ -66,5 +66,10 @@ namespace FotoRoman
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
+
+        private void labelNombre_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

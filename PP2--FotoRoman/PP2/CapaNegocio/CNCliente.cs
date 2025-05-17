@@ -143,6 +143,10 @@ namespace CapaNegocio
                 return false;
             }
         }
+        public static Cliente ObtenerClientePorId(int idCliente)
+        {
+            return CD_Cliente.ObtenerClientePorId(idCliente);
+        }
 
 
         // Método auxiliar para validar formato de correo

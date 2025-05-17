@@ -27,7 +27,11 @@ namespace CapaDatos
                    CORREO,
                    ESTADO,
                    LOCALIDAD,
-                   PROVINCIA
+   
+                   PROVINCIA,
+                 TELEFONO,      
+                    CUIT,        
+                    RAZONSOCIAL  
                 FROM CLIENTE
                 WHERE ESTADO = 'Activo'"; // Filtro para clientes activos
 
@@ -45,8 +49,12 @@ namespace CapaDatos
                                 ESTADO = reader["ESTADO"].ToString() ?? string.Empty,
                                 LOCALIDAD = reader["LOCALIDAD"].ToString() ?? string.Empty,
                                 PROVINCIA = reader["PROVINCIA"].ToString() ?? string.Empty,
+                                TELEFONO = reader["TELEFONO"].ToString() ?? string.Empty,         // nuevo
+                                CUIT = reader["CUIT"].ToString() ?? string.Empty,                 // nuevo
+                                RAZONSOCIAL = reader["RAZONSOCIAL"].ToString() ?? string.Empty,   // nuevo
                                 FECHACREACION = reader["FECHACREACION"] != DBNull.Value ? Convert.ToDateTime(reader["FECHACREACION"]) : (DateTime?)null
                             };
+
 
                             lista.Add(cliente);
                         }
@@ -59,6 +67,57 @@ namespace CapaDatos
             }
 
             return lista;
+        }
+        public static Cliente ObtenerClientePorId(int idCliente)
+        {
+            Cliente cliente = null;
+
+            using (SqlConnection oconexion = new SqlConnection(Conexion.ObtenerCadenaConexion()))
+            {
+                try
+                {
+                    oconexion.Open();
+
+                    string query = @"SELECT IDCLIENTE, DOCUMENTO, NOMBRE, CORREO, ESTADO, LOCALIDAD, PROVINCIA,
+                                    TELEFONO, CUIT, RAZONSOCIAL, FECHACREACION
+                             FROM CLIENTE
+                             WHERE IDCLIENTE = @IDCLIENTE";
+
+                    using (SqlCommand command = new SqlCommand(query, oconexion))
+                    {
+                        command.Parameters.AddWithValue("@IDCLIENTE", idCliente);
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                cliente = new Cliente
+                                {
+                                    IDCliente = reader["IDCLIENTE"] != DBNull.Value ? Convert.ToInt32(reader["IDCLIENTE"]) : 0,
+                                    DOCUMENTO = reader["DOCUMENTO"] != DBNull.Value ? Convert.ToInt32(reader["DOCUMENTO"]) : 0,
+                                    NOMBRE = reader["NOMBRE"]?.ToString() ?? "",
+                                    CORREO = reader["CORREO"]?.ToString() ?? "",
+                                    ESTADO = reader["ESTADO"]?.ToString() ?? "",
+                                    LOCALIDAD = reader["LOCALIDAD"]?.ToString() ?? "",
+                                    PROVINCIA = reader["PROVINCIA"]?.ToString() ?? "",
+                                    TELEFONO = reader["TELEFONO"]?.ToString() ?? "",
+                                    CUIT = reader["CUIT"]?.ToString(),
+                                    RAZONSOCIAL = reader["RAZONSOCIAL"]?.ToString(),
+                                    FECHACREACION = reader["FECHACREACION"] != DBNull.Value
+                                        ? Convert.ToDateTime(reader["FECHACREACION"])
+                                        : (DateTime?)null
+                                };
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error al obtener el cliente por ID: " + ex.Message);
+                }
+            }
+
+            return cliente;
         }
 
 
