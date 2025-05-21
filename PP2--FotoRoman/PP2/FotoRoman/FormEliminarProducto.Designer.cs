@@ -38,17 +38,17 @@
             // labelProducto
             // 
             labelProducto.AutoSize = true;
-            labelProducto.Font = new Font("Segoe UI", 10F);
-            labelProducto.Location = new Point(20, 20);
+            labelProducto.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelProducto.Location = new Point(5, 24);
             labelProducto.Name = "labelProducto";
-            labelProducto.Size = new Size(271, 19);
+            labelProducto.Size = new Size(293, 17);
             labelProducto.TabIndex = 0;
             labelProducto.Text = "¿Deseás eliminar el producto seleccionado?";
             // 
             // btnConfirmar
             // 
             btnConfirmar.BackColor = Color.LightGray;
-            btnConfirmar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnConfirmar.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
             btnConfirmar.Location = new Point(40, 60);
             btnConfirmar.Name = "btnConfirmar";
             btnConfirmar.Size = new Size(100, 30);
@@ -60,7 +60,7 @@
             // btnCancelar
             // 
             btnCancelar.BackColor = Color.LightGray;
-            btnCancelar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnCancelar.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
             btnCancelar.Location = new Point(160, 60);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(100, 30);
@@ -73,7 +73,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(300, 110);
+            ClientSize = new Size(310, 119);
             Controls.Add(labelProducto);
             Controls.Add(btnConfirmar);
             Controls.Add(btnCancelar);

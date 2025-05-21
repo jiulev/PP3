@@ -33,7 +33,7 @@
             // buttonSeleccionar
             // 
             buttonSeleccionar.BackColor = Color.LightGray;
-            buttonSeleccionar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            buttonSeleccionar.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             buttonSeleccionar.Location = new Point(140, 225);
             buttonSeleccionar.Name = "buttonSeleccionar";
             buttonSeleccionar.Size = new Size(100, 30);

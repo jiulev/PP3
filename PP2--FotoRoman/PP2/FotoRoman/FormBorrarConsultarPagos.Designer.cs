@@ -40,9 +40,10 @@ namespace FotoRoman
             // labelIdPedido
             // 
             labelIdPedido.BackColor = Color.Transparent;
-            labelIdPedido.Location = new Point(20, 20);
+            labelIdPedido.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
+            labelIdPedido.Location = new Point(-1, 20);
             labelIdPedido.Name = "labelIdPedido";
-            labelIdPedido.Size = new Size(150, 23);
+            labelIdPedido.Size = new Size(171, 23);
             labelIdPedido.TabIndex = 0;
             labelIdPedido.Text = "Buscar por ID de Pedido:";
             // 
@@ -56,9 +57,10 @@ namespace FotoRoman
             // labelCliente
             // 
             labelCliente.BackColor = Color.Transparent;
-            labelCliente.Location = new Point(20, 60);
+            labelCliente.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
+            labelCliente.Location = new Point(36, 60);
             labelCliente.Name = "labelCliente";
-            labelCliente.Size = new Size(150, 23);
+            labelCliente.Size = new Size(134, 23);
             labelCliente.TabIndex = 2;
             labelCliente.Text = "Buscar por Cliente:";
             // 
@@ -74,7 +76,7 @@ namespace FotoRoman
             // buttonBuscar
             // 
             buttonBuscar.BackColor = Color.LightGray;
-            buttonBuscar.Font = new Font("Segoe UI", 12F);
+            buttonBuscar.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
             buttonBuscar.Location = new Point(400, 15);
             buttonBuscar.Name = "buttonBuscar";
             buttonBuscar.Size = new Size(83, 34);
@@ -86,7 +88,7 @@ namespace FotoRoman
             // buttonLimpiar
             // 
             buttonLimpiar.BackColor = Color.LightGray;
-            buttonLimpiar.Font = new Font("Segoe UI", 12F);
+            buttonLimpiar.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
             buttonLimpiar.Location = new Point(400, 55);
             buttonLimpiar.Name = "buttonLimpiar";
             buttonLimpiar.Size = new Size(83, 34);
@@ -98,7 +100,7 @@ namespace FotoRoman
             // buttonCerrar
             // 
             buttonCerrar.BackColor = Color.LightGray;
-            buttonCerrar.Font = new Font("Segoe UI", 12F);
+            buttonCerrar.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
             buttonCerrar.Location = new Point(400, 95);
             buttonCerrar.Name = "buttonCerrar";
             buttonCerrar.Size = new Size(83, 34);
@@ -110,9 +112,10 @@ namespace FotoRoman
             // groupBoxPagos
             // 
             groupBoxPagos.Controls.Add(dataGridViewPagos);
-            groupBoxPagos.Location = new Point(20, 150);
+            groupBoxPagos.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
+            groupBoxPagos.Location = new Point(12, 150);
             groupBoxPagos.Name = "groupBoxPagos";
-            groupBoxPagos.Size = new Size(600, 300);
+            groupBoxPagos.Size = new Size(608, 300);
             groupBoxPagos.TabIndex = 7;
             groupBoxPagos.TabStop = false;
             groupBoxPagos.Text = "Pagos Realizados";
@@ -129,22 +132,15 @@ namespace FotoRoman
             // 
             // button1
             // 
-            // button1
-            // button1 (Imprimir)
-            button1 = new Button();
             button1.BackColor = Color.LightGray;
-            button1.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            button1.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button1.Location = new Point(493, 456);
             button1.Name = "button1";
             button1.Size = new Size(100, 35);
             button1.TabIndex = 8;
             button1.Text = "Imprimir";
-            button1.TextAlign = ContentAlignment.MiddleCenter;
             button1.UseVisualStyleBackColor = false;
-            button1.FlatStyle = FlatStyle.Standard;
             button1.Click += button1_Click;
-
-
             // 
             // pictureBoxLogo
             // 

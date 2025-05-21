@@ -98,7 +98,7 @@
             // buttonGuardar
             // 
             buttonGuardar.BackColor = Color.LightGray;
-            buttonGuardar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            buttonGuardar.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
             buttonGuardar.Location = new Point(180, 386);
             buttonGuardar.Name = "buttonGuardar";
             buttonGuardar.Size = new Size(120, 40);
@@ -110,7 +110,7 @@
             // buttonCancelar
             // 
             buttonCancelar.BackColor = Color.LightGray;
-            buttonCancelar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            buttonCancelar.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
             buttonCancelar.Location = new Point(360, 386);
             buttonCancelar.Name = "buttonCancelar";
             buttonCancelar.Size = new Size(120, 40);
@@ -145,36 +145,36 @@
             // 
             // labelNombre
             // 
-            labelNombre.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            labelNombre.Location = new Point(44, 12);
+            labelNombre.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
+            labelNombre.Location = new Point(42, 12);
             labelNombre.Name = "labelNombre";
-            labelNombre.Size = new Size(130, 23);
+            labelNombre.Size = new Size(132, 23);
             labelNombre.TabIndex = 0;
             labelNombre.Text = "Apellido y Nombre:";
             labelNombre.Click += labelNombre_Click;
             // 
             // labelTelefono
             // 
-            labelTelefono.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold | FontStyle.Italic);
-            labelTelefono.Location = new Point(103, 53);
+            labelTelefono.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
+            labelTelefono.Location = new Point(99, 53);
             labelTelefono.Name = "labelTelefono";
-            labelTelefono.Size = new Size(67, 23);
+            labelTelefono.Size = new Size(71, 23);
             labelTelefono.TabIndex = 1;
             labelTelefono.Text = "Teléfono:";
             // 
             // labelEstado
             // 
-            labelEstado.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold | FontStyle.Italic);
-            labelEstado.Location = new Point(117, 93);
+            labelEstado.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
+            labelEstado.Location = new Point(111, 95);
             labelEstado.Name = "labelEstado";
-            labelEstado.Size = new Size(53, 23);
+            labelEstado.Size = new Size(67, 23);
             labelEstado.TabIndex = 2;
             labelEstado.Text = "Estado:";
             // 
             // labelLocalidad
             // 
-            labelLocalidad.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold | FontStyle.Italic);
-            labelLocalidad.Location = new Point(99, 132);
+            labelLocalidad.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
+            labelLocalidad.Location = new Point(95, 134);
             labelLocalidad.Name = "labelLocalidad";
             labelLocalidad.Size = new Size(75, 23);
             labelLocalidad.TabIndex = 3;
@@ -182,7 +182,7 @@
             // 
             // labelProvincia
             // 
-            labelProvincia.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold | FontStyle.Italic);
+            labelProvincia.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
             labelProvincia.Location = new Point(103, 173);
             labelProvincia.Name = "labelProvincia";
             labelProvincia.Size = new Size(75, 23);
@@ -191,7 +191,7 @@
             // 
             // labelDocumento
             // 
-            labelDocumento.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold | FontStyle.Italic);
+            labelDocumento.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
             labelDocumento.Location = new Point(137, 212);
             labelDocumento.Name = "labelDocumento";
             labelDocumento.Size = new Size(37, 23);
@@ -200,28 +200,28 @@
             // 
             // labelCorreo
             // 
-            labelCorreo.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold | FontStyle.Italic);
-            labelCorreo.Location = new Point(121, 254);
+            labelCorreo.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
+            labelCorreo.Location = new Point(111, 254);
             labelCorreo.Name = "labelCorreo";
-            labelCorreo.Size = new Size(53, 23);
+            labelCorreo.Size = new Size(63, 23);
             labelCorreo.TabIndex = 6;
             labelCorreo.Text = "Correo:";
             // 
             // labelRazon
             // 
-            labelRazon.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold | FontStyle.Italic);
-            labelRazon.Location = new Point(84, 293);
+            labelRazon.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
+            labelRazon.Location = new Point(74, 293);
             labelRazon.Name = "labelRazon";
-            labelRazon.Size = new Size(90, 23);
+            labelRazon.Size = new Size(100, 23);
             labelRazon.TabIndex = 7;
             labelRazon.Text = "Razón Social:";
             // 
             // labelCuit
             // 
-            labelCuit.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold | FontStyle.Italic);
-            labelCuit.Location = new Point(133, 332);
+            labelCuit.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
+            labelCuit.Location = new Point(127, 335);
             labelCuit.Name = "labelCuit";
-            labelCuit.Size = new Size(41, 23);
+            labelCuit.Size = new Size(43, 23);
             labelCuit.TabIndex = 8;
             labelCuit.Text = "CUIT:";
             // 

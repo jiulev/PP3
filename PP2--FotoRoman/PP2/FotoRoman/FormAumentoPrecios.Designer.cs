@@ -27,11 +27,12 @@ namespace FotoRoman
             // label1
             // 
             label1.AutoSize = true;
+            label1.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.Location = new Point(20, 20);
             label1.Name = "label1";
-            label1.Size = new Size(195, 15);
+            label1.Size = new Size(188, 17);
             label1.TabIndex = 0;
-            label1.Text = "Ingrese porcentaje de aumento (%):";
+            label1.Text = "Porcentaje de aumento (%):";
             // 
             // txtPorcentaje
             // 
@@ -43,7 +44,7 @@ namespace FotoRoman
             // btnAplicar
             // 
             btnAplicar.BackColor = Color.LightGray;
-            btnAplicar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnAplicar.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnAplicar.Location = new Point(70, 90);
             btnAplicar.Name = "btnAplicar";
             btnAplicar.Size = new Size(100, 30);

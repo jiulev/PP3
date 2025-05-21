@@ -37,25 +37,25 @@
             // buttonSeleccionar
             // 
             buttonSeleccionar.BackColor = Color.LightGray;
-            buttonSeleccionar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            buttonSeleccionar.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold);
             buttonSeleccionar.Location = new Point(20, 230);
             buttonSeleccionar.Name = "buttonSeleccionar";
             buttonSeleccionar.Size = new Size(120, 30);
             buttonSeleccionar.TabIndex = 1;
             buttonSeleccionar.Text = "Seleccionar";
-            buttonSeleccionar.UseVisualStyleBackColor = true;
+            buttonSeleccionar.UseVisualStyleBackColor = false;
             buttonSeleccionar.Click += buttonSeleccionar_Click;
             // 
             // buttonCancelar
             // 
             buttonCancelar.BackColor = Color.LightGray;
-            buttonCancelar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            buttonCancelar.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold);
             buttonCancelar.Location = new Point(200, 230);
             buttonCancelar.Name = "buttonCancelar";
             buttonCancelar.Size = new Size(120, 30);
             buttonCancelar.TabIndex = 2;
             buttonCancelar.Text = "Cancelar";
-            buttonCancelar.UseVisualStyleBackColor = true;
+            buttonCancelar.UseVisualStyleBackColor = false;
             buttonCancelar.Click += buttonCancelar_Click;
             // 
             // FormSeleccionarPedidoPago

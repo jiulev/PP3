@@ -32,16 +32,17 @@
             // checkBoxInactiva
             // 
             checkBoxInactiva.AutoSize = true;
+            checkBoxInactiva.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
             checkBoxInactiva.Location = new Point(30, 80);
             checkBoxInactiva.Name = "checkBoxInactiva";
-            checkBoxInactiva.Size = new Size(123, 19);
+            checkBoxInactiva.Size = new Size(148, 21);
             checkBoxInactiva.TabIndex = 2;
             checkBoxInactiva.Text = "Inactivar categoría";
             // 
             // buttonGuardar
             // 
             buttonGuardar.BackColor = Color.LightGray;
-            buttonGuardar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            buttonGuardar.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             buttonGuardar.Location = new Point(30, 120);
             buttonGuardar.Name = "buttonGuardar";
             buttonGuardar.Size = new Size(300, 30);
@@ -53,9 +54,10 @@
             // labelDescripcion
             // 
             labelDescripcion.AutoSize = true;
+            labelDescripcion.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
             labelDescripcion.Location = new Point(30, 20);
             labelDescripcion.Name = "labelDescripcion";
-            labelDescripcion.Size = new Size(72, 15);
+            labelDescripcion.Size = new Size(88, 17);
             labelDescripcion.TabIndex = 1;
             labelDescripcion.Text = "Descripción:";
             // 

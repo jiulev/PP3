@@ -41,11 +41,11 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            label1.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold);
             label1.ForeColor = Color.FromArgb(33, 37, 41);
             label1.Location = new Point(30, 30);
             label1.Name = "label1";
-            label1.Size = new Size(245, 25);
+            label1.Size = new Size(203, 19);
             label1.TabIndex = 0;
             label1.Text = "Registrar Nueva Categoría";
             // 
@@ -53,10 +53,10 @@
             // 
             label2.AutoSize = true;
             label2.BackColor = Color.Transparent;
-            label2.Font = new Font("Segoe UI", 11.25F);
+            label2.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold);
             label2.Location = new Point(40, 100);
             label2.Name = "label2";
-            label2.Size = new Size(173, 20);
+            label2.Size = new Size(188, 19);
             label2.TabIndex = 1;
             label2.Text = "Nombre de la Categoría:";
             // 
@@ -64,7 +64,7 @@
             // 
             CrearCategoria.BackColor = Color.LightGray;
             CrearCategoria.FlatAppearance.BorderColor = Color.Gray;
-            CrearCategoria.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            CrearCategoria.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold);
             CrearCategoria.ForeColor = Color.Black;
             CrearCategoria.Location = new Point(240, 160);
             CrearCategoria.Name = "CrearCategoria";
@@ -78,7 +78,7 @@
             // 
             CancelarCategoria.BackColor = Color.LightGray;
             CancelarCategoria.FlatAppearance.BorderColor = Color.Gray;
-            CancelarCategoria.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            CancelarCategoria.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold);
             CancelarCategoria.ForeColor = Color.Black;
             CancelarCategoria.Location = new Point(420, 160);
             CancelarCategoria.Name = "CancelarCategoria";
@@ -110,7 +110,7 @@
             // FormCategoriaa
             // 
             BackColor = Color.WhiteSmoke;
-            ClientSize = new Size(600, 320);
+            ClientSize = new Size(600, 269);
             Controls.Add(label1);
             Controls.Add(label2);
             Controls.Add(textBoxCategoria);

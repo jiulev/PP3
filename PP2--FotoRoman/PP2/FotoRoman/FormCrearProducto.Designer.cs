@@ -66,10 +66,10 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 10F);
+            label1.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
             label1.Location = new Point(21, 111);
             label1.Name = "label1";
-            label1.Size = new Size(144, 19);
+            label1.Size = new Size(148, 17);
             label1.TabIndex = 7;
             label1.Text = "Nombre del producto:";
             // 
@@ -83,20 +83,20 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 10F);
+            label3.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
             label3.Location = new Point(34, 148);
             label3.Name = "label3";
-            label3.Size = new Size(131, 19);
+            label3.Size = new Size(138, 17);
             label3.TabIndex = 6;
             label3.Text = "Precio del producto:";
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 10F);
+            label4.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
             label4.Location = new Point(12, 68);
             label4.Name = "label4";
-            label4.Size = new Size(153, 19);
+            label4.Size = new Size(160, 17);
             label4.TabIndex = 8;
             label4.Text = "Categoría del producto:";
             // 
@@ -149,10 +149,11 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            label5.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold);
+            label5.ForeColor = Color.Brown;
             label5.Location = new Point(55, 17);
             label5.Name = "label5";
-            label5.Size = new Size(152, 21);
+            label5.Size = new Size(146, 19);
             label5.TabIndex = 0;
             label5.Text = "Registrar Producto";
             // 

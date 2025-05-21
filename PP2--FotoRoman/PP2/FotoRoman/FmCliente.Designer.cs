@@ -78,19 +78,20 @@
             // 
             pictureBoxLogo.BackColor = Color.Transparent;
             pictureBoxLogo.Image = (Image)resources.GetObject("pictureBoxLogo.Image");
-            pictureBoxLogo.Location = new Point(462, 30);
+            pictureBoxLogo.Location = new Point(462, 15);
             pictureBoxLogo.Name = "pictureBoxLogo";
-            pictureBoxLogo.Size = new Size(76, 65);
+            pictureBoxLogo.Size = new Size(90, 80);
             pictureBoxLogo.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBoxLogo.TabIndex = 0;
             pictureBoxLogo.TabStop = false;
             // 
             // labelNombre
             // 
-            labelNombre.Font = new Font("Segoe UI", 10F);
-            labelNombre.Location = new Point(30, 30);
+            labelNombre.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
+            labelNombre.ForeColor = Color.FromArgb(64, 64, 64);
+            labelNombre.Location = new Point(42, 30);
             labelNombre.Name = "labelNombre";
-            labelNombre.Size = new Size(140, 25);
+            labelNombre.Size = new Size(133, 30);
             labelNombre.TabIndex = 0;
             labelNombre.Text = "Apellido y Nombre:";
             // 
@@ -105,10 +106,11 @@
             // 
             // labelDocumento
             // 
-            labelDocumento.Font = new Font("Segoe UI", 10F);
-            labelDocumento.Location = new Point(30, 70);
+            labelDocumento.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
+            labelDocumento.ForeColor = Color.FromArgb(64, 64, 64);
+            labelDocumento.Location = new Point(86, 70);
             labelDocumento.Name = "labelDocumento";
-            labelDocumento.Size = new Size(100, 25);
+            labelDocumento.Size = new Size(89, 30);
             labelDocumento.TabIndex = 2;
             labelDocumento.Text = "Documento:";
             // 
@@ -122,10 +124,11 @@
             // 
             // labelCorreo
             // 
-            labelCorreo.Font = new Font("Segoe UI", 10F);
-            labelCorreo.Location = new Point(30, 150);
+            labelCorreo.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
+            labelCorreo.ForeColor = Color.FromArgb(64, 64, 64);
+            labelCorreo.Location = new Point(42, 150);
             labelCorreo.Name = "labelCorreo";
-            labelCorreo.Size = new Size(140, 25);
+            labelCorreo.Size = new Size(133, 30);
             labelCorreo.TabIndex = 4;
             labelCorreo.Text = "Correo Electrónico:";
             // 
@@ -139,10 +142,11 @@
             // 
             // label1
             // 
-            label1.Font = new Font("Segoe UI", 10F);
-            label1.Location = new Point(30, 110);
+            label1.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
+            label1.ForeColor = Color.FromArgb(64, 64, 64);
+            label1.Location = new Point(100, 110);
             label1.Name = "label1";
-            label1.Size = new Size(100, 25);
+            label1.Size = new Size(75, 30);
             label1.TabIndex = 6;
             label1.Text = "Teléfono:";
             // 
@@ -156,10 +160,11 @@
             // 
             // labelProvincia
             // 
-            labelProvincia.Font = new Font("Segoe UI", 10F);
-            labelProvincia.Location = new Point(30, 190);
+            labelProvincia.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
+            labelProvincia.ForeColor = Color.FromArgb(64, 64, 64);
+            labelProvincia.Location = new Point(99, 193);
             labelProvincia.Name = "labelProvincia";
-            labelProvincia.Size = new Size(100, 25);
+            labelProvincia.Size = new Size(76, 30);
             labelProvincia.TabIndex = 8;
             labelProvincia.Text = "Provincia:";
             // 
@@ -176,10 +181,11 @@
             // 
             // labelLocalidad
             // 
-            labelLocalidad.Font = new Font("Segoe UI", 10F);
-            labelLocalidad.Location = new Point(30, 230);
+            labelLocalidad.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
+            labelLocalidad.ForeColor = Color.FromArgb(64, 64, 64);
+            labelLocalidad.Location = new Point(99, 230);
             labelLocalidad.Name = "labelLocalidad";
-            labelLocalidad.Size = new Size(100, 25);
+            labelLocalidad.Size = new Size(76, 30);
             labelLocalidad.TabIndex = 10;
             labelLocalidad.Text = "Localidad:";
             // 
@@ -196,25 +202,28 @@
             // 
             // checkBoxFiscal
             // 
-            checkBoxFiscal.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold | FontStyle.Italic);
+            checkBoxFiscal.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            checkBoxFiscal.ForeColor = Color.Black;
             checkBoxFiscal.Location = new Point(30, 270);
             checkBoxFiscal.Name = "checkBoxFiscal";
-            checkBoxFiscal.Size = new Size(104, 24);
+            checkBoxFiscal.Size = new Size(114, 24);
             checkBoxFiscal.TabIndex = 12;
             checkBoxFiscal.Text = "Completar Datos Fiscales";
             checkBoxFiscal.CheckedChanged += checkBoxFiscal_CheckedChanged;
             // 
             // label2
             // 
-            label2.Font = new Font("Segoe UI", 10F);
-            label2.Location = new Point(30, 310);
+            label2.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
+            label2.ForeColor = Color.FromArgb(64, 64, 64);
+            label2.Location = new Point(80, 310);
             label2.Name = "label2";
-            label2.Size = new Size(100, 25);
+            label2.Size = new Size(95, 25);
             label2.TabIndex = 13;
             label2.Text = "Razón Social:";
             // 
             // razonSocial
             // 
+            razonSocial.BackColor = Color.Silver;
             razonSocial.Font = new Font("Segoe UI", 10F);
             razonSocial.Location = new Point(176, 310);
             razonSocial.Name = "razonSocial";
@@ -223,15 +232,17 @@
             // 
             // label3
             // 
-            label3.Font = new Font("Segoe UI", 10F);
-            label3.Location = new Point(30, 350);
+            label3.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
+            label3.ForeColor = Color.FromArgb(64, 64, 64);
+            label3.Location = new Point(126, 350);
             label3.Name = "label3";
-            label3.Size = new Size(100, 25);
+            label3.Size = new Size(49, 25);
             label3.TabIndex = 15;
             label3.Text = "CUIT:";
             // 
             // cuit
             // 
+            cuit.BackColor = Color.Silver;
             cuit.Font = new Font("Segoe UI", 10F);
             cuit.Location = new Point(176, 350);
             cuit.Name = "cuit";
@@ -241,7 +252,7 @@
             // RegistrarCliente
             // 
             RegistrarCliente.BackColor = Color.LightGray;
-            RegistrarCliente.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            RegistrarCliente.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold);
             RegistrarCliente.Location = new Point(176, 397);
             RegistrarCliente.Name = "RegistrarCliente";
             RegistrarCliente.Size = new Size(111, 40);
@@ -253,7 +264,7 @@
             // CancelarCliente
             // 
             CancelarCliente.BackColor = Color.LightGray;
-            CancelarCliente.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            CancelarCliente.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold);
             CancelarCliente.Location = new Point(345, 397);
             CancelarCliente.Name = "CancelarCliente";
             CancelarCliente.Size = new Size(111, 40);

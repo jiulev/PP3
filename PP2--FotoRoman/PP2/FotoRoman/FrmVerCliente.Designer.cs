@@ -66,7 +66,7 @@ namespace FotoRoman
             // btnEliminar
             // 
             btnEliminar.BackColor = Color.LightGray;
-            btnEliminar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnEliminar.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold);
             btnEliminar.Location = new Point(274, 330);
             btnEliminar.Name = "btnEliminar";
             btnEliminar.Size = new Size(120, 40);
@@ -78,7 +78,7 @@ namespace FotoRoman
             // button1
             // 
             button1.BackColor = Color.LightGray;
-            button1.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            button1.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold);
             button1.Location = new Point(413, 330);
             button1.Name = "button1";
             button1.Size = new Size(120, 40);
@@ -90,10 +90,10 @@ namespace FotoRoman
             // labelCantidadClientes
             // 
             labelCantidadClientes.AutoSize = true;
-            labelCantidadClientes.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelCantidadClientes.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
             labelCantidadClientes.Location = new Point(605, 338);
             labelCantidadClientes.Name = "labelCantidadClientes";
-            labelCantidadClientes.Size = new Size(132, 15);
+            labelCantidadClientes.Size = new Size(154, 17);
             labelCantidadClientes.TabIndex = 0;
             labelCantidadClientes.Text = "0 clientes encontrados";
             // 

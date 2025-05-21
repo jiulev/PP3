@@ -27,10 +27,11 @@
             // labelTitulo
             // 
             labelTitulo.AutoSize = true;
-            labelTitulo.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            labelTitulo.Location = new Point(50, 20);
+            labelTitulo.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelTitulo.ForeColor = Color.Brown;
+            labelTitulo.Location = new Point(12, 9);
             labelTitulo.Name = "labelTitulo";
-            labelTitulo.Size = new Size(210, 21);
+            labelTitulo.Size = new Size(201, 19);
             labelTitulo.TabIndex = 0;
             labelTitulo.Text = "Registrar Nueva Localidad";
             // 
@@ -45,7 +46,7 @@
             // btnRegistrar
             // 
             btnRegistrar.BackColor = Color.LightGray;
-            btnRegistrar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnRegistrar.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnRegistrar.Location = new Point(150, 150);
             btnRegistrar.Name = "btnRegistrar";
             btnRegistrar.Size = new Size(100, 30);
@@ -57,10 +58,10 @@
             // labelProvincia
             // 
             labelProvincia.AutoSize = true;
-            labelProvincia.Font = new Font("Segoe UI", 10F);
+            labelProvincia.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             labelProvincia.Location = new Point(50, 50);
             labelProvincia.Name = "labelProvincia";
-            labelProvincia.Size = new Size(67, 19);
+            labelProvincia.Size = new Size(72, 17);
             labelProvincia.TabIndex = 3;
             labelProvincia.Text = "Provincia:";
             // 

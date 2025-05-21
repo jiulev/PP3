@@ -29,7 +29,7 @@
             // btnCerrar
             // 
             btnCerrar.BackColor = Color.LightGray;
-            btnCerrar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnCerrar.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnCerrar.Location = new Point(394, 427);
             btnCerrar.Name = "btnCerrar";
             btnCerrar.Size = new Size(120, 40);
@@ -50,9 +50,10 @@
             // 
             // lblSeleccionarMes
             // 
+            lblSeleccionarMes.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
             lblSeleccionarMes.Location = new Point(12, 9);
             lblSeleccionarMes.Name = "lblSeleccionarMes";
-            lblSeleccionarMes.Size = new Size(105, 19);
+            lblSeleccionarMes.Size = new Size(131, 19);
             lblSeleccionarMes.TabIndex = 1;
             lblSeleccionarMes.Text = "Seleccionar Mes:";
             // 
@@ -68,9 +69,10 @@
             // 
             // label1
             // 
+            label1.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
             label1.Location = new Point(160, 9);
             label1.Name = "label1";
-            label1.Size = new Size(95, 19);
+            label1.Size = new Size(121, 19);
             label1.TabIndex = 3;
             label1.Text = "Seleccionar Año";
             // 

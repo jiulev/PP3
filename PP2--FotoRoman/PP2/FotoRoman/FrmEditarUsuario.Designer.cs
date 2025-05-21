@@ -87,40 +87,40 @@ namespace FotoRoman
             // Nombre
             // 
             Nombre.AutoSize = true;
-            Nombre.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Nombre.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
             Nombre.Location = new Point(41, 108);
             Nombre.Name = "Nombre";
-            Nombre.Size = new Size(141, 21);
+            Nombre.Size = new Size(127, 17);
             Nombre.TabIndex = 6;
             Nombre.Text = "Apellido y Nombre";
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.Location = new Point(41, 158);
+            label1.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
+            label1.Location = new Point(44, 158);
             label1.Name = "label1";
-            label1.Size = new Size(133, 21);
+            label1.Size = new Size(124, 17);
             label1.TabIndex = 5;
             label1.Text = "DNI (Solo lectura)";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.Location = new Point(41, 208);
+            label2.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
+            label2.Location = new Point(124, 208);
             label2.Name = "label2";
-            label2.Size = new Size(48, 21);
+            label2.Size = new Size(44, 17);
             label2.TabIndex = 4;
             label2.Text = "Email";
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label3.Location = new Point(41, 258);
+            label3.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
+            label3.Location = new Point(86, 258);
             label3.Name = "label3";
-            label3.Size = new Size(89, 21);
+            label3.Size = new Size(82, 17);
             label3.TabIndex = 3;
             label3.Text = "Contraseña";
             // 
@@ -128,10 +128,11 @@ namespace FotoRoman
             // 
             label4.AutoSize = true;
             label4.BorderStyle = BorderStyle.Fixed3D;
-            label4.Font = new Font("Arial", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label4.Font = new Font("Yu Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label4.ForeColor = Color.Brown;
             label4.Location = new Point(52, 22);
             label4.Name = "label4";
-            label4.Size = new Size(130, 24);
+            label4.Size = new Size(123, 23);
             label4.TabIndex = 2;
             label4.Text = "Editar Usuario";
             label4.TextAlign = ContentAlignment.MiddleCenter;
@@ -139,10 +140,10 @@ namespace FotoRoman
             // label5
             // 
             label5.AutoSize = true;
-            label5.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label5.Location = new Point(41, 308);
+            label5.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
+            label5.Location = new Point(139, 308);
             label5.Name = "label5";
-            label5.Size = new Size(33, 21);
+            label5.Size = new Size(29, 17);
             label5.TabIndex = 11;
             label5.Text = "Rol";
             // 
@@ -159,7 +160,7 @@ namespace FotoRoman
             // btnGuardar
             // 
             btnGuardar.BackColor = Color.LightGray;
-            btnGuardar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnGuardar.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold);
             btnGuardar.Location = new Point(191, 371);
             btnGuardar.Name = "btnGuardar";
             btnGuardar.Size = new Size(120, 40);
@@ -171,7 +172,7 @@ namespace FotoRoman
             // btnCancelar
             // 
             btnCancelar.BackColor = Color.LightGray;
-            btnCancelar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnCancelar.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold);
             btnCancelar.Location = new Point(371, 371);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(120, 40);

@@ -53,6 +53,7 @@ namespace FotoRoman
             // 
             // labelIdPedido
             // 
+            labelIdPedido.Font = new Font("Yu Gothic", 9F, FontStyle.Bold);
             labelIdPedido.Location = new Point(20, 20);
             labelIdPedido.Name = "labelIdPedido";
             labelIdPedido.Size = new Size(150, 23);
@@ -68,6 +69,7 @@ namespace FotoRoman
             // 
             // labelCliente
             // 
+            labelCliente.Font = new Font("Yu Gothic", 9F, FontStyle.Bold);
             labelCliente.Location = new Point(20, 60);
             labelCliente.Name = "labelCliente";
             labelCliente.Size = new Size(150, 23);
@@ -86,7 +88,7 @@ namespace FotoRoman
             // buttonBuscar
             // 
             buttonBuscar.BackColor = Color.LightGray;
-            buttonBuscar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            buttonBuscar.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
             buttonBuscar.Location = new Point(400, 9);
             buttonBuscar.Name = "buttonBuscar";
             buttonBuscar.Size = new Size(100, 35);
@@ -98,7 +100,7 @@ namespace FotoRoman
             // buttonLimpiar
             // 
             buttonLimpiar.BackColor = Color.LightGray;
-            buttonLimpiar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            buttonLimpiar.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
             buttonLimpiar.Location = new Point(400, 51);
             buttonLimpiar.Name = "buttonLimpiar";
             buttonLimpiar.Size = new Size(100, 35);
@@ -110,7 +112,7 @@ namespace FotoRoman
             // buttonImprimir
             // 
             buttonImprimir.BackColor = Color.LightGray;
-            buttonImprimir.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            buttonImprimir.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
             buttonImprimir.Location = new Point(634, 624);
             buttonImprimir.Name = "buttonImprimir";
             buttonImprimir.Size = new Size(100, 35);
@@ -122,7 +124,7 @@ namespace FotoRoman
             // buttonCerrar
             // 
             buttonCerrar.BackColor = Color.LightGray;
-            buttonCerrar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            buttonCerrar.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
             buttonCerrar.Location = new Point(739, 624);
             buttonCerrar.Name = "buttonCerrar";
             buttonCerrar.Size = new Size(100, 35);
@@ -138,6 +140,7 @@ namespace FotoRoman
             groupBoxCliente.Controls.Add(textBoxLocalidad);
             groupBoxCliente.Controls.Add(textBoxCorreo);
             groupBoxCliente.Controls.Add(textBoxDatosCliente);
+            groupBoxCliente.Font = new Font("Yu Gothic", 9F, FontStyle.Bold);
             groupBoxCliente.Location = new Point(20, 100);
             groupBoxCliente.Name = "groupBoxCliente";
             groupBoxCliente.Size = new Size(830, 150);
@@ -147,23 +150,18 @@ namespace FotoRoman
             // 
             // label2
             // 
-            label2.Text = "⚠️ Observaciones del pedido:";
-
             label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI Semilight", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label2.BackColor = Color.FromArgb(220, 200, 210);
+            label2.BorderStyle = BorderStyle.FixedSingle;
+            label2.Font = new Font("Yu Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.ForeColor = Color.DarkRed;
             label2.Location = new Point(506, 29);
             label2.MaximumSize = new Size(300, 0);
             label2.Name = "label2";
-            label2.Size = new Size(0, 17);
-            label2.TabIndex = 4;
-            label2.BorderStyle = BorderStyle.FixedSingle;
             label2.Padding = new Padding(5);
-            label2.BackColor = Color.FromArgb(220, 200, 210); // Bordó muy suave, grisado
-
-            label2.Font = new Font("Segoe UI", 9.5F, FontStyle.Regular);
-            label2.ForeColor = Color.DarkRed;
-
+            label2.Size = new Size(183, 28);
+            label2.TabIndex = 4;
+            label2.Text = "⚠️ Observaciones del pedido:";
             // 
             // textBoxProvincia
             // 
@@ -208,6 +206,8 @@ namespace FotoRoman
             // groupBoxDetallePedido
             // 
             groupBoxDetallePedido.Controls.Add(dataGridViewDetallePedido);
+            groupBoxDetallePedido.Font = new Font("Yu Gothic", 9F, FontStyle.Bold);
+            groupBoxDetallePedido.ForeColor = Color.Brown;
             groupBoxDetallePedido.Location = new Point(20, 270);
             groupBoxDetallePedido.Name = "groupBoxDetallePedido";
             groupBoxDetallePedido.Size = new Size(830, 150);
@@ -229,6 +229,8 @@ namespace FotoRoman
             // groupBoxPagos
             // 
             groupBoxPagos.Controls.Add(dataGridViewPagos);
+            groupBoxPagos.Font = new Font("Yu Gothic", 9F, FontStyle.Bold);
+            groupBoxPagos.ForeColor = Color.Brown;
             groupBoxPagos.Location = new Point(20, 440);
             groupBoxPagos.Name = "groupBoxPagos";
             groupBoxPagos.Size = new Size(830, 165);
@@ -265,17 +267,17 @@ namespace FotoRoman
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.Location = new Point(556, 77);
             label1.Name = "label1";
-            label1.Size = new Size(115, 17);
+            label1.Size = new Size(125, 17);
             label1.TabIndex = 13;
             label1.Text = "Estado del Pedido";
             // 
             // buttonEditar
             // 
             buttonEditar.BackColor = Color.DarkSalmon;
-            buttonEditar.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonEditar.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
             buttonEditar.Location = new Point(526, 624);
             buttonEditar.Name = "buttonEditar";
             buttonEditar.Size = new Size(83, 34);

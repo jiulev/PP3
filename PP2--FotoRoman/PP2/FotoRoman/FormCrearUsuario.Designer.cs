@@ -48,10 +48,10 @@
             // 
             Nombre.AutoSize = true;
             Nombre.BackColor = Color.Transparent;
-            Nombre.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            Nombre.Location = new Point(57, 68);
+            Nombre.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold);
+            Nombre.Location = new Point(54, 73);
             Nombre.Name = "Nombre";
-            Nombre.Size = new Size(144, 21);
+            Nombre.Size = new Size(147, 19);
             Nombre.TabIndex = 1;
             Nombre.Text = "Nombre y Apellido:";
             // 
@@ -59,10 +59,10 @@
             // 
             Documento.AutoSize = true;
             Documento.BackColor = Color.Transparent;
-            Documento.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            Documento.Location = new Point(57, 118);
+            Documento.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold);
+            Documento.Location = new Point(54, 123);
             Documento.Name = "Documento";
-            Documento.Size = new Size(94, 21);
+            Documento.Size = new Size(99, 19);
             Documento.TabIndex = 2;
             Documento.Text = "Documento:";
             // 
@@ -70,10 +70,10 @@
             // 
             Email.AutoSize = true;
             Email.BackColor = Color.Transparent;
-            Email.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            Email.Location = new Point(57, 168);
+            Email.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold);
+            Email.Location = new Point(54, 173);
             Email.Name = "Email";
-            Email.Size = new Size(51, 21);
+            Email.Size = new Size(55, 19);
             Email.TabIndex = 3;
             Email.Text = "Email:";
             // 
@@ -81,10 +81,10 @@
             // 
             Contraseña.AutoSize = true;
             Contraseña.BackColor = Color.Transparent;
-            Contraseña.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            Contraseña.Location = new Point(57, 218);
+            Contraseña.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold);
+            Contraseña.Location = new Point(54, 223);
             Contraseña.Name = "Contraseña";
-            Contraseña.Size = new Size(92, 21);
+            Contraseña.Size = new Size(99, 19);
             Contraseña.TabIndex = 4;
             Contraseña.Text = "Contraseña:";
             // 
@@ -92,10 +92,10 @@
             // 
             Rol.AutoSize = true;
             Rol.BackColor = Color.Transparent;
-            Rol.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            Rol.Location = new Point(57, 268);
+            Rol.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold);
+            Rol.Location = new Point(54, 273);
             Rol.Name = "Rol";
-            Rol.Size = new Size(36, 21);
+            Rol.Size = new Size(37, 19);
             Rol.TabIndex = 5;
             Rol.Text = "Rol:";
             // 
@@ -145,7 +145,7 @@
             // aceptarCrearUsuario
             // 
             aceptarCrearUsuario.BackColor = Color.LightGray;
-            aceptarCrearUsuario.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            aceptarCrearUsuario.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold);
             aceptarCrearUsuario.Location = new Point(207, 340);
             aceptarCrearUsuario.Name = "aceptarCrearUsuario";
             aceptarCrearUsuario.Size = new Size(120, 40);
@@ -157,7 +157,7 @@
             // cancelarCrearUsuario
             // 
             cancelarCrearUsuario.BackColor = Color.LightGray;
-            cancelarCrearUsuario.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            cancelarCrearUsuario.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold);
             cancelarCrearUsuario.Location = new Point(343, 340);
             cancelarCrearUsuario.Name = "cancelarCrearUsuario";
             cancelarCrearUsuario.Size = new Size(120, 40);

@@ -58,7 +58,7 @@
             textBox1.AutoCompleteMode = AutoCompleteMode.Suggest;
             textBox1.AutoCompleteSource = AutoCompleteSource.CustomSource;
             textBox1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox1.Location = new Point(220, 121);
+            textBox1.Location = new Point(183, 120);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(300, 29);
             textBox1.TabIndex = 0;
@@ -67,76 +67,82 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.ForeColor = Color.Brown;
             label1.Location = new Point(10, 125);
             label1.Name = "label1";
-            label1.Size = new Size(178, 25);
+            label1.Size = new Size(156, 19);
             label1.TabIndex = 1;
             label1.Text = "Usuario del Sistema";
             // 
             // fechaHoy
             // 
+            fechaHoy.Font = new Font("Yu Gothic", 9F, FontStyle.Bold);
             fechaHoy.Location = new Point(273, 42);
             fechaHoy.Name = "fechaHoy";
-            fechaHoy.Size = new Size(247, 23);
+            fechaHoy.Size = new Size(247, 27);
             fechaHoy.TabIndex = 2;
             // 
             // buttonGenerar
             // 
-            buttonGenerar.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonGenerar.BackColor = Color.LightGray;
+            buttonGenerar.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold);
             buttonGenerar.Location = new Point(273, 489);
             buttonGenerar.Name = "buttonGenerar";
             buttonGenerar.Size = new Size(103, 43);
             buttonGenerar.TabIndex = 4;
             buttonGenerar.Text = "Consultar";
-            buttonGenerar.UseVisualStyleBackColor = true;
+            buttonGenerar.UseVisualStyleBackColor = false;
             buttonGenerar.Click += buttonGenerar_Click;
             // 
             // buttonCancelar
             // 
-            buttonCancelar.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonCancelar.BackColor = Color.LightGray;
+            buttonCancelar.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold);
             buttonCancelar.Location = new Point(427, 596);
             buttonCancelar.Name = "buttonCancelar";
             buttonCancelar.Size = new Size(103, 43);
             buttonCancelar.TabIndex = 5;
             buttonCancelar.Text = "Salir";
-            buttonCancelar.UseVisualStyleBackColor = true;
+            buttonCancelar.UseVisualStyleBackColor = false;
             buttonCancelar.Click += buttonCancelar_Click;
             // 
             // lblFechaDesde
             // 
             lblFechaDesde.AutoSize = true;
-            lblFechaDesde.Font = new Font("Segoe UI", 10F);
+            lblFechaDesde.Font = new Font("Yu Gothic", 9F, FontStyle.Bold);
             lblFechaDesde.Location = new Point(10, 180);
             lblFechaDesde.Name = "lblFechaDesde";
-            lblFechaDesde.Size = new Size(89, 19);
+            lblFechaDesde.Size = new Size(86, 16);
             lblFechaDesde.TabIndex = 0;
             lblFechaDesde.Text = "Fecha Desde:";
             // 
             // lblFechaHasta
             // 
             lblFechaHasta.AutoSize = true;
-            lblFechaHasta.Font = new Font("Segoe UI", 10F);
+            lblFechaHasta.Font = new Font("Yu Gothic", 9F, FontStyle.Bold);
             lblFechaHasta.Location = new Point(10, 220);
             lblFechaHasta.Name = "lblFechaHasta";
-            lblFechaHasta.Size = new Size(86, 19);
+            lblFechaHasta.Size = new Size(84, 16);
             lblFechaHasta.TabIndex = 2;
             lblFechaHasta.Text = "Fecha Hasta:";
             // 
             // dtpFechaDesde
             // 
+            dtpFechaDesde.Font = new Font("Yu Gothic", 9F, FontStyle.Bold);
             dtpFechaDesde.Format = DateTimePickerFormat.Short;
             dtpFechaDesde.Location = new Point(120, 180);
             dtpFechaDesde.Name = "dtpFechaDesde";
-            dtpFechaDesde.Size = new Size(200, 23);
+            dtpFechaDesde.Size = new Size(200, 27);
             dtpFechaDesde.TabIndex = 1;
             // 
             // dtpFechaHasta
             // 
+            dtpFechaHasta.Font = new Font("Yu Gothic", 9F, FontStyle.Bold);
             dtpFechaHasta.Format = DateTimePickerFormat.Short;
             dtpFechaHasta.Location = new Point(120, 220);
             dtpFechaHasta.Name = "dtpFechaHasta";
-            dtpFechaHasta.Size = new Size(200, 23);
+            dtpFechaHasta.Size = new Size(200, 27);
             dtpFechaHasta.TabIndex = 3;
             // 
             // dataGridViewPedidos
@@ -150,13 +156,14 @@
             // 
             // buttonImprimir
             // 
-            buttonImprimir.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            buttonImprimir.BackColor = Color.LightGray;
+            buttonImprimir.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold);
             buttonImprimir.Location = new Point(427, 489);
             buttonImprimir.Name = "buttonImprimir";
             buttonImprimir.Size = new Size(103, 43);
             buttonImprimir.TabIndex = 6;
             buttonImprimir.Text = "Imprimir";
-            buttonImprimir.UseVisualStyleBackColor = true;
+            buttonImprimir.UseVisualStyleBackColor = false;
             buttonImprimir.Click += buttonImprimir_Click;
             // 
             // lblTotal

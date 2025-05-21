@@ -69,7 +69,7 @@ namespace FotoRoman
             // buttonEditar
             // 
             buttonEditar.BackColor = Color.LightGray;
-            buttonEditar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            buttonEditar.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             buttonEditar.Location = new Point(470, 339);
             buttonEditar.Name = "buttonEditar";
             buttonEditar.Size = new Size(132, 40);
@@ -81,10 +81,10 @@ namespace FotoRoman
             // labelBuscar
             // 
             labelBuscar.AutoSize = true;
-            labelBuscar.Font = new Font("Segoe UI", 12F);
+            labelBuscar.Font = new Font("Yu Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             labelBuscar.Location = new Point(20, 23);
             labelBuscar.Name = "labelBuscar";
-            labelBuscar.Size = new Size(59, 21);
+            labelBuscar.Size = new Size(66, 21);
             labelBuscar.TabIndex = 4;
             labelBuscar.Text = "Buscar:";
             // 

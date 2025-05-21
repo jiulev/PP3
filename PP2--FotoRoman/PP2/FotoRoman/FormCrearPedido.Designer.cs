@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormCrearPedido));
             label1 = new Label();
             numero = new Label();
@@ -81,10 +81,10 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold);
             label1.Location = new Point(12, 187);
             label1.Name = "label1";
-            label1.Size = new Size(119, 21);
+            label1.Size = new Size(122, 19);
             label1.TabIndex = 0;
             label1.Text = "Numero Pedido";
             // 
@@ -110,10 +110,10 @@
             // cliente
             // 
             cliente.AutoSize = true;
-            cliente.Font = new Font("Arial", 12F);
+            cliente.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
             cliente.Location = new Point(8, 66);
             cliente.Name = "cliente";
-            cliente.Size = new Size(57, 18);
+            cliente.Size = new Size(54, 17);
             cliente.TabIndex = 3;
             cliente.Text = "Cliente";
             // 
@@ -128,20 +128,20 @@
             // categoria
             // 
             categoria.AutoSize = true;
-            categoria.Font = new Font("Arial", 12F);
-            categoria.Location = new Point(77, 81);
+            categoria.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold);
+            categoria.Location = new Point(57, 69);
             categoria.Name = "categoria";
-            categoria.Size = new Size(78, 18);
+            categoria.Size = new Size(81, 19);
             categoria.TabIndex = 5;
             categoria.Text = "Categoria";
             // 
             // producto
             // 
             producto.AutoSize = true;
-            producto.Font = new Font("Arial", 12F);
-            producto.Location = new Point(84, 120);
+            producto.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold);
+            producto.Location = new Point(64, 108);
             producto.Name = "producto";
-            producto.Size = new Size(71, 18);
+            producto.Size = new Size(75, 19);
             producto.TabIndex = 6;
             producto.Text = "Producto";
             // 
@@ -165,7 +165,7 @@
             comboCategoria.Font = new Font("Arial Narrow", 12F);
             comboCategoria.ForeColor = SystemColors.ActiveCaptionText;
             comboCategoria.FormattingEnabled = true;
-            comboCategoria.Location = new Point(165, 71);
+            comboCategoria.Location = new Point(145, 59);
             comboCategoria.Name = "comboCategoria";
             comboCategoria.Size = new Size(271, 28);
             comboCategoria.TabIndex = 8;
@@ -177,7 +177,7 @@
             comboProducto.Font = new Font("Arial Narrow", 12F);
             comboProducto.ForeColor = SystemColors.ActiveCaptionText;
             comboProducto.FormattingEnabled = true;
-            comboProducto.Location = new Point(165, 110);
+            comboProducto.Location = new Point(145, 98);
             comboProducto.Name = "comboProducto";
             comboProducto.Size = new Size(271, 28);
             comboProducto.TabIndex = 9;
@@ -186,10 +186,10 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Arial", 12F);
-            label2.Location = new Point(28, 165);
+            label2.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold);
+            label2.Location = new Point(8, 153);
             label2.Name = "label2";
-            label2.Size = new Size(127, 18);
+            label2.Size = new Size(134, 19);
             label2.TabIndex = 10;
             label2.Text = "Ingrese Cantidad";
             label2.Click += label2_Click;
@@ -213,20 +213,20 @@
             // dni4
             // 
             dni4.AutoSize = true;
-            dni4.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dni4.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
             dni4.Location = new Point(335, 14);
             dni4.Name = "dni4";
-            dni4.Size = new Size(37, 21);
+            dni4.Size = new Size(32, 17);
             dni4.TabIndex = 14;
             dni4.Text = "DNI";
             // 
             // localidad5
             // 
             localidad5.AutoSize = true;
-            localidad5.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            localidad5.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
             localidad5.Location = new Point(296, 65);
             localidad5.Name = "localidad5";
-            localidad5.Size = new Size(76, 21);
+            localidad5.Size = new Size(71, 17);
             localidad5.TabIndex = 15;
             localidad5.Text = "Localidad";
             // 
@@ -235,7 +235,7 @@
             textCantidad1.BorderStyle = BorderStyle.FixedSingle;
             textCantidad1.Font = new Font("Arial Narrow", 12F);
             textCantidad1.ForeColor = SystemColors.ActiveCaptionText;
-            textCantidad1.Location = new Point(165, 157);
+            textCantidad1.Location = new Point(145, 145);
             textCantidad1.Name = "textCantidad1";
             textCantidad1.Size = new Size(271, 26);
             textCantidad1.TabIndex = 16;
@@ -252,10 +252,10 @@
             // precio4
             // 
             precio4.AutoSize = true;
-            precio4.Font = new Font("Arial", 12F);
+            precio4.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold);
             precio4.Location = new Point(601, 81);
             precio4.Name = "precio4";
-            precio4.Size = new Size(54, 18);
+            precio4.Size = new Size(55, 19);
             precio4.TabIndex = 18;
             precio4.Text = "Precio";
             precio4.Click += precio4_Click;
@@ -263,7 +263,7 @@
             // buttonAgregar
             // 
             buttonAgregar.BackColor = Color.LightGray;
-            buttonAgregar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            buttonAgregar.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             buttonAgregar.Location = new Point(664, 120);
             buttonAgregar.Name = "buttonAgregar";
             buttonAgregar.Size = new Size(135, 29);
@@ -280,25 +280,25 @@
             dataGridView1.CellBorderStyle = DataGridViewCellBorderStyle.Raised;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { productos1, Precio1, Subtotal1 });
-            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = SystemColors.Window;
-            dataGridViewCellStyle7.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle7.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle7.SelectionBackColor = SystemColors.GrayText;
-            dataGridViewCellStyle7.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.False;
-            dataGridView1.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Window;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.GrayText;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.False;
+            dataGridView1.DefaultCellStyle = dataGridViewCellStyle1;
             dataGridView1.GridColor = SystemColors.ButtonHighlight;
-            dataGridView1.Location = new Point(3, 31);
+            dataGridView1.Location = new Point(3, 30);
             dataGridView1.Name = "dataGridView1";
-            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = SystemColors.Control;
-            dataGridViewCellStyle8.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle8.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle8.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.True;
-            dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Control;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dataGridView1.Size = new Size(639, 89);
             dataGridView1.TabIndex = 20;
             // 
@@ -321,7 +321,7 @@
             // 
             total.AutoSize = true;
             total.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            total.Location = new Point(666, 595);
+            total.Location = new Point(598, 598);
             total.Name = "total";
             total.Size = new Size(49, 21);
             total.TabIndex = 21;
@@ -330,8 +330,8 @@
             // eliminar1
             // 
             eliminar1.BackColor = Color.LightGray;
-            eliminar1.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            eliminar1.Location = new Point(664, 54);
+            eliminar1.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            eliminar1.Location = new Point(664, 53);
             eliminar1.Name = "eliminar1";
             eliminar1.Size = new Size(135, 29);
             eliminar1.TabIndex = 22;
@@ -344,7 +344,7 @@
             crear1.BackColor = Color.LightGray;
             crear1.FlatAppearance.BorderColor = Color.Black;
             crear1.FlatAppearance.MouseDownBackColor = Color.IndianRed;
-            crear1.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            crear1.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             crear1.ForeColor = Color.Black;
             crear1.Location = new Point(666, 643);
             crear1.Name = "crear1";
@@ -376,9 +376,9 @@
             // 
             pictureBox1.BackColor = Color.Transparent;
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(633, -1);
+            pictureBox1.Location = new Point(639, -1);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(137, 113);
+            pictureBox1.Size = new Size(131, 113);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 30;
             pictureBox1.TabStop = false;
@@ -386,10 +386,11 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label7.Font = new Font("Yu Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label7.ForeColor = Color.Brown;
             label7.Location = new Point(8, 8);
             label7.Name = "label7";
-            label7.Size = new Size(138, 19);
+            label7.Size = new Size(144, 21);
             label7.TabIndex = 29;
             label7.Text = "Datos del Cliente";
             // 
@@ -408,10 +409,10 @@
             toolStripContainer2.ContentPanel.Controls.Add(textPrecio1);
             toolStripContainer2.ContentPanel.Controls.Add(categoria);
             toolStripContainer2.ContentPanel.Controls.Add(comboCategoria);
-            toolStripContainer2.ContentPanel.Size = new Size(804, 208);
+            toolStripContainer2.ContentPanel.Size = new Size(804, 191);
             toolStripContainer2.Location = new Point(4, 166);
             toolStripContainer2.Name = "toolStripContainer2";
-            toolStripContainer2.Size = new Size(804, 233);
+            toolStripContainer2.Size = new Size(804, 191);
             toolStripContainer2.TabIndex = 27;
             toolStripContainer2.Text = "toolStripContainer2";
             toolStripContainer2.TopToolStripPanelVisible = false;
@@ -419,10 +420,11 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label5.Font = new Font("Yu Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label5.ForeColor = Color.Brown;
             label5.Location = new Point(4, 152);
             label5.Name = "label5";
-            label5.Size = new Size(189, 19);
+            label5.Size = new Size(189, 21);
             label5.TabIndex = 28;
             label5.Text = "Agregue sus productos";
             label5.Click += label5_Click;
@@ -451,10 +453,11 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Font = new Font("Arial", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(3, 10);
+            label6.Font = new Font("Yu Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label6.ForeColor = Color.Maroon;
+            label6.Location = new Point(4, -1);
             label6.Name = "label6";
-            label6.Size = new Size(120, 18);
+            label6.Size = new Size(135, 21);
             label6.TabIndex = 30;
             label6.Text = "Item Del Pedido";
             // 
@@ -471,17 +474,17 @@
             // labelObservaciones
             // 
             labelObservaciones.AutoSize = true;
-            labelObservaciones.Font = new Font("Arial", 12F, FontStyle.Bold);
+            labelObservaciones.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
             labelObservaciones.Location = new Point(12, 600);
             labelObservaciones.Name = "labelObservaciones";
-            labelObservaciones.Size = new Size(130, 19);
+            labelObservaciones.Size = new Size(107, 17);
             labelObservaciones.TabIndex = 30;
             labelObservaciones.Text = "Observaciones:";
             // 
             // textBoxObservaciones
             // 
             textBoxObservaciones.Font = new Font("Segoe UI", 10F);
-            textBoxObservaciones.Location = new Point(160, 590);
+            textBoxObservaciones.Location = new Point(12, 624);
             textBoxObservaciones.Multiline = true;
             textBoxObservaciones.Name = "textBoxObservaciones";
             textBoxObservaciones.ScrollBars = ScrollBars.Vertical;
@@ -491,10 +494,10 @@
             // labelCaracteresRestantes
             // 
             labelCaracteresRestantes.AutoSize = true;
-            labelCaracteresRestantes.Font = new Font("Segoe UI", 9F);
-            labelCaracteresRestantes.Location = new Point(160, 655);
+            labelCaracteresRestantes.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
+            labelCaracteresRestantes.Location = new Point(12, 689);
             labelCaracteresRestantes.Name = "labelCaracteresRestantes";
-            labelCaracteresRestantes.Size = new Size(84, 15);
+            labelCaracteresRestantes.Size = new Size(105, 17);
             labelCaracteresRestantes.TabIndex = 0;
             labelCaracteresRestantes.Text = "100 caracteres.";
             // 

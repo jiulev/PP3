@@ -46,38 +46,27 @@
             // 
             // btnEditar
             // 
-            // 
-            // btnEditar
-            // 
             btnEditar.BackColor = Color.LightGray;
-            btnEditar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnEditar.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
             btnEditar.Location = new Point(250, 380);
             btnEditar.Name = "btnEditar";
             btnEditar.Size = new Size(120, 40);
             btnEditar.TabIndex = 1;
             btnEditar.Text = "Editar";
-            btnEditar.TextAlign = ContentAlignment.MiddleCenter;
             btnEditar.UseVisualStyleBackColor = false;
-            btnEditar.FlatStyle = FlatStyle.Standard;
             btnEditar.Click += btnEditar_Click;
-
             // 
             // btnEliminar
             // 
             btnEliminar.BackColor = Color.LightGray;
-            btnEliminar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnEliminar.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
             btnEliminar.Location = new Point(420, 380);
             btnEliminar.Name = "btnEliminar";
             btnEliminar.Size = new Size(120, 40);
             btnEliminar.TabIndex = 2;
             btnEliminar.Text = "Eliminar";
-            btnEliminar.TextAlign = ContentAlignment.MiddleCenter;
             btnEliminar.UseVisualStyleBackColor = false;
-            btnEliminar.FlatStyle = FlatStyle.Standard;
             btnEliminar.Click += btnBloquear_Click;
-
-            // 
-           
             // 
             // txtBuscar
             // 

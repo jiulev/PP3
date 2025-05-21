@@ -84,7 +84,7 @@
             // buttonGuardarCambios
             // 
             buttonGuardarCambios.BackColor = Color.LightGray;
-            buttonGuardarCambios.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            buttonGuardarCambios.Font = new Font("Yu Gothic", 9F, FontStyle.Bold);
             buttonGuardarCambios.Location = new Point(180, 380);
             buttonGuardarCambios.Name = "buttonGuardarCambios";
             buttonGuardarCambios.Size = new Size(140, 32);
@@ -96,7 +96,7 @@
             // buttonCancelar
             // 
             buttonCancelar.BackColor = Color.LightGray;
-            buttonCancelar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            buttonCancelar.Font = new Font("Yu Gothic", 9F, FontStyle.Bold);
             buttonCancelar.Location = new Point(340, 380);
             buttonCancelar.Name = "buttonCancelar";
             buttonCancelar.Size = new Size(100, 32);
@@ -108,25 +108,27 @@
             // label1
             // 
             label1.AutoSize = true;
+            label1.Font = new Font("Yu Gothic", 9F, FontStyle.Bold);
             label1.Location = new Point(30, 28);
             label1.Name = "label1";
-            label1.Size = new Size(47, 15);
+            label1.Size = new Size(52, 16);
             label1.TabIndex = 2;
             label1.Text = "Cliente:";
             // 
             // label2
             // 
             label2.AutoSize = true;
+            label2.Font = new Font("Yu Gothic", 9F, FontStyle.Bold);
             label2.Location = new Point(30, 63);
             label2.Name = "label2";
-            label2.Size = new Size(45, 15);
+            label2.Size = new Size(51, 16);
             label2.TabIndex = 3;
             label2.Text = "Estado:";
             // 
             // buttonAgregarItem
             // 
             buttonAgregarItem.BackColor = Color.LightGray;
-            buttonAgregarItem.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            buttonAgregarItem.Font = new Font("Yu Gothic", 9F, FontStyle.Bold);
             buttonAgregarItem.Location = new Point(30, 380);
             buttonAgregarItem.Name = "buttonAgregarItem";
             buttonAgregarItem.Size = new Size(120, 32);

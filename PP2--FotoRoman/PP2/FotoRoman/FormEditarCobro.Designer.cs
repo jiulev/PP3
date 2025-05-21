@@ -69,7 +69,7 @@
             // buttonBuscar
             // 
             buttonBuscar.BackColor = Color.LightGray;
-            buttonBuscar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            buttonBuscar.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             buttonBuscar.Location = new Point(470, 60);
             buttonBuscar.Name = "buttonBuscar";
             buttonBuscar.Size = new Size(105, 23);
@@ -81,6 +81,7 @@
             // buttonEditar
             // 
             buttonEditar.BackColor = Color.LightGray;
+            buttonEditar.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
             buttonEditar.Location = new Point(490, 370);
             buttonEditar.Name = "buttonEditar";
             buttonEditar.Size = new Size(85, 30);
@@ -92,6 +93,7 @@
             // buttonCerrar
             // 
             buttonCerrar.BackColor = Color.LightGray;
+            buttonCerrar.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
             buttonCerrar.Location = new Point(585, 370);
             buttonCerrar.Name = "buttonCerrar";
             buttonCerrar.Size = new Size(85, 30);

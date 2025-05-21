@@ -45,7 +45,7 @@
             // 
             // labelIdPedido
             // 
-            labelIdPedido.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelIdPedido.Font = new Font("Yu Gothic", 9F, FontStyle.Bold);
             labelIdPedido.Location = new Point(12, 20);
             labelIdPedido.Name = "labelIdPedido";
             labelIdPedido.Size = new Size(162, 23);
@@ -61,7 +61,7 @@
             // 
             // labelCliente
             // 
-            labelCliente.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelCliente.Font = new Font("Yu Gothic", 9F, FontStyle.Bold);
             labelCliente.Location = new Point(20, 60);
             labelCliente.Name = "labelCliente";
             labelCliente.Size = new Size(150, 23);
@@ -107,7 +107,7 @@
             // buttonImprimir
             // 
             buttonImprimir.BackColor = Color.LightGray;
-            buttonImprimir.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            buttonImprimir.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold);
             buttonImprimir.Location = new Point(120, 639);
             buttonImprimir.Name = "buttonImprimir";
             buttonImprimir.Size = new Size(110, 40);
@@ -119,7 +119,7 @@
             // buttonCerrar
             // 
             buttonCerrar.BackColor = Color.LightGray;
-            buttonCerrar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            buttonCerrar.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold);
             buttonCerrar.Location = new Point(275, 639);
             buttonCerrar.Name = "buttonCerrar";
             buttonCerrar.Size = new Size(110, 40);
@@ -138,6 +138,7 @@
             groupBoxCliente.Controls.Add(textBoxLocalidad);
             groupBoxCliente.Controls.Add(textBoxCorreo);
             groupBoxCliente.Controls.Add(textBoxDatosCliente);
+            groupBoxCliente.Font = new Font("Yu Gothic", 9F, FontStyle.Bold);
             groupBoxCliente.Location = new Point(20, 100);
             groupBoxCliente.Name = "groupBoxCliente";
             groupBoxCliente.Size = new Size(594, 179);
@@ -157,7 +158,7 @@
             // 
             // label4
             // 
-            label4.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label4.Font = new Font("Yu Gothic", 9F, FontStyle.Bold);
             label4.Location = new Point(86, 137);
             label4.Name = "label4";
             label4.Size = new Size(68, 23);
@@ -167,7 +168,7 @@
             // 
             // label3
             // 
-            label3.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label3.Font = new Font("Yu Gothic", 9F, FontStyle.Bold);
             label3.Location = new Point(86, 99);
             label3.Name = "label3";
             label3.Size = new Size(68, 23);
@@ -177,7 +178,7 @@
             // 
             // label2
             // 
-            label2.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label2.Font = new Font("Yu Gothic", 9F, FontStyle.Bold);
             label2.Location = new Point(86, 61);
             label2.Name = "label2";
             label2.Size = new Size(51, 23);
@@ -186,7 +187,7 @@
             // 
             // label1
             // 
-            label1.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.Font = new Font("Yu Gothic", 9F, FontStyle.Bold);
             label1.Location = new Point(86, 23);
             label1.Name = "label1";
             label1.Size = new Size(125, 23);
@@ -226,6 +227,7 @@
             // groupBoxPagos
             // 
             groupBoxPagos.Controls.Add(dataGridViewPagos);
+            groupBoxPagos.Font = new Font("Yu Gothic", 9F, FontStyle.Bold);
             groupBoxPagos.Location = new Point(20, 285);
             groupBoxPagos.Name = "groupBoxPagos";
             groupBoxPagos.Size = new Size(594, 318);

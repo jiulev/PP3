@@ -77,16 +77,20 @@ namespace FotoRoman
 
         private void checkBoxFiscal_CheckedChanged(object sender, EventArgs e)
         {
-            bool mostrar = checkBoxFiscal.Checked;
+            bool habilitar = checkBoxFiscal.Checked;
 
-            label2.Visible = mostrar;
-            razonSocial.Visible = mostrar;
-            razonSocial.ReadOnly = !mostrar;
+            // Cambiar modo edición
+            razonSocial.ReadOnly = !habilitar;
+            cuit.ReadOnly = !habilitar;
 
-            label3.Visible = mostrar;
-            cuit.Visible = mostrar;
-            cuit.ReadOnly = !mostrar;
+            // Cambiar color de fondo según estado
+            Color fondoEditable = Color.White;
+            Color fondoSoloLectura = Color.LightGray; // o un gris más oscuro como Color.Silver
+
+            razonSocial.BackColor = habilitar ? fondoEditable : fondoSoloLectura;
+            cuit.BackColor = habilitar ? fondoEditable : fondoSoloLectura;
         }
+
 
 
 

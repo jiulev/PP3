@@ -42,7 +42,7 @@
             // 
             // label1
             // 
-            label1.BackColor = Color.Maroon;
+            label1.BackColor = Color.Firebrick;
             label1.Dock = DockStyle.Left;
             label1.Location = new Point(0, 0);
             label1.Name = "label1";
@@ -52,28 +52,28 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.BackColor = Color.Maroon;
-            label2.Font = new Font("Segoe UI", 15F);
+            label2.BackColor = Color.Firebrick;
+            label2.Font = new Font("Yu Gothic", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.ForeColor = SystemColors.ButtonHighlight;
             label2.Location = new Point(44, 217);
             label2.Name = "label2";
-            label2.Size = new Size(226, 28);
+            label2.Size = new Size(241, 25);
             label2.TabIndex = 1;
             label2.Text = "Sistema Gestión Pedidos";
             label2.Click += label2_Click;
             // 
             // iconPictureBox1
             // 
-            iconPictureBox1.BackColor = Color.DarkRed;
+            iconPictureBox1.BackColor = Color.Firebrick;
             iconPictureBox1.BorderStyle = BorderStyle.Fixed3D;
             iconPictureBox1.ForeColor = SystemColors.ControlLight;
             iconPictureBox1.IconChar = FontAwesome.Sharp.IconChar.Stackpath;
             iconPictureBox1.IconColor = SystemColors.ControlLight;
             iconPictureBox1.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            iconPictureBox1.IconSize = 169;
-            iconPictureBox1.Location = new Point(61, 45);
+            iconPictureBox1.IconSize = 165;
+            iconPictureBox1.Location = new Point(63, 33);
             iconPictureBox1.Name = "iconPictureBox1";
-            iconPictureBox1.Size = new Size(179, 169);
+            iconPictureBox1.Size = new Size(165, 167);
             iconPictureBox1.TabIndex = 2;
             iconPictureBox1.TabStop = false;
             // 
@@ -96,18 +96,20 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(370, 59);
+            label3.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold);
+            label3.Location = new Point(370, 55);
             label3.Name = "label3";
-            label3.Size = new Size(27, 15);
+            label3.Size = new Size(38, 19);
             label3.TabIndex = 5;
             label3.Text = "DNI";
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(370, 126);
+            label4.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold);
+            label4.Location = new Point(370, 122);
             label4.Name = "label4";
-            label4.Size = new Size(67, 15);
+            label4.Size = new Size(94, 19);
             label4.TabIndex = 6;
             label4.Text = "Contraseña";
             label4.Click += label4_Click;
@@ -116,15 +118,15 @@
             // 
             Btn_ingresar.BackColor = Color.DimGray;
             Btn_ingresar.FlatAppearance.BorderColor = Color.Black;
-            Btn_ingresar.FlatStyle = FlatStyle.Flat;
+            Btn_ingresar.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
             Btn_ingresar.ForeColor = SystemColors.Info;
             Btn_ingresar.IconChar = FontAwesome.Sharp.IconChar.DoorOpen;
             Btn_ingresar.IconColor = Color.White;
             Btn_ingresar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             Btn_ingresar.IconSize = 30;
-            Btn_ingresar.Location = new Point(370, 198);
+            Btn_ingresar.Location = new Point(367, 192);
             Btn_ingresar.Name = "Btn_ingresar";
-            Btn_ingresar.Size = new Size(105, 34);
+            Btn_ingresar.Size = new Size(108, 50);
             Btn_ingresar.TabIndex = 7;
             Btn_ingresar.Text = "Ingresar";
             Btn_ingresar.TextAlign = ContentAlignment.MiddleRight;
@@ -136,15 +138,15 @@
             // 
             Btncancelar.BackColor = Color.IndianRed;
             Btncancelar.FlatAppearance.BorderColor = Color.Black;
-            Btncancelar.FlatStyle = FlatStyle.Flat;
+            Btncancelar.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
             Btncancelar.ForeColor = SystemColors.ControlLightLight;
             Btncancelar.IconChar = FontAwesome.Sharp.IconChar.DoorClosed;
             Btncancelar.IconColor = Color.White;
             Btncancelar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             Btncancelar.IconSize = 30;
-            Btncancelar.Location = new Point(500, 198);
+            Btncancelar.Location = new Point(497, 192);
             Btncancelar.Name = "Btncancelar";
-            Btncancelar.Size = new Size(105, 34);
+            Btncancelar.Size = new Size(108, 50);
             Btncancelar.TabIndex = 8;
             Btncancelar.Text = "Cancelar";
             Btncancelar.TextAlign = ContentAlignment.MiddleRight;

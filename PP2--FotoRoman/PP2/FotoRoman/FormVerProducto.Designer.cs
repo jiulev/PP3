@@ -107,7 +107,7 @@ namespace FotoRoman
             // btnEditarProducto
             // 
             btnEditarProducto.BackColor = Color.LightGray;
-            btnEditarProducto.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnEditarProducto.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
             btnEditarProducto.Location = new Point(518, 370);
             btnEditarProducto.Name = "btnEditarProducto";
             btnEditarProducto.Size = new Size(132, 30);
@@ -120,7 +120,7 @@ namespace FotoRoman
             // btnEliminarProducto
             // 
             btnEliminarProducto.BackColor = Color.LightGray;
-            btnEliminarProducto.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnEliminarProducto.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
             btnEliminarProducto.Location = new Point(656, 370);
             btnEliminarProducto.Name = "btnEliminarProducto";
             btnEliminarProducto.Size = new Size(132, 30);
@@ -133,25 +133,27 @@ namespace FotoRoman
             // labelCategoria
             // 
             labelCategoria.AutoSize = true;
+            labelCategoria.Font = new Font("Yu Gothic", 9F, FontStyle.Bold);
             labelCategoria.Location = new Point(230, 310);
             labelCategoria.Name = "labelCategoria";
-            labelCategoria.Size = new Size(61, 15);
+            labelCategoria.Size = new Size(68, 16);
             labelCategoria.TabIndex = 2;
             labelCategoria.Text = "Categoría:";
             // 
             // labelEstado
             // 
             labelEstado.AutoSize = true;
+            labelEstado.Font = new Font("Yu Gothic", 9F, FontStyle.Bold);
             labelEstado.Location = new Point(400, 310);
             labelEstado.Name = "labelEstado";
-            labelEstado.Size = new Size(45, 15);
+            labelEstado.Size = new Size(51, 16);
             labelEstado.TabIndex = 3;
             labelEstado.Text = "Estado:";
             // 
             // btnAumentoPrecios
             // 
             btnAumentoPrecios.BackColor = Color.LightGray;
-            btnAumentoPrecios.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnAumentoPrecios.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
             btnAumentoPrecios.Location = new Point(10, 370);
             btnAumentoPrecios.Name = "btnAumentoPrecios";
             btnAumentoPrecios.Size = new Size(132, 30);
@@ -164,10 +166,10 @@ namespace FotoRoman
             // labelCantidadProductos
             // 
             labelCantidadProductos.AutoSize = true;
-            labelCantidadProductos.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            labelCantidadProductos.Font = new Font("Yu Gothic", 9F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
             labelCantidadProductos.Location = new Point(599, 330);
             labelCantidadProductos.Name = "labelCantidadProductos";
-            labelCantidadProductos.Size = new Size(141, 15);
+            labelCantidadProductos.Size = new Size(150, 16);
             labelCantidadProductos.TabIndex = 0;
             labelCantidadProductos.Text = "0 productos encontrados";
             // 

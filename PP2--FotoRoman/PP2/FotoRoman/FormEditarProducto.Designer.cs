@@ -32,37 +32,44 @@
             // labelTitulo
             // 
             labelTitulo.AutoSize = true;
-            labelTitulo.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            labelTitulo.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold);
+            labelTitulo.ForeColor = Color.Brown;
             labelTitulo.Location = new Point(20, 20);
             labelTitulo.Name = "labelTitulo";
-            labelTitulo.Size = new Size(129, 21);
+            labelTitulo.Size = new Size(123, 19);
             labelTitulo.TabIndex = 0;
             labelTitulo.Text = "Editar Producto";
             // 
             // labelNombre
             // 
             labelNombre.AutoSize = true;
-            labelNombre.Location = new Point(20, 60);
+            labelNombre.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
+            labelNombre.ForeColor = Color.Black;
+            labelNombre.Location = new Point(20, 65);
             labelNombre.Name = "labelNombre";
-            labelNombre.Size = new Size(54, 15);
+            labelNombre.Size = new Size(63, 17);
             labelNombre.TabIndex = 1;
             labelNombre.Text = "Nombre:";
             // 
             // labelPrecio
             // 
             labelPrecio.AutoSize = true;
-            labelPrecio.Location = new Point(20, 100);
+            labelPrecio.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
+            labelPrecio.ForeColor = Color.Black;
+            labelPrecio.Location = new Point(30, 105);
             labelPrecio.Name = "labelPrecio";
-            labelPrecio.Size = new Size(43, 15);
+            labelPrecio.Size = new Size(53, 17);
             labelPrecio.TabIndex = 3;
             labelPrecio.Text = "Precio:";
             // 
             // labelCategoria
             // 
             labelCategoria.AutoSize = true;
-            labelCategoria.Location = new Point(20, 140);
+            labelCategoria.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
+            labelCategoria.ForeColor = Color.Black;
+            labelCategoria.Location = new Point(8, 145);
             labelCategoria.Name = "labelCategoria";
-            labelCategoria.Size = new Size(61, 15);
+            labelCategoria.Size = new Size(75, 17);
             labelCategoria.TabIndex = 5;
             labelCategoria.Text = "Categoría:";
             // 
@@ -70,14 +77,14 @@
             // 
             textBoxNombre.Location = new Point(100, 60);
             textBoxNombre.Name = "textBoxNombre";
-            textBoxNombre.Size = new Size(200, 23);
+            textBoxNombre.Size = new Size(200, 32);
             textBoxNombre.TabIndex = 2;
             // 
             // textBoxPrecio
             // 
             textBoxPrecio.Location = new Point(100, 100);
             textBoxPrecio.Name = "textBoxPrecio";
-            textBoxPrecio.Size = new Size(200, 23);
+            textBoxPrecio.Size = new Size(200, 32);
             textBoxPrecio.TabIndex = 4;
             // 
             // comboBoxCategoria
@@ -85,7 +92,7 @@
             comboBoxCategoria.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxCategoria.Location = new Point(100, 140);
             comboBoxCategoria.Name = "comboBoxCategoria";
-            comboBoxCategoria.Size = new Size(200, 23);
+            comboBoxCategoria.Size = new Size(200, 27);
             comboBoxCategoria.TabIndex = 6;
             // 
             // btnGuardar
@@ -103,9 +110,11 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(20, 182);
+            label1.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
+            label1.ForeColor = Color.Black;
+            label1.Location = new Point(27, 187);
             label1.Name = "label1";
-            label1.Size = new Size(45, 15);
+            label1.Size = new Size(56, 17);
             label1.TabIndex = 8;
             label1.Text = "Estado:";
             // 
@@ -114,7 +123,7 @@
             comboBoxEstado.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxEstado.Location = new Point(100, 179);
             comboBoxEstado.Name = "comboBoxEstado";
-            comboBoxEstado.Size = new Size(200, 23);
+            comboBoxEstado.Size = new Size(200, 27);
             comboBoxEstado.TabIndex = 9;
             // 
             // FormEditarProducto
@@ -130,6 +139,8 @@
             Controls.Add(labelCategoria);
             Controls.Add(comboBoxCategoria);
             Controls.Add(btnGuardar);
+            Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold);
+            ForeColor = Color.Brown;
             Name = "FormEditarProducto";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Editar Producto";
