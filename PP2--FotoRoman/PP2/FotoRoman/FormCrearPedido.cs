@@ -9,11 +9,22 @@ namespace FotoRoman
 {
     public partial class FormCrearPedido : Form
     {
+        private bool formularioCargado = false;
         private List<DetallePedido> detallesPedido = new List<DetallePedido>();
         private List<Cliente> listaClientes = new List<Cliente>();
         private List<Categoria> listaCategorias = new List<Categoria>();
         private List<Producto> listaProductos = new List<Producto>();
         private int idPedidoGenerado;
+        private List<string> nombresClientes = new List<string>();
+    
+
+
+
+
+
+
+
+
 
         public FormCrearPedido()
         {
@@ -28,6 +39,12 @@ namespace FotoRoman
                 CargarCategorias();
                 textBoxObservaciones.MaxLength = 100;
                 textBoxObservaciones.TextChanged += textBoxObservaciones_TextChanged;
+                comboCliente.DropDownStyle = ComboBoxStyle.DropDown;
+                comboCliente.AutoCompleteMode = AutoCompleteMode.None;
+                comboCliente.TextChanged += comboCliente_TextChanged;
+                comboCliente.DropDown += comboCliente_DropDown;
+
+                formularioCargado = true;
 
 
                 // Mostrar el próximo número de pedido
@@ -41,6 +58,74 @@ namespace FotoRoman
             catch (Exception ex)
             {
                 MessageBox.Show($"Error al cargar el formulario: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void comboCliente_TextChanged(object sender, EventArgs e)
+        {
+            if (!formularioCargado) return;
+
+            try
+            {
+                string texto = comboCliente.Text;
+
+                // Si el texto coincide exactamente con un cliente, no tocar nada
+                if (nombresClientes.Any(n => n.Equals(texto, StringComparison.OrdinalIgnoreCase)))
+                    return;
+
+                comboCliente.TextChanged -= comboCliente_TextChanged;
+
+                // Guardar posición del cursor
+                int cursorPos = comboCliente.SelectionStart;
+
+                var resultados = nombresClientes
+                    .Where(n => n.IndexOf(texto, StringComparison.OrdinalIgnoreCase) >= 0)
+                    .ToList();
+
+                comboCliente.BeginUpdate();
+                comboCliente.Items.Clear();
+                comboCliente.Items.AddRange(resultados.ToArray());
+                comboCliente.EndUpdate();
+
+                // Solo abrir DropDown si hay resultados y el usuario está escribiendo
+                if (!string.IsNullOrWhiteSpace(texto) && resultados.Count > 0)
+                {
+                    comboCliente.DroppedDown = true;
+                    comboCliente.DropDownHeight = comboCliente.ItemHeight * Math.Min(resultados.Count, 10);
+                }
+                else
+                {
+                    comboCliente.DroppedDown = false;
+                }
+
+                // Restaurar texto y posición
+                comboCliente.Text = texto;
+                comboCliente.SelectionStart = cursorPos;
+                comboCliente.SelectionLength = 0;
+
+                comboCliente.TextChanged += comboCliente_TextChanged;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error inesperado al filtrar clientes: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
+
+
+
+
+        private void comboCliente_DropDown(object sender, EventArgs e)
+        {
+            if (!formularioCargado) return;
+
+            if (string.IsNullOrWhiteSpace(comboCliente.Text))
+            {
+                comboCliente.BeginUpdate();
+                comboCliente.Items.Clear();
+                comboCliente.Items.AddRange(nombresClientes.ToArray());
+                comboCliente.DropDownHeight = comboCliente.ItemHeight * Math.Min(nombresClientes.Count, 10);
+                comboCliente.EndUpdate();
             }
         }
 
@@ -83,23 +168,54 @@ namespace FotoRoman
         {
             try
             {
-                string productoNombre = comboProducto.SelectedItem is Producto producto ? producto.Nombre : "Sin nombre";
-                decimal precio = Convert.ToDecimal(textPrecio1.Text);
-                int cantidad = Convert.ToInt32(textCantidad1.Text);
-                decimal subtotal = precio * cantidad;
-
-                if (string.IsNullOrWhiteSpace(productoNombre) || precio <= 0 || cantidad <= 0)
+                // Validar que haya un cliente seleccionado
+                if (comboCliente.SelectedIndex < 0)
                 {
-                    MessageBox.Show("Ingrese datos válidos para el producto, precio y cantidad.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Debe seleccionar un cliente antes de agregar productos.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
+                // Validar que haya una categoría seleccionada
+                if (comboCategoria.SelectedIndex < 0)
+                {
+                    MessageBox.Show("Debe seleccionar una categoría antes de agregar productos.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Validar que haya un producto seleccionado
+                if (comboProducto.SelectedIndex < 0)
+                {
+                    MessageBox.Show("Debe seleccionar un producto para agregar al pedido.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Validar que el precio sea válido
+                if (!decimal.TryParse(textPrecio1.Text.Trim(), out decimal precio) || precio <= 0)
+                {
+                    MessageBox.Show("El precio debe ser un número válido mayor a cero.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Validar cantidad: debe ser entero y mayor a cero
+                if (!int.TryParse(textCantidad1.Text.Trim(), out int cantidad) || cantidad <= 0)
+                {
+                    MessageBox.Show("Ingrese una cantidad válida. Debe ser un número entero positivo.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Obtener nombre del producto
+                string productoNombre = comboProducto.SelectedItem is Producto producto ? producto.Nombre : "Sin nombre";
+
+                // Validar que exista en la lista
                 var productoSeleccionado = listaProductos.FirstOrDefault(p => p.Nombre == productoNombre);
                 if (productoSeleccionado == null)
                 {
-                    MessageBox.Show("Seleccione un producto válido.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Seleccione un producto válido de la lista.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
+
+                // Calcular subtotal y agregar
+                decimal subtotal = precio * cantidad;
 
                 DetallePedido detalle = new DetallePedido
                 {
@@ -112,10 +228,9 @@ namespace FotoRoman
                 detallesPedido.Add(detalle);
                 dataGridView1.Rows.Add(productoNombre, precio, subtotal);
                 CalcularTotal();
-
-                // Actualizar la altura del DataGridView
                 ActualizarAlturaDataGridView();
 
+                // Limpiar campos
                 comboProducto.SelectedIndex = -1;
                 textPrecio1.Clear();
                 textCantidad1.Clear();
@@ -127,24 +242,43 @@ namespace FotoRoman
         }
 
 
+
         // Evento para eliminar un ítem del pedido
         private void eliminar1_Click(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedRows.Count > 0)
             {
-                int index = dataGridView1.SelectedRows[0].Index;
-                detallesPedido.RemoveAt(index);
-                dataGridView1.Rows.RemoveAt(index);
-                CalcularTotal();
+                DataGridViewRow filaSeleccionada = dataGridView1.SelectedRows[0];
 
-                // Actualizar la altura del DataGridView
-                ActualizarAlturaDataGridView();
+                // ⚠️ Validar que no sea la fila nueva (de inserción)
+                if (!filaSeleccionada.IsNewRow)
+                {
+                    int index = filaSeleccionada.Index;
+
+                    if (index >= 0 && index < detallesPedido.Count)
+                    {
+                        detallesPedido.RemoveAt(index);
+                    }
+
+                    if (index >= 0 && index < dataGridView1.Rows.Count)
+                    {
+                        dataGridView1.Rows.RemoveAt(index);
+                    }
+
+                    CalcularTotal();
+                    ActualizarAlturaDataGridView();
+                }
+                else
+                {
+                    MessageBox.Show("No se puede eliminar una fila vacía o sin confirmar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
             else
             {
-                MessageBox.Show("Seleccione una fila para eliminar.", "Eliminar ítem", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Seleccione una fila válida para eliminar.", "Eliminar ítem", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+
 
 
 
@@ -171,30 +305,31 @@ namespace FotoRoman
         {
             try
             {
+                // Validar cliente
+                if (comboCliente.SelectedIndex < 0)
+                {
+                    MessageBox.Show("Debe seleccionar un cliente antes de crear el pedido.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Validar si hay ítems agregados
                 if (detallesPedido.Count == 0)
                 {
                     MessageBox.Show("No hay ítems agregados al pedido.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                if (comboCliente.SelectedIndex < 0)
-                {
-                    MessageBox.Show("Seleccione un cliente válido antes de crear el pedido.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                int idCliente = listaClientes[comboCliente.SelectedIndex].IDCliente; // Mapear correctamente el IDCLIENTE
-                int idUsuario = UsuarioActual.Usuario.IDUSUARIO; // Usar el ID del usuario autenticado
+                // Obtener datos
+                int idCliente = listaClientes[comboCliente.SelectedIndex].IDCliente;
+                int idUsuario = UsuarioActual.Usuario.IDUSUARIO;
                 decimal totalPedido = detallesPedido.Sum(d => d.SUBTOTAL);
                 string estado = "Pendiente";
                 DateTime fechaPedido = DateTime.Now;
-
-                string mensaje;
                 string observaciones = textBoxObservaciones.Text.Trim();
 
+                // Insertar pedido
+                string mensaje;
                 bool resultado = CNPedido.InsertarPedido(idCliente, idUsuario, totalPedido, fechaPedido, estado, observaciones, detallesPedido, out mensaje);
-
-
 
                 if (resultado)
                 {
@@ -232,10 +367,24 @@ namespace FotoRoman
             textCantidad1.Clear();
             textPrecio1.Clear();
             total.Text = "$0.00";
+            textBoxObservaciones.Clear();
+            labelCaracteresRestantes.Text = "100 caracteres.";
+
             detallesPedido.Clear();
             dataGridView1.Rows.Clear();
 
+            // 🔒 Deshabilitar controles de productos hasta seleccionar cliente de nuevo
+            comboCategoria.Enabled = false;
+            comboProducto.Enabled = false;
+            textCantidad1.Enabled = false;
+            textPrecio1.Enabled = false;
+            buttonAgregar.Enabled = false;
+
+            // 🔁 Refrescar número del pedido en pantalla
+            int proximoNumeroPedido = CNPedido.ObtenerProximoNumeroPedido();
+            num.Text = proximoNumeroPedido.ToString();
         }
+
 
 
         private void RefrescarNumeroPedido()
@@ -272,17 +421,11 @@ namespace FotoRoman
             try
             {
                 listaClientes = CNCliente.ListarClientes();
+                nombresClientes = listaClientes.Select(c => c.NOMBRE).ToList();
+
                 comboCliente.Items.Clear();
-
-                foreach (var cliente in listaClientes)
-                {
-                    comboCliente.Items.Add(cliente.NOMBRE);
-                }
-
-                if (comboCliente.Items.Count > 0)
-                {
-                    comboCliente.SelectedIndex = 0; // Seleccionar el primer cliente por defecto
-                }
+                comboCliente.Items.AddRange(nombresClientes.ToArray());
+                comboCliente.SelectedIndex = -1;
             }
             catch (Exception ex)
             {
@@ -292,23 +435,33 @@ namespace FotoRoman
 
 
 
+
         // Cargar la lista de categorías
         private void CargarCategorias()
         {
             try
             {
                 listaCategorias = CNCategoria.ListarDescripciones()
-                 .Where(c => c.ACTIVO == "A")
-                              .ToList();
-                comboCategoria.Items.Clear();
+                                 .Where(c => c.ACTIVO == "A")
+                                 .ToList();
 
-                foreach (var categoria in listaCategorias)
+                comboCategoria.Items.Clear();
+                comboCategoria.DropDownStyle = ComboBoxStyle.DropDown;
+                comboCategoria.AutoCompleteMode = AutoCompleteMode.None;
+
+                if (listaCategorias.Count == 0)
                 {
-                    comboCategoria.Items.Add(new { Text = categoria.DESCRIPCION, Value = categoria.IDCATEGORIA });
+                    MessageBox.Show("No hay categorías activas disponibles.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
                 }
 
-                comboCategoria.DisplayMember = "Text";
-                comboCategoria.ValueMember = "Value";
+                comboCategoria.Items.AddRange(listaCategorias.ToArray());
+                comboCategoria.DisplayMember = "DESCRIPCION";
+                comboCategoria.ValueMember = "IDCATEGORIA";
+                comboCategoria.SelectedIndex = -1;
+
+                comboCategoria.TextChanged += comboCategoria_TextChanged;
+                comboCategoria.DropDown += comboCategoria_DropDown;
                 comboCategoria.SelectedIndexChanged += comboCategoria_SelectedIndexChanged;
             }
             catch (Exception ex)
@@ -317,15 +470,109 @@ namespace FotoRoman
             }
         }
 
+        private void comboCategoria_TextChanged(object sender, EventArgs e)
+        {
+            if (!formularioCargado) return;
+
+            try
+            {
+                string texto = comboCategoria.Text;
+
+                comboCategoria.TextChanged -= comboCategoria_TextChanged;
+
+                int cursorPos = comboCategoria.SelectionStart;
+
+                var resultados = listaCategorias
+                    .Where(c => c.DESCRIPCION.IndexOf(texto, StringComparison.OrdinalIgnoreCase) >= 0)
+                    .ToList();
+
+                comboCategoria.BeginUpdate();
+                comboCategoria.Items.Clear();
+                comboCategoria.Items.AddRange(resultados.ToArray());
+
+                // Reestablecer DisplayMember y ValueMember
+                comboCategoria.DisplayMember = "DESCRIPCION";
+                comboCategoria.ValueMember = "IDCATEGORIA";
+
+                // Ajustar ancho del DropDown con base en los resultados visibles, sin exceder el ancho del ComboBox
+                // Ajustar ancho y alto del DropDown según resultados visibles
+                int maxWidth = comboCategoria.Width;
+                int itemHeight = comboCategoria.ItemHeight > 0 ? comboCategoria.ItemHeight : 20;
+                int cantidad = Math.Min(resultados.Count, 10); // máximo 10 visibles
+
+                using (Graphics g = comboCategoria.CreateGraphics())
+                {
+                    foreach (var item in comboCategoria.Items)
+                    {
+                        string itemTexto = item is Categoria cat ? cat.DESCRIPCION : item.ToString();
+                        int itemWidth = (int)g.MeasureString(itemTexto, comboCategoria.Font).Width;
+                        if (itemWidth > maxWidth)
+                            maxWidth = itemWidth;
+                    }
+                }
+
+                comboCategoria.DropDownWidth = Math.Min(maxWidth + 25, 400);
+                comboCategoria.DropDownHeight = itemHeight * Math.Max(cantidad, 1);
+
+
+
+                comboCategoria.EndUpdate();
+
+                // ✅ Evitar duplicado en la lista desplegable
+                var categoriaExacta = listaCategorias.FirstOrDefault(c => c.DESCRIPCION.Equals(texto, StringComparison.OrdinalIgnoreCase));
+                if (categoriaExacta != null)
+                {
+                    comboCategoria.SelectedItem = categoriaExacta;
+                    comboCategoria.DroppedDown = false;
+                }
+                else
+                {
+                    comboCategoria.DroppedDown = resultados.Count > 0;
+                }
+
+                comboCategoria.Text = texto;
+                comboCategoria.SelectionStart = cursorPos;
+                comboCategoria.SelectionLength = 0;
+
+                comboCategoria.TextChanged += comboCategoria_TextChanged;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al filtrar categorías: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
+
+
+        private void comboCategoria_DropDown(object sender, EventArgs e)
+        {
+            if (!formularioCargado) return;
+
+            if (string.IsNullOrWhiteSpace(comboCategoria.Text))
+            {
+                comboCategoria.BeginUpdate();
+                comboCategoria.Items.Clear();
+                comboCategoria.Items.AddRange(listaCategorias.ToArray());
+
+                int cantidad = Math.Max(1, Math.Min(listaCategorias.Count, 10));
+                int itemHeight = comboCategoria.ItemHeight > 0 ? comboCategoria.ItemHeight : 15;
+                comboCategoria.DropDownHeight = itemHeight * cantidad;
+
+                comboCategoria.EndUpdate();
+            }
+        }
+
+
+
         // Evento para seleccionar una categoría y cargar productos
-        private void comboCategoria_SelectedIndexChanged(object? sender, EventArgs e)
+        private void comboCategoria_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
             {
-                if (comboCategoria.SelectedItem != null)
+                if (comboCategoria.SelectedItem is Categoria categoriaSeleccionada)
                 {
-                    var categoriaSeleccionada = (dynamic)comboCategoria.SelectedItem;
-                    int idCategoria = categoriaSeleccionada.Value;
+                    int idCategoria = categoriaSeleccionada.IDCATEGORIA;
                     CargarProductos(idCategoria);
                 }
             }
@@ -334,6 +581,7 @@ namespace FotoRoman
                 MessageBox.Show($"Error al seleccionar categoría: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         // Método para cargar productos según la categoría seleccionada
         private void CargarProductos(int idCategoria)
@@ -362,12 +610,15 @@ namespace FotoRoman
         {
             try
             {
-                // Limpiar los productos e ítems cargados al cambiar de cliente
-                LimpiarProductosYDetalles();
+                if (!formularioCargado || comboCliente.SelectedItem == null)
+                    return;
 
-                // Obtener el cliente seleccionado
-                string clienteSeleccionado = comboCliente.Text;
-                var cliente = listaClientes.FirstOrDefault(c => c.NOMBRE == clienteSeleccionado);
+                string clienteSeleccionado = comboCliente.SelectedItem.ToString();
+
+                if (clienteSeleccionado == "Sin resultados")
+                    return;
+
+                var cliente = listaClientes.FirstOrDefault(c => c.NOMBRE.Equals(clienteSeleccionado, StringComparison.OrdinalIgnoreCase));
 
                 if (cliente != null)
                 {
@@ -379,12 +630,33 @@ namespace FotoRoman
                     textDni.Clear();
                     textLocalidad.Clear();
                 }
+
+                LimpiarProductosYDetalles();
+
+                if (cliente != null)
+                {
+                    // ✅ Habilita contenedor de sección de productos
+                    toolStripContainer2.Enabled = true;
+
+                    // ✅ Habilita controles individuales de productos
+                    comboCategoria.Enabled = true;
+                    comboProducto.Enabled = true;
+                    textCantidad1.Enabled = true;
+                    textPrecio1.Enabled = true;
+                    buttonAgregar.Enabled = true;
+                }
+                else
+                {
+                    toolStripContainer2.Enabled = false;
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error al seleccionar cliente: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+
         private void LimpiarProductosYDetalles()
         {
             // Limpiar la lista de detalles del pedido
@@ -464,5 +736,12 @@ namespace FotoRoman
         {
 
         }
+
+
+
+
     }
+
+
+
 }

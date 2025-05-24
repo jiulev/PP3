@@ -149,37 +149,39 @@
             // 
             comboCliente.AutoCompleteMode = AutoCompleteMode.Suggest;
             comboCliente.AutoCompleteSource = AutoCompleteSource.ListItems;
-            comboCliente.Font = new Font("Arial Narrow", 12F);
+            comboCliente.Font = new Font("Yu Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             comboCliente.ForeColor = SystemColors.ActiveCaptionText;
             comboCliente.FormattingEnabled = true;
             comboCliente.Location = new Point(80, 57);
             comboCliente.Name = "comboCliente";
-            comboCliente.Size = new Size(197, 28);
+            comboCliente.Size = new Size(197, 29);
             comboCliente.TabIndex = 7;
+         
+
             comboCliente.SelectedIndexChanged += comboCliente_SelectedIndexChanged;
             // 
             // comboCategoria
             // 
             comboCategoria.AutoCompleteMode = AutoCompleteMode.Suggest;
             comboCategoria.AutoCompleteSource = AutoCompleteSource.ListItems;
-            comboCategoria.Font = new Font("Arial Narrow", 12F);
+            comboCategoria.Font = new Font("Yu Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             comboCategoria.ForeColor = SystemColors.ActiveCaptionText;
             comboCategoria.FormattingEnabled = true;
             comboCategoria.Location = new Point(145, 59);
             comboCategoria.Name = "comboCategoria";
-            comboCategoria.Size = new Size(271, 28);
+            comboCategoria.Size = new Size(271, 29);
             comboCategoria.TabIndex = 8;
             // 
             // comboProducto
             // 
             comboProducto.AutoCompleteMode = AutoCompleteMode.Suggest;
             comboProducto.AutoCompleteSource = AutoCompleteSource.ListItems;
-            comboProducto.Font = new Font("Arial Narrow", 12F);
+            comboProducto.Font = new Font("Yu Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             comboProducto.ForeColor = SystemColors.ActiveCaptionText;
             comboProducto.FormattingEnabled = true;
             comboProducto.Location = new Point(145, 98);
             comboProducto.Name = "comboProducto";
-            comboProducto.Size = new Size(271, 28);
+            comboProducto.Size = new Size(271, 29);
             comboProducto.TabIndex = 9;
             comboProducto.SelectedIndexChanged += comboProducto_SelectedIndexChanged;
             // 
@@ -196,18 +198,18 @@
             // 
             // textDni
             // 
-            textDni.Font = new Font("Arial Narrow", 12F);
+            textDni.Font = new Font("Yu Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textDni.Location = new Point(394, 9);
             textDni.Name = "textDni";
-            textDni.Size = new Size(202, 26);
+            textDni.Size = new Size(202, 33);
             textDni.TabIndex = 12;
             // 
             // textLocalidad
             // 
-            textLocalidad.Font = new Font("Arial Narrow", 12F);
+            textLocalidad.Font = new Font("Yu Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textLocalidad.Location = new Point(394, 60);
             textLocalidad.Name = "textLocalidad";
-            textLocalidad.Size = new Size(202, 26);
+            textLocalidad.Size = new Size(202, 33);
             textLocalidad.TabIndex = 13;
             // 
             // dni4
@@ -233,11 +235,11 @@
             // textCantidad1
             // 
             textCantidad1.BorderStyle = BorderStyle.FixedSingle;
-            textCantidad1.Font = new Font("Arial Narrow", 12F);
+            textCantidad1.Font = new Font("Yu Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textCantidad1.ForeColor = SystemColors.ActiveCaptionText;
             textCantidad1.Location = new Point(145, 145);
             textCantidad1.Name = "textCantidad1";
-            textCantidad1.Size = new Size(271, 26);
+            textCantidad1.Size = new Size(271, 33);
             textCantidad1.TabIndex = 16;
             // 
             // textPrecio1
@@ -282,7 +284,7 @@
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { productos1, Precio1, Subtotal1 });
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = SystemColors.Window;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.Font = new Font("Yu Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             dataGridViewCellStyle1.ForeColor = SystemColors.ControlText;
             dataGridViewCellStyle1.SelectionBackColor = SystemColors.GrayText;
             dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
@@ -409,6 +411,8 @@
             toolStripContainer2.ContentPanel.Controls.Add(textPrecio1);
             toolStripContainer2.ContentPanel.Controls.Add(categoria);
             toolStripContainer2.ContentPanel.Controls.Add(comboCategoria);
+            toolStripContainer2.Enabled = false;
+
             toolStripContainer2.ContentPanel.Size = new Size(804, 191);
             toolStripContainer2.Location = new Point(4, 166);
             toolStripContainer2.Name = "toolStripContainer2";
