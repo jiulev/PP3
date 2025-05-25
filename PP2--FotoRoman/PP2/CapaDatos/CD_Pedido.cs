@@ -560,6 +560,8 @@ namespace CapaDatos
 
                 try
                 {
+                    var pedidoAnterior = BuscarPedidoPorId(pedido.IDPEDIDO);
+
                     connection.Open();
                     transaction = connection.BeginTransaction();
 
@@ -568,13 +570,15 @@ namespace CapaDatos
                 UPDATE PEDIDO
                 SET IDCLIENTE = @IDCLIENTE,
                     TOTAL = @TOTAL,
-                    ESTADO = @ESTADO
+                    ESTADO = @ESTADO,
+  OBSERVACIONES = @OBSERVACIONES
                 WHERE IDPEDIDO = @IDPEDIDO", connection, transaction))
                     {
                         cmdUpdate.Parameters.AddWithValue("@IDPEDIDO", pedido.IDPEDIDO);
                         cmdUpdate.Parameters.AddWithValue("@IDCLIENTE", pedido.IDCliente);
                         cmdUpdate.Parameters.AddWithValue("@TOTAL", pedido.TOTAL);
                         cmdUpdate.Parameters.AddWithValue("@ESTADO", pedido.ESTADO);
+                        cmdUpdate.Parameters.AddWithValue("@OBSERVACIONES", string.IsNullOrWhiteSpace(pedido.OBSERVACIONES) ? DBNull.Value : pedido.OBSERVACIONES);
 
                         cmdUpdate.ExecuteNonQuery();
                     }
@@ -601,6 +605,49 @@ namespace CapaDatos
                             cmdInsertDetalle.ExecuteNonQuery();
                         }
                     }
+                    // Registrar cambio de estado
+                    if (pedido.ESTADO != pedidoAnterior.ESTADO)
+                    {
+                        using (SqlCommand cmdAudit = new SqlCommand("INSERT INTO AUDITORIA_PEDIDO (IDPEDIDO, IDUSUARIO, CAMPO_MODIFICADO, VALOR_ANTERIOR, VALOR_NUEVO) VALUES (@IDPEDIDO, @IDUSUARIO, @CAMPO, @ANTERIOR, @NUEVO)", connection, transaction))
+                        {
+                            cmdAudit.Parameters.AddWithValue("@IDPEDIDO", pedido.IDPEDIDO);
+                            cmdAudit.Parameters.AddWithValue("@IDUSUARIO", pedido.IDUsuario);
+                            cmdAudit.Parameters.AddWithValue("@CAMPO", "Estado");
+                            cmdAudit.Parameters.AddWithValue("@ANTERIOR", pedidoAnterior.ESTADO ?? (object)DBNull.Value);
+                            cmdAudit.Parameters.AddWithValue("@NUEVO", pedido.ESTADO ?? (object)DBNull.Value);
+                            cmdAudit.ExecuteNonQuery();
+                        }
+                    }
+
+                    // Registrar cambio de observaciones
+                    if ((pedido.OBSERVACIONES ?? "") != (pedidoAnterior.OBSERVACIONES ?? ""))
+                    {
+                        using (SqlCommand cmdAudit = new SqlCommand("INSERT INTO AUDITORIA_PEDIDO (IDPEDIDO, IDUSUARIO, CAMPO_MODIFICADO, VALOR_ANTERIOR, VALOR_NUEVO) VALUES (@IDPEDIDO, @IDUSUARIO, @CAMPO, @ANTERIOR, @NUEVO)", connection, transaction))
+                        {
+                            cmdAudit.Parameters.AddWithValue("@IDPEDIDO", pedido.IDPEDIDO);
+                            cmdAudit.Parameters.AddWithValue("@IDUSUARIO", pedido.IDUsuario);
+                            cmdAudit.Parameters.AddWithValue("@CAMPO", "Observaciones");
+                            cmdAudit.Parameters.AddWithValue("@ANTERIOR", pedidoAnterior.OBSERVACIONES ?? (object)DBNull.Value);
+                            cmdAudit.Parameters.AddWithValue("@NUEVO", pedido.OBSERVACIONES ?? (object)DBNull.Value);
+                            cmdAudit.ExecuteNonQuery();
+                        }
+                    }
+
+                    // También se puede agregar lógica similar para los ítems si querés registrar los cambios en detalle
+                    // Registrar cambio de ítems si hubo cambios (se agregaron o eliminaron productos)
+                    if (nuevosDetalles.Count > 0)
+                    {
+                        using (SqlCommand cmdAudit = new SqlCommand("INSERT INTO AUDITORIA_PEDIDO (IDPEDIDO, IDUSUARIO, CAMPO_MODIFICADO, VALOR_ANTERIOR, VALOR_NUEVO) VALUES (@IDPEDIDO, @IDUSUARIO, @CAMPO, @ANTERIOR, @NUEVO)", connection, transaction))
+                        {
+                            cmdAudit.Parameters.AddWithValue("@IDPEDIDO", pedido.IDPEDIDO);
+                            cmdAudit.Parameters.AddWithValue("@IDUSUARIO", pedido.IDUsuario);
+                            cmdAudit.Parameters.AddWithValue("@CAMPO", "Ítems");
+                            cmdAudit.Parameters.AddWithValue("@ANTERIOR", "Detalle modificado");
+                            cmdAudit.Parameters.AddWithValue("@NUEVO", "Detalle modificado");
+                            cmdAudit.ExecuteNonQuery();
+                        }
+                    }
+
 
                     transaction.Commit();
                     return true;

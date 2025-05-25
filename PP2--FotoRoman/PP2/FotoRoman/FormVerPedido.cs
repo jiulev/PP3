@@ -15,6 +15,8 @@ namespace FotoRoman
 {
     public partial class FormVerPedido : Form
     {
+        private List<Cliente> listaClientesCompleta;
+
         public FormVerPedido()
         {
             InitializeComponent();
@@ -290,8 +292,11 @@ namespace FotoRoman
                 textBoxCorreo.Clear();
                 textBoxLocalidad.Clear();
                 textBoxProvincia.Clear();
+           
                 dataGridViewDetallePedido.DataSource = null;
                 dataGridViewPagos.DataSource = null;
+                label2.Text = "Observaciones del pedido:\nSin observaciones indicadas";
+
 
                 MessageBox.Show("Formulario limpiado exitosamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -311,16 +316,32 @@ namespace FotoRoman
 
         private void FormVerPedido_Load(object sender, EventArgs e)
         {
+           
             try
             {
+
+               
                 // Obtener la lista de clientes desde la capa de negocio
                 var clientes = CNPedido.ListarTodosLosClientes();
-
+                listaClientesCompleta = clientes;
                 // Configurar el comboBoxClientes
                 comboBoxClientes.DataSource = clientes;             // Asignar la lista de clientes como fuente de datos
                 comboBoxClientes.DisplayMember = "NOMBRE";         // Campo que se mostrará en el combo box
                 comboBoxClientes.ValueMember = "IDCliente";        // Campo asociado al valor del combo box
                 comboBoxClientes.SelectedIndex = -1;               // Inicialmente, sin selección
+                comboBoxClientes.DropDownStyle = ComboBoxStyle.DropDown;
+                comboBoxClientes.AutoCompleteMode = AutoCompleteMode.None;
+                comboBoxClientes.AutoCompleteSource = AutoCompleteSource.None;
+                comboBoxClientes.TextChanged += comboBoxClientes_TextChanged;
+
+           
+                // Estilo visual personalizado
+            
+                comboBoxClientes.BackColor = Color.White;
+                comboBoxClientes.ForeColor = Color.Black;
+                comboBoxClientes.FlatStyle = FlatStyle.Flat;
+
+
 
 
             }
@@ -329,6 +350,51 @@ namespace FotoRoman
                 MessageBox.Show($"Error al cargar la lista de clientes: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        private void comboBoxClientes_TextChanged(object sender, EventArgs e)
+        {
+            string textoActual = comboBoxClientes.Text;
+
+            // Evita autoselección si ya se está editando
+            if (comboBoxClientes.Focused == false)
+                return;
+
+            // Buscar coincidencias
+            var coincidencias = listaClientesCompleta
+                .Where(c => c.NOMBRE.IndexOf(textoActual, StringComparison.OrdinalIgnoreCase) >= 0)
+                .ToList();
+
+            // Detener evento momentáneamente
+            comboBoxClientes.TextChanged -= comboBoxClientes_TextChanged;
+
+            // Guardar posición actual del cursor
+            int posicionCursor = comboBoxClientes.SelectionStart;
+
+            comboBoxClientes.DroppedDown = false;
+            comboBoxClientes.DataSource = null;
+
+            if (coincidencias.Any())
+            {
+                comboBoxClientes.DataSource = coincidencias;
+                comboBoxClientes.DisplayMember = "NOMBRE";
+                comboBoxClientes.SelectedIndex = -1;
+
+                comboBoxClientes.MaxDropDownItems = Math.Min(coincidencias.Count, 8);
+                comboBoxClientes.DroppedDown = true;
+            }
+
+            // Restaurar el texto escrito manualmente
+            comboBoxClientes.Text = textoActual;
+            comboBoxClientes.SelectionStart = posicionCursor;
+            comboBoxClientes.SelectionLength = 0;
+
+            // Reactivar evento
+            comboBoxClientes.TextChanged += comboBoxClientes_TextChanged;
+        }
+
+
+
+
+
 
         private void buttonEditar_Click(object sender, EventArgs e)
         {
@@ -349,6 +415,13 @@ namespace FotoRoman
                     return;
                 }
 
+                // ✅ Nueva validación: si el pedido está finalizado, mostrar mensaje y salir
+                if (pedido.ESTADO.Equals("Finalizado", StringComparison.OrdinalIgnoreCase))
+                {
+                    MessageBox.Show("Este pedido está finalizado y no puede ser editado.", "Acción no permitida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 List<DetallePedido> detalles = CNPedido.ObtenerDetallesDelPedido(idPedido);
 
                 // Abrimos el formulario de edición y le pasamos el pedido + detalles
@@ -357,7 +430,6 @@ namespace FotoRoman
                     if (formEditar.ShowDialog() == DialogResult.OK)
                     {
                         MessageBox.Show("Pedido editado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        // Podés actualizar los datos en pantalla si querés
                         MostrarPedido(CNPedido.BuscarPedidoPorId(idPedido)); // Actualizar visualización
                     }
                 }
@@ -367,6 +439,7 @@ namespace FotoRoman
                 MessageBox.Show("Error al intentar editar el pedido: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+      
 
         private void label2_Click(object sender, EventArgs e)
         {

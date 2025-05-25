@@ -156,8 +156,6 @@
             comboCliente.Name = "comboCliente";
             comboCliente.Size = new Size(197, 29);
             comboCliente.TabIndex = 7;
-         
-
             comboCliente.SelectedIndexChanged += comboCliente_SelectedIndexChanged;
             // 
             // comboCategoria
@@ -411,9 +409,8 @@
             toolStripContainer2.ContentPanel.Controls.Add(textPrecio1);
             toolStripContainer2.ContentPanel.Controls.Add(categoria);
             toolStripContainer2.ContentPanel.Controls.Add(comboCategoria);
-            toolStripContainer2.Enabled = false;
-
             toolStripContainer2.ContentPanel.Size = new Size(804, 191);
+            toolStripContainer2.Enabled = false;
             toolStripContainer2.Location = new Point(4, 166);
             toolStripContainer2.Name = "toolStripContainer2";
             toolStripContainer2.Size = new Size(804, 191);
@@ -447,7 +444,7 @@
             toolStripContainer3.ContentPanel.Controls.Add(eliminar1);
             toolStripContainer3.ContentPanel.Controls.Add(dataGridView1);
             toolStripContainer3.ContentPanel.Size = new Size(804, 186);
-            toolStripContainer3.Location = new Point(4, 402);
+            toolStripContainer3.Location = new Point(4, 370);
             toolStripContainer3.Name = "toolStripContainer3";
             toolStripContainer3.Size = new Size(804, 186);
             toolStripContainer3.TabIndex = 29;
@@ -479,7 +476,7 @@
             // 
             labelObservaciones.AutoSize = true;
             labelObservaciones.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
-            labelObservaciones.Location = new Point(12, 600);
+            labelObservaciones.Location = new Point(12, 568);
             labelObservaciones.Name = "labelObservaciones";
             labelObservaciones.Size = new Size(107, 17);
             labelObservaciones.TabIndex = 30;
@@ -488,7 +485,7 @@
             // textBoxObservaciones
             // 
             textBoxObservaciones.Font = new Font("Segoe UI", 10F);
-            textBoxObservaciones.Location = new Point(12, 624);
+            textBoxObservaciones.Location = new Point(4, 598);
             textBoxObservaciones.Multiline = true;
             textBoxObservaciones.Name = "textBoxObservaciones";
             textBoxObservaciones.ScrollBars = ScrollBars.Vertical;
@@ -499,7 +496,7 @@
             // 
             labelCaracteresRestantes.AutoSize = true;
             labelCaracteresRestantes.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
-            labelCaracteresRestantes.Location = new Point(12, 689);
+            labelCaracteresRestantes.Location = new Point(12, 667);
             labelCaracteresRestantes.Name = "labelCaracteresRestantes";
             labelCaracteresRestantes.Size = new Size(105, 17);
             labelCaracteresRestantes.TabIndex = 0;

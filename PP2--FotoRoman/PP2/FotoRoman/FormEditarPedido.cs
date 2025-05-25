@@ -14,18 +14,31 @@ namespace FotoRoman
     public partial class FormEditarPedido : Form
     {
         private Pedido pedidoActual;
+        private readonly List<DetallePedido> detallesOriginalesOriginal;
+        private int cantidadOriginalDeItems;
+
         private List<DetallePedido> detallesOriginales;
 
         public FormEditarPedido(Pedido pedido, List<DetallePedido> detalles)
         {
             InitializeComponent();
             pedidoActual = pedido;
-            detallesOriginales = detalles;
+            detallesOriginales = new List<DetallePedido>(detalles); // Copia editable
+            detallesOriginalesOriginal = new List<DetallePedido>(detalles); // Copia original para comparación
+            cantidadOriginalDeItems = detalles.Count;
+
         }
+
 
         private void FormEditarPedido_Load(object sender, EventArgs e)
         {
-            dataGridViewDetallePedido.CellClick += dataGridViewDetallePedido_CellClick;
+            textBoxObservaciones.Text = pedidoActual.OBSERVACIONES ?? string.Empty;
+
+            // Habilitar solo si el estado es Pendiente
+            textBoxObservaciones.ReadOnly = !pedidoActual.ESTADO.Equals("Pendiente", StringComparison.OrdinalIgnoreCase);
+
+
+
 
             // Cargar datos del pedido (cliente, estado)
             CargarDatosPedido();
@@ -33,34 +46,63 @@ namespace FotoRoman
             // Cargar detalles en el DataGridView
             RefrescarDataGrid();
 
-            // Agrega botones si no están
-            if (!dataGridViewDetallePedido.Columns.Contains("Editar"))
+            // Eliminar las columnas si ya existen para evitar duplicados
+            if (dataGridViewDetallePedido.Columns.Contains("Editar"))
+                dataGridViewDetallePedido.Columns.Remove("Editar");
+
+            if (dataGridViewDetallePedido.Columns.Contains("Eliminar"))
+                dataGridViewDetallePedido.Columns.Remove("Eliminar");
+
+            // Agregar botones Editar y Eliminar (al final)
+            var btnEditar = new DataGridViewButtonColumn
             {
-                var btnEditar = new DataGridViewButtonColumn
-                {
-                    Name = "Editar",
-                    HeaderText = "Editar",
-                    Text = "✏️",
-                    UseColumnTextForButtonValue = true
-                };
-                dataGridViewDetallePedido.Columns.Add(btnEditar);
+                Name = "Editar",
+                HeaderText = "Editar",
+                Text = "✏️",
+                UseColumnTextForButtonValue = true,
+                Width = 60,
+                DefaultCellStyle = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleCenter }
+            };
+            dataGridViewDetallePedido.Columns.Add(btnEditar);
+
+            var btnEliminar = new DataGridViewButtonColumn
+            {
+                Name = "Eliminar",
+                HeaderText = "Eliminar",
+                Text = "🗑️",
+                UseColumnTextForButtonValue = true,
+                Width = 70,
+                DefaultCellStyle = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleCenter }
+            };
+            dataGridViewDetallePedido.Columns.Add(btnEliminar);
+
+            // 🎨 Estética general del DataGridView
+            dataGridViewDetallePedido.DefaultCellStyle.Font = new Font("Yu Gothic", 10);
+            dataGridViewDetallePedido.ColumnHeadersDefaultCellStyle.Font = new Font("Yu Gothic", 10, FontStyle.Bold);
+            dataGridViewDetallePedido.ColumnHeadersDefaultCellStyle.BackColor = Color.LightGray;
+            dataGridViewDetallePedido.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
+            dataGridViewDetallePedido.EnableHeadersVisualStyles = false;
+            dataGridViewDetallePedido.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewDetallePedido.RowTemplate.Height = 28;
+
+            // Validar estado para habilitar o no agregar ítem
+            if (pedidoActual.ESTADO.Equals("En proceso", StringComparison.OrdinalIgnoreCase))
+            {
+                buttonAgregarItem.Enabled = false;
             }
 
-            if (!dataGridViewDetallePedido.Columns.Contains("Eliminar"))
+            if (pedidoActual.ESTADO.Equals("Finalizado", StringComparison.OrdinalIgnoreCase))
             {
-                var btnEliminar = new DataGridViewButtonColumn
-                {
-                    Name = "Eliminar",
-                    HeaderText = "Eliminar",
-                    Text = "🗑️",
-                    UseColumnTextForButtonValue = true
-                };
-                dataGridViewDetallePedido.Columns.Add(btnEliminar);
+                MessageBox.Show("Este pedido está finalizado y no puede ser editado.", "Pedido finalizado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                buttonAgregarItem.Enabled = false;
+                buttonGuardarCambios.Enabled = false;
+                dataGridViewDetallePedido.ReadOnly = true;
+                comboBoxEstado.Enabled = false;
             }
 
             // Deshabilitar combo de cliente para que no se edite
             comboBoxClientes.Enabled = false;
-            comboBoxClientes.BackColor = SystemColors.Control; // Fondo gris claro
+            comboBoxClientes.BackColor = SystemColors.Control;
         }
 
 
@@ -82,6 +124,16 @@ namespace FotoRoman
 
         private void dataGridViewDetallePedido_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            // Tomar el estado actual seleccionado en el combo
+            string estadoActual = comboBoxEstado.SelectedItem?.ToString() ?? "";
+
+            if (estadoActual == "En proceso" || estadoActual == "Finalizado")
+            {
+                MessageBox.Show("No se pueden eliminar o editar ítems en un pedido en proceso o finalizado.", "Acción no permitida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // El resto sigue igual
             if (e.RowIndex >= 0)
             {
                 if (dataGridViewDetallePedido.Columns[e.ColumnIndex].Name == "Eliminar")
@@ -162,6 +214,9 @@ namespace FotoRoman
         {
             try
             {
+                if (!textBoxObservaciones.ReadOnly)
+                    pedidoActual.OBSERVACIONES = textBoxObservaciones.Text;
+
                 if (comboBoxClientes.SelectedIndex == -1)
                 {
                     MessageBox.Show("Debe seleccionar un cliente.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -177,12 +232,33 @@ namespace FotoRoman
                     // Si no se seleccionó un cliente distinto, conservar el cliente original
                     // No hacer nada, se mantiene pedidoActual.IDCliente
                 }
+                string estadoAnterior = pedidoActual.ESTADO;
+                string estadoNuevo = comboBoxEstado.SelectedItem.ToString();
+
+                // Validación: no se puede cambiar a "En proceso" si se agregaron o eliminaron ítems
+                if (estadoAnterior == "Pendiente" && estadoNuevo == "En proceso")
+                {
+                    if (detallesOriginales.Count != cantidadOriginalDeItems)
+                    {
+                        MessageBox.Show("No se puede cambiar el estado a 'En proceso' si se agregaron o eliminaron ítems del pedido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                }
+
+
 
 
 
                 if (comboBoxEstado.SelectedItem == null)
                 {
                     MessageBox.Show("Debe seleccionar un estado.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                // Validar que solo se puede pasar a Finalizado si antes estaba En proceso
+                if (comboBoxEstado.SelectedItem.ToString() == "Finalizado" &&
+                    pedidoActual.ESTADO != "En proceso")
+                {
+                    MessageBox.Show("Solo se puede finalizar un pedido que está en proceso.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -212,7 +288,8 @@ namespace FotoRoman
                 }
                 MessageBox.Show($"IDPedido: {pedidoActual.IDPEDIDO}\nCliente: {pedidoActual.IDCliente}\nEstado: {pedidoActual.ESTADO}\nTotal: {pedidoActual.TOTAL}");
 
-             
+                pedidoActual.IDUsuario = 3; // 👈 setear el ID del usuario que está editando
+
 
 
                 if (CNPedido.ActualizarPedido(pedidoActual, nuevosDetalles, out string mensaje))

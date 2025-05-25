@@ -7,6 +7,7 @@
         // 👇 Aca van las declaraciones de los controles
         private System.Windows.Forms.ComboBox comboBoxClientes;
         private System.Windows.Forms.ComboBox comboBoxEstado;
+        private System.Windows.Forms.TextBox textBoxObservaciones;
 
         private System.Windows.Forms.DataGridView dataGridViewDetallePedido;
         private System.Windows.Forms.Label labelTotal;
@@ -45,24 +46,28 @@
             // comboBoxClientes
             // 
             comboBoxClientes.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxClientes.Font = new Font("Yu Gothic Medium", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             comboBoxClientes.FormattingEnabled = true;
             comboBoxClientes.Location = new Point(120, 25);
             comboBoxClientes.Name = "comboBoxClientes";
-            comboBoxClientes.Size = new Size(250, 23);
+            comboBoxClientes.Size = new Size(250, 25);
             comboBoxClientes.TabIndex = 1;
             // 
             // comboBoxEstado
             // 
             comboBoxEstado.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxEstado.Font = new Font("Yu Gothic", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             comboBoxEstado.Items.AddRange(new object[] { "Pendiente", "En proceso", "Finalizado" });
             comboBoxEstado.Location = new Point(120, 60);
             comboBoxEstado.Name = "comboBoxEstado";
-            comboBoxEstado.Size = new Size(250, 23);
+            comboBoxEstado.Size = new Size(250, 25);
             comboBoxEstado.TabIndex = 0;
             // 
             // dataGridViewDetallePedido
             // 
             dataGridViewDetallePedido.BackgroundColor = SystemColors.Control;
+            dataGridViewDetallePedido.BorderStyle = BorderStyle.None;
+            dataGridViewDetallePedido.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dataGridViewDetallePedido.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewDetallePedido.Location = new Point(30, 100);
             dataGridViewDetallePedido.Name = "dataGridViewDetallePedido";
@@ -93,6 +98,19 @@
             buttonGuardarCambios.UseVisualStyleBackColor = false;
             buttonGuardarCambios.Click += buttonGuardarCambios_Click;
             // 
+            // 
+            // textBoxObservaciones
+            // 
+            textBoxObservaciones = new TextBox();
+            textBoxObservaciones.Multiline = true;
+            textBoxObservaciones.Font = new Font("Yu Gothic", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            textBoxObservaciones.Location = new Point(420, 25); // Ajustá la posición según tu diseño
+            textBoxObservaciones.Size = new Size(350, 60);
+            textBoxObservaciones.ScrollBars = ScrollBars.Vertical;
+            textBoxObservaciones.Name = "textBoxObservaciones";
+            textBoxObservaciones.TabIndex = 9;
+            Controls.Add(textBoxObservaciones);
+
             // buttonCancelar
             // 
             buttonCancelar.BackColor = Color.LightGray;

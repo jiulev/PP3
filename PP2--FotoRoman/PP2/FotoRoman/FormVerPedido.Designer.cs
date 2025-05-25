@@ -80,9 +80,10 @@ namespace FotoRoman
             // 
             comboBoxClientes.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             comboBoxClientes.AutoCompleteSource = AutoCompleteSource.ListItems;
+            comboBoxClientes.Font = new Font("Yu Gothic", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             comboBoxClientes.Location = new Point(180, 60);
             comboBoxClientes.Name = "comboBoxClientes";
-            comboBoxClientes.Size = new Size(200, 23);
+            comboBoxClientes.Size = new Size(200, 25);
             comboBoxClientes.TabIndex = 3;
             // 
             // buttonBuscar

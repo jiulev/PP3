@@ -58,57 +58,61 @@
             // 
             // textNombre
             // 
-            textNombre.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textNombre.Location = new Point(195, 19);
+            textNombre.Font = new Font("Yu Gothic", 11F);
+            textNombre.Location = new Point(160, 19);
             textNombre.Name = "textNombre";
-            textNombre.Size = new Size(189, 29);
+            textNombre.Size = new Size(189, 31);
             textNombre.TabIndex = 1;
+            textNombre.TextChanged += textNombre_TextChanged;
             // 
             // textNum
             // 
-            textNum.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textNum.Location = new Point(195, 73);
+            textNum.Font = new Font("Yu Gothic", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textNum.Location = new Point(160, 79);
             textNum.Name = "textNum";
-            textNum.Size = new Size(189, 29);
+            textNum.Size = new Size(189, 31);
             textNum.TabIndex = 2;
+            //textNum.TextChanged += this.textNum_TextChanged;
+            textNum.ReadOnly = true;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold);
-            label1.Location = new Point(33, 19);
+            label1.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
+            label1.Location = new Point(27, 26);
             label1.Name = "label1";
-            label1.Size = new Size(142, 19);
+            label1.Size = new Size(127, 17);
             label1.TabIndex = 3;
             label1.Text = "Apellido y Nombre";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold);
-            label2.Location = new Point(57, 73);
+            label2.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
+            label2.Location = new Point(46, 86);
             label2.Name = "label2";
-            label2.Size = new Size(122, 19);
+            label2.Size = new Size(108, 17);
             label2.TabIndex = 4;
             label2.Text = "Numero Pedido";
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold);
-            label3.Location = new Point(59, 135);
+            label3.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
+            label3.Location = new Point(47, 146);
             label3.Name = "label3";
-            label3.Size = new Size(121, 19);
+            label3.Size = new Size(107, 17);
             label3.TabIndex = 5;
             label3.Text = "Importe Pedido";
             // 
             // textImporte
             // 
-            textImporte.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textImporte.Location = new Point(195, 139);
+            textImporte.Font = new Font("Yu Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textImporte.Location = new Point(160, 138);
             textImporte.Name = "textImporte";
-            textImporte.Size = new Size(189, 29);
+            textImporte.Size = new Size(189, 33);
             textImporte.TabIndex = 6;
+            //textImporte.TextChanged += this.textImporte_TextChanged;
             // 
             // label4
             // 
@@ -144,114 +148,114 @@
             // 
             // textSubtotal1
             // 
-            textSubtotal1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textSubtotal1.Font = new Font("Yu Gothic", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textSubtotal1.Location = new Point(245, 246);
             textSubtotal1.Name = "textSubtotal1";
-            textSubtotal1.Size = new Size(172, 29);
+            textSubtotal1.Size = new Size(172, 31);
             textSubtotal1.TabIndex = 11;
             // 
             // textMetodoPago1
             // 
-            textMetodoPago1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textMetodoPago1.Font = new Font("Yu Gothic", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textMetodoPago1.Location = new Point(27, 246);
             textMetodoPago1.Name = "textMetodoPago1";
-            textMetodoPago1.Size = new Size(212, 29);
+            textMetodoPago1.Size = new Size(212, 31);
             textMetodoPago1.TabIndex = 12;
             // 
             // textMetodoPago2
             // 
-            textMetodoPago2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textMetodoPago2.Font = new Font("Yu Gothic UI", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textMetodoPago2.Location = new Point(27, 272);
             textMetodoPago2.Name = "textMetodoPago2";
-            textMetodoPago2.Size = new Size(212, 29);
+            textMetodoPago2.Size = new Size(212, 27);
             textMetodoPago2.TabIndex = 13;
             // 
             // textMetodoPago3
             // 
-            textMetodoPago3.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textMetodoPago3.Font = new Font("Yu Gothic", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textMetodoPago3.Location = new Point(27, 297);
             textMetodoPago3.Name = "textMetodoPago3";
-            textMetodoPago3.Size = new Size(212, 29);
+            textMetodoPago3.Size = new Size(212, 31);
             textMetodoPago3.TabIndex = 14;
             // 
             // textMetodoPago4
             // 
-            textMetodoPago4.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textMetodoPago4.Font = new Font("Yu Gothic", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textMetodoPago4.Location = new Point(27, 322);
             textMetodoPago4.Name = "textMetodoPago4";
-            textMetodoPago4.Size = new Size(212, 29);
+            textMetodoPago4.Size = new Size(212, 31);
             textMetodoPago4.TabIndex = 15;
             // 
             // textMetodoPago5
             // 
-            textMetodoPago5.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textMetodoPago5.Font = new Font("Yu Gothic", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textMetodoPago5.Location = new Point(27, 348);
             textMetodoPago5.Name = "textMetodoPago5";
-            textMetodoPago5.Size = new Size(212, 29);
+            textMetodoPago5.Size = new Size(212, 31);
             textMetodoPago5.TabIndex = 16;
             // 
             // textMetodoPago6
             // 
-            textMetodoPago6.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textMetodoPago6.Font = new Font("Yu Gothic", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textMetodoPago6.Location = new Point(27, 374);
             textMetodoPago6.Name = "textMetodoPago6";
-            textMetodoPago6.Size = new Size(212, 29);
+            textMetodoPago6.Size = new Size(212, 31);
             textMetodoPago6.TabIndex = 17;
             // 
             // textMetodoPago7
             // 
-            textMetodoPago7.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textMetodoPago7.Font = new Font("Yu Gothic", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textMetodoPago7.Location = new Point(27, 399);
             textMetodoPago7.Name = "textMetodoPago7";
-            textMetodoPago7.Size = new Size(212, 29);
+            textMetodoPago7.Size = new Size(212, 31);
             textMetodoPago7.TabIndex = 18;
             // 
             // textSubtotal2
             // 
-            textSubtotal2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textSubtotal2.Font = new Font("Yu Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textSubtotal2.Location = new Point(245, 272);
             textSubtotal2.Name = "textSubtotal2";
-            textSubtotal2.Size = new Size(172, 29);
+            textSubtotal2.Size = new Size(172, 33);
             textSubtotal2.TabIndex = 19;
             // 
             // textSubtotal3
             // 
-            textSubtotal3.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textSubtotal3.Font = new Font("Yu Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textSubtotal3.Location = new Point(245, 297);
             textSubtotal3.Name = "textSubtotal3";
-            textSubtotal3.Size = new Size(172, 29);
+            textSubtotal3.Size = new Size(172, 33);
             textSubtotal3.TabIndex = 20;
             // 
             // textSubtotal4
             // 
-            textSubtotal4.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textSubtotal4.Font = new Font("Yu Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textSubtotal4.Location = new Point(245, 322);
             textSubtotal4.Name = "textSubtotal4";
-            textSubtotal4.Size = new Size(172, 29);
+            textSubtotal4.Size = new Size(172, 33);
             textSubtotal4.TabIndex = 21;
             // 
             // textSubtotal5
             // 
-            textSubtotal5.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textSubtotal5.Font = new Font("Yu Gothic", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textSubtotal5.Location = new Point(245, 348);
             textSubtotal5.Name = "textSubtotal5";
-            textSubtotal5.Size = new Size(172, 29);
+            textSubtotal5.Size = new Size(172, 31);
             textSubtotal5.TabIndex = 22;
             // 
             // textSubtotal6
             // 
-            textSubtotal6.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textSubtotal6.Font = new Font("Yu Gothic", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textSubtotal6.Location = new Point(245, 374);
             textSubtotal6.Name = "textSubtotal6";
-            textSubtotal6.Size = new Size(172, 29);
+            textSubtotal6.Size = new Size(172, 31);
             textSubtotal6.TabIndex = 23;
             // 
             // textSubtotal7
             // 
-            textSubtotal7.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textSubtotal7.Font = new Font("Yu Gothic", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textSubtotal7.Location = new Point(245, 399);
             textSubtotal7.Name = "textSubtotal7";
-            textSubtotal7.Size = new Size(172, 29);
+            textSubtotal7.Size = new Size(172, 31);
             textSubtotal7.TabIndex = 24;
             // 
             // sumasubtotal
@@ -292,7 +296,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(501, 528);
+            ClientSize = new Size(449, 528);
             Controls.Add(buttonCancelar1);
             Controls.Add(RegistrarPago1);
             Controls.Add(sumasubtotal);

@@ -54,6 +54,9 @@ namespace FotoRoman
                 // Configurar el DataGridView para mostrar 5 filas por defecto
                 ConfigurarDataGridView();
 
+               
+
+
             }
             catch (Exception ex)
             {
@@ -132,12 +135,26 @@ namespace FotoRoman
 
         private void ConfigurarDataGridView()
         {
-            // Ajustar altura según las filas, con un máximo de 5 visibles
-            ActualizarAlturaDataGridView();
+            // Establecer fuente y estilo visual
+            Font fuente = new Font("Yu Gothic UI", 9, FontStyle.Regular);
+            dataGridView1.Font = fuente;
+            dataGridView1.RowTemplate.Height = 28; // Altura de las filas
+
+            dataGridView1.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+
+            dataGridView1.EnableHeadersVisualStyles = false;
+            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Yu Gothic", 9, FontStyle.Bold);
+            dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LightGray;
+            dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
+            dataGridView1.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
             // Habilitar barra de desplazamiento vertical
             dataGridView1.ScrollBars = ScrollBars.Vertical;
+
+            // Ajustar altura inicial
+            ActualizarAlturaDataGridView();
         }
+
         private void ActualizarAlturaDataGridView()
         {
             // Calcular la altura del DataGridView según la cantidad de filas, con un máximo de 5 filas visibles
