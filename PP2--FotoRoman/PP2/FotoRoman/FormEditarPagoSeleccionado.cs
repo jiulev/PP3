@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using CapaEntidad;
 using CapaNegocio;
 using System.Globalization;
+using CapaDatos;
 
 
 namespace FotoRoman
@@ -84,7 +85,7 @@ namespace FotoRoman
                 for (int i = 0; i < 7; i++)
                 {
                     string metodo = textMetodos[i].Text.Trim();
-                    string strSubtotal = textSubtotales[i].Text.Trim();
+                    string strSubtotal = textSubtotales[i].Text.Replace("$", "").Trim();
 
                     if (!string.IsNullOrWhiteSpace(metodo) && decimal.TryParse(strSubtotal, out decimal subtotal))
                     {
@@ -114,41 +115,19 @@ namespace FotoRoman
 
                 if (sumaTotal > totalImporte)
                 {
-                    MessageBox.Show("La suma de los subtotales no puede superar el importe total del pedido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("La suma de los pagos no puede superar el monto total del pedido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
                 string mensaje;
-                bool resultado = CNPago.ReemplazarPagosDelPedido(idPedido, nuevosPagos, out mensaje);
+                bool resultado = CNPago.ReemplazarPagosDelPedidoManteniendoExistentes(idPedido, nuevosPagos, out mensaje);
+
 
                 if (resultado)
                 {
-                    // ✅ Registrar auditoría si cambia el monto
-                    for (int i = 0; i < pagosExistentes.Count && i < nuevosPagos.Count; i++)
-                    {
-                        var pagoAnterior = pagosExistentes[i];
-                        var pagoNuevo = nuevosPagos[i];
-
-                        if (pagoAnterior.MONTOPAGO != pagoNuevo.MONTOPAGO)
-                        {
-                            string mensajeAuditoria;
-                            var pagoAuditado = new Pago
-                            {
-                                IDPAGO = pagoAnterior.IDPAGO,
-                                IDPEDIDO = pagoAnterior.IDPEDIDO,
-                                MONTOPAGO = pagoNuevo.MONTOPAGO,
-                                METODOPAGO = pagoNuevo.METODOPAGO,
-                                FECHAPAGO = DateTime.Now
-                            };
-
-                            CNPago.EditarPago(pagoAuditado, pagoAnterior.MONTOPAGO, out mensajeAuditoria);
-                        }
-                    }
-
-                    MessageBox.Show("Pago editado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.DialogResult = DialogResult.OK;  // ✅ Notifica éxito al formulario padre
+                    MessageBox.Show("Pago actualizado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.DialogResult = DialogResult.OK;
                     this.Close();
-
                 }
                 else
                 {
@@ -160,7 +139,6 @@ namespace FotoRoman
                 MessageBox.Show($"Error al guardar el pago: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
 
 
 

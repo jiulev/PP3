@@ -34,7 +34,6 @@
             consultarVendedor = new FontAwesome.Sharp.IconMenuItem();
             menupedidos = new FontAwesome.Sharp.IconMenuItem();
             iconMenuItem1 = new FontAwesome.Sharp.IconMenuItem();
-            iconMenuItem2 = new FontAwesome.Sharp.IconMenuItem();
             iconMenuItem3 = new FontAwesome.Sharp.IconMenuItem();
             iconMenuItem4 = new FontAwesome.Sharp.IconMenuItem();
             menupagos = new FontAwesome.Sharp.IconMenuItem();
@@ -93,7 +92,7 @@
             iconMenuItem18.IconColor = Color.Black;
             iconMenuItem18.IconFont = FontAwesome.Sharp.IconFont.Auto;
             iconMenuItem18.Name = "iconMenuItem18";
-            iconMenuItem18.Size = new Size(180, 22);
+            iconMenuItem18.Size = new Size(173, 22);
             iconMenuItem18.Text = "Registrar usuario";
             iconMenuItem18.Click += crearUsuario;
             // 
@@ -103,14 +102,14 @@
             consultarVendedor.IconColor = Color.Black;
             consultarVendedor.IconFont = FontAwesome.Sharp.IconFont.Auto;
             consultarVendedor.Name = "consultarVendedor";
-            consultarVendedor.Size = new Size(180, 22);
+            consultarVendedor.Size = new Size(173, 22);
             consultarVendedor.Text = "Consultar Usuario";
             consultarVendedor.Click += iconMenuItem21_Click;
             // 
             // menupedidos
             // 
             menupedidos.AutoSize = false;
-            menupedidos.DropDownItems.AddRange(new ToolStripItem[] { iconMenuItem1, iconMenuItem2, iconMenuItem3, iconMenuItem4 });
+            menupedidos.DropDownItems.AddRange(new ToolStripItem[] { iconMenuItem1, iconMenuItem3, iconMenuItem4 });
             menupedidos.Font = new Font("Yu Gothic", 9F);
             menupedidos.IconChar = FontAwesome.Sharp.IconChar.Tags;
             menupedidos.IconColor = Color.Black;
@@ -128,18 +127,9 @@
             iconMenuItem1.IconColor = Color.Black;
             iconMenuItem1.IconFont = FontAwesome.Sharp.IconFont.Auto;
             iconMenuItem1.Name = "iconMenuItem1";
-            iconMenuItem1.Size = new Size(160, 22);
+            iconMenuItem1.Size = new Size(180, 22);
             iconMenuItem1.Text = "Crear Pedido";
             iconMenuItem1.Click += iconMenuItem1_Click;
-            // 
-            // iconMenuItem2
-            // 
-            iconMenuItem2.IconChar = FontAwesome.Sharp.IconChar.None;
-            iconMenuItem2.IconColor = Color.Black;
-            iconMenuItem2.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            iconMenuItem2.Name = "iconMenuItem2";
-            iconMenuItem2.Size = new Size(160, 22);
-            iconMenuItem2.Text = "Editar Pedido";
             // 
             // iconMenuItem3
             // 
@@ -147,7 +137,7 @@
             iconMenuItem3.IconColor = Color.Black;
             iconMenuItem3.IconFont = FontAwesome.Sharp.IconFont.Auto;
             iconMenuItem3.Name = "iconMenuItem3";
-            iconMenuItem3.Size = new Size(160, 22);
+            iconMenuItem3.Size = new Size(180, 22);
             iconMenuItem3.Text = "Eliminar Pedido";
             // 
             // iconMenuItem4
@@ -156,7 +146,7 @@
             iconMenuItem4.IconColor = Color.Black;
             iconMenuItem4.IconFont = FontAwesome.Sharp.IconFont.Auto;
             iconMenuItem4.Name = "iconMenuItem4";
-            iconMenuItem4.Size = new Size(160, 22);
+            iconMenuItem4.Size = new Size(180, 22);
             iconMenuItem4.Text = "Ver Pedido";
             iconMenuItem4.Click += iconMenuItem4_Click;
             // 
@@ -422,7 +412,6 @@
         private FontAwesome.Sharp.IconMenuItem menureportes;
         private Panel contenedor;
         private FontAwesome.Sharp.IconMenuItem iconMenuItem1;
-        private FontAwesome.Sharp.IconMenuItem iconMenuItem2;
         private FontAwesome.Sharp.IconMenuItem iconMenuItem3;
         private FontAwesome.Sharp.IconMenuItem iconMenuItem4;
         private FontAwesome.Sharp.IconMenuItem iconMenuItem5;

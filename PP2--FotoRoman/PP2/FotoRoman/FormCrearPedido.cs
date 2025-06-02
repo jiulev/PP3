@@ -381,7 +381,7 @@ namespace FotoRoman
                 if (resultado)
                 {
                     idPedidoGenerado = CNPedido.ObtenerUltimoIdPedido();
-                    var respuesta = MessageBox.Show("Pedido creado exitosamente. ¿Desea registrar el pago?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    var respuesta = MessageBox.Show("Pedido creado exitosamente. ¿Desea registrar el Cobro?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                     if (respuesta == DialogResult.Yes)
                     {

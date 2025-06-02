@@ -36,7 +36,7 @@ namespace CapaNegocio
                                       decimal montoAnterior,
                                       out string mensaje)
         {
-            // validaciones de negocio (rol, fecha, etc.) ya discutidas
+            // validaciones (rol, fecha, etcc.)
             return new CD_Pago().ActualizarPago(pagoEditado, montoAnterior, out mensaje);
         }
 
@@ -64,6 +64,10 @@ namespace CapaNegocio
         public static bool ReemplazarPagosDelPedido(int idPedido, List<Pago> nuevosPagos, out string mensaje)
         {
             return CD_Pago.ReemplazarPagosDelPedido(idPedido, nuevosPagos, out mensaje);
+        }
+        public static bool ReemplazarPagosDelPedidoManteniendoExistentes(int idPedido, List<Pago> nuevosPagos, out string mensaje)
+        {
+            return CD_Pago.ReemplazarPagosDelPedidoManteniendoExistentes(idPedido, nuevosPagos, out mensaje);
         }
 
         public static List<Pedido> ObtenerPedidosPorCliente(int idCliente)
