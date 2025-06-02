@@ -4,6 +4,8 @@ using System.Drawing;
 using System.Windows.Forms;
 using CapaEntidad;
 using CapaNegocio;
+using System.Globalization;
+
 
 namespace FotoRoman
 {
@@ -23,6 +25,8 @@ namespace FotoRoman
         {
             try
             {
+                var culturaPeso = new CultureInfo("es-AR"); // ✅ formato pesos argentinos
+
                 var pedido = CNPago.ObtenerPedidoPorId(idPedido);
 
                 if (pedido == null)
@@ -35,7 +39,7 @@ namespace FotoRoman
                 // Setear los datos del pedido
                 textNum.Text = pedido.IDPEDIDO.ToString();
                 textNombre.Text = pedido.oCliente?.NOMBRE ?? "";
-                textImporte.Text = pedido.TOTAL.ToString("0.00");
+                textImporte.Text = pedido.TOTAL.ToString("C", culturaPeso); // ✅ muestra $ total
                 totalImporte = pedido.TOTAL;
 
                 // Obtener pagos existentes
@@ -43,7 +47,7 @@ namespace FotoRoman
                 for (int i = 0; i < pagosExistentes.Count && i < 7; i++)
                 {
                     textMetodos[i].Text = pagosExistentes[i].METODOPAGO;
-                    textSubtotales[i].Text = pagosExistentes[i].MONTOPAGO.ToString("0.00");
+                    textSubtotales[i].Text = pagosExistentes[i].MONTOPAGO.ToString("C", culturaPeso); // ✅ $ subtotales
                 }
 
                 CalcularSumaSubtotal(null, null);
@@ -57,13 +61,18 @@ namespace FotoRoman
         private void CalcularSumaSubtotal(object sender, EventArgs e)
         {
             decimal suma = 0;
+            var culturaPeso = new CultureInfo("es-AR"); // ✅ pesos argentinos
+
             for (int i = 0; i < 7; i++)
             {
-                if (decimal.TryParse(textSubtotales[i].Text, out decimal monto))
+                string texto = textSubtotales[i].Text.Replace("$", "").Trim(); // limpia el símbolo si ya estaba
+                if (decimal.TryParse(texto, out decimal monto))
                     suma += monto;
             }
-            sumasubtotal.Text = suma.ToString("0.00");
+
+            sumasubtotal.Text = suma.ToString("C", culturaPeso); // ✅ total con signo $
         }
+
 
         private void buttonGuardar_Click(object sender, EventArgs e)
         {
@@ -89,7 +98,8 @@ namespace FotoRoman
                         {
                             IDPEDIDO = idPedido,
                             METODOPAGO = metodo,
-                            MONTOPAGO = subtotal
+                            MONTOPAGO = subtotal,
+                            FECHAPAGO = DateTime.Now
                         });
 
                         sumaTotal += subtotal;
@@ -108,14 +118,37 @@ namespace FotoRoman
                     return;
                 }
 
-                // Aquí podrías borrar los pagos anteriores (DELETE) e insertar los nuevos.
                 string mensaje;
-                bool resultado = CNPago.ReemplazarPagosDelPedido(idPedido, nuevosPagos, out mensaje); // nuevo método
+                bool resultado = CNPago.ReemplazarPagosDelPedido(idPedido, nuevosPagos, out mensaje);
 
                 if (resultado)
                 {
+                    // ✅ Registrar auditoría si cambia el monto
+                    for (int i = 0; i < pagosExistentes.Count && i < nuevosPagos.Count; i++)
+                    {
+                        var pagoAnterior = pagosExistentes[i];
+                        var pagoNuevo = nuevosPagos[i];
+
+                        if (pagoAnterior.MONTOPAGO != pagoNuevo.MONTOPAGO)
+                        {
+                            string mensajeAuditoria;
+                            var pagoAuditado = new Pago
+                            {
+                                IDPAGO = pagoAnterior.IDPAGO,
+                                IDPEDIDO = pagoAnterior.IDPEDIDO,
+                                MONTOPAGO = pagoNuevo.MONTOPAGO,
+                                METODOPAGO = pagoNuevo.METODOPAGO,
+                                FECHAPAGO = DateTime.Now
+                            };
+
+                            CNPago.EditarPago(pagoAuditado, pagoAnterior.MONTOPAGO, out mensajeAuditoria);
+                        }
+                    }
+
                     MessageBox.Show("Pago editado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.DialogResult = DialogResult.OK;  // ✅ Notifica éxito al formulario padre
                     this.Close();
+
                 }
                 else
                 {
@@ -127,6 +160,9 @@ namespace FotoRoman
                 MessageBox.Show($"Error al guardar el pago: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+
+
 
         private void buttonCancelar_Click(object sender, EventArgs e)
         {

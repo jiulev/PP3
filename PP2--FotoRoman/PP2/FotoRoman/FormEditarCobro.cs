@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using CapaEntidad;
 using CapaNegocio;
 
+
 namespace FotoRoman
 {
     public partial class FormEditarCobro : Form
@@ -106,23 +107,25 @@ namespace FotoRoman
                         item.pedido.IDPEDIDO,
                         item.pedido.FECHAPEDIDO.ToShortDateString(),
                         item.pedido.ESTADO,
-                        item.pedido.TOTAL.ToString("0.00"),
-                        item.totalPagado.ToString("0.00")
+                          $"${item.pedido.TOTAL:0.00}",
+                          $"${item.totalPagado:0.00}"
                     );
 
                     DataGridViewRow row = dataGridViewCobros.Rows[rowIndex];
                     string estado = item.pedido.ESTADO;
+                    row.DefaultCellStyle.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
 
                     if (estado == "Finalizado")
                     {
                         row.DefaultCellStyle.BackColor = Color.FromArgb(255, 160, 160); // Rojo claro
                         row.DefaultCellStyle.ForeColor = Color.Black;
-                        row.DefaultCellStyle.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+                        row.DefaultCellStyle.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
                     }
                     else if (estado == "En proceso")
                     {
                         row.DefaultCellStyle.BackColor = Color.FromArgb(144, 238, 144); // Verde claro
                         row.DefaultCellStyle.ForeColor = Color.Black;
+                        row.DefaultCellStyle.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
                     }
                     // "Pendiente" → sin formato: queda en blanco
                 }
@@ -133,7 +136,6 @@ namespace FotoRoman
         {
             this.Close();
         }
-
         private void buttonEditar_Click(object sender, EventArgs e)
         {
             if (dataGridViewCobros.SelectedRows.Count > 0)
@@ -159,15 +161,23 @@ namespace FotoRoman
                     }
                 }
 
-                // Si pasa las validaciones
+                // ✅ Mostrar y esperar el cierre
                 FormEditarPagoSeleccionado formEditarPago = new FormEditarPagoSeleccionado(idPedido);
-                formEditarPago.ShowDialog();
+                var resultado = formEditarPago.ShowDialog();
+
+                // ✅ Si se cerró correctamente, volver a ejecutar búsqueda
+                if (resultado == DialogResult.OK)
+                {
+                    buttonBuscar.PerformClick();
+                }
             }
             else
             {
                 MessageBox.Show("Seleccione un pedido para editar el cobro.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+
+
 
     }
 }

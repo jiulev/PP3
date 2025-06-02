@@ -94,28 +94,77 @@ namespace CapaDatos
                     connection.Open();
                     transaction = connection.BeginTransaction();
 
-                    // Eliminar pagos existentes
+                    // 🔎 1) Obtener pagos antiguos antes del DELETE
+                    List<Pago> pagosAnteriores = new List<Pago>();
+                    using (SqlCommand cmdOld = new SqlCommand(@"
+                SELECT IDPAGO, IDPEDIDO, MONTOPAGO, FECHAPAGO, METODOPAGO
+                FROM PAGO
+                WHERE IDPEDIDO = @IDPEDIDO", connection, transaction))
+                    {
+                        cmdOld.Parameters.AddWithValue("@IDPEDIDO", idPedido);
+                        using (SqlDataReader reader = cmdOld.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                pagosAnteriores.Add(new Pago
+                                {
+                                    IDPAGO = reader.GetInt32(0),
+                                    IDPEDIDO = reader.GetInt32(1),
+                                    MONTOPAGO = reader.GetDecimal(2),
+                                    FECHAPAGO = reader.GetDateTime(3),
+                                    METODOPAGO = reader.GetString(4)
+                                });
+                            }
+                        }
+                    }
+
+                    // 🗑 2) Borrar todos los pagos
                     using (SqlCommand deleteCmd = new SqlCommand("DELETE FROM PAGO WHERE IDPEDIDO = @IDPEDIDO", connection, transaction))
                     {
                         deleteCmd.Parameters.AddWithValue("@IDPEDIDO", idPedido);
                         deleteCmd.ExecuteNonQuery();
                     }
 
-                    // Insertar los nuevos pagos
-                    foreach (var pago in nuevosPagos)
+                    // 💾 3) Insertar nuevos pagos y registrar auditoría
+                    for (int i = 0; i < nuevosPagos.Count; i++)
                     {
+                        var nuevo = nuevosPagos[i];
+
                         using (SqlCommand insertCmd = new SqlCommand("InsertarPago", connection, transaction))
                         {
                             insertCmd.CommandType = CommandType.StoredProcedure;
-                            insertCmd.Parameters.AddWithValue("@IDPEDIDO", pago.IDPEDIDO);
-                            insertCmd.Parameters.AddWithValue("@MONTOPAGO", pago.MONTOPAGO);
-                            insertCmd.Parameters.AddWithValue("@METODOPAGO", pago.METODOPAGO ?? (object)DBNull.Value);
+                            insertCmd.Parameters.AddWithValue("@IDPEDIDO", nuevo.IDPEDIDO);
+                            insertCmd.Parameters.AddWithValue("@MONTOPAGO", nuevo.MONTOPAGO);
+                            insertCmd.Parameters.AddWithValue("@METODOPAGO", nuevo.METODOPAGO ?? (object)DBNull.Value);
                             insertCmd.ExecuteNonQuery();
+                        }
+
+                        // Solo auditar si hay un pago anterior en la misma posición
+                        if (i < pagosAnteriores.Count && pagosAnteriores[i].MONTOPAGO != nuevo.MONTOPAGO)
+                        {
+                            var anterior = pagosAnteriores[i];
+
+                            string sqlAudit = @"INSERT INTO cobro_auditoria
+                        (IDPAGO, IDPEDIDO, MONTO_ANTERIOR, MONTO_NUEVO,
+                         FECHA_CAMBIO, IDUSUARIO, USUARIO_NOMBRE)
+                        VALUES (@IdPago, @IdPedido, @MontoAnterior, @MontoNuevo,
+                                GETDATE(), @IdUsuario, @UsuarioNombre)";
+
+                            using (SqlCommand auditCmd = new SqlCommand(sqlAudit, connection, transaction))
+                            {
+                                auditCmd.Parameters.AddWithValue("@IdPago", anterior.IDPAGO);
+                                auditCmd.Parameters.AddWithValue("@IdPedido", anterior.IDPEDIDO);
+                                auditCmd.Parameters.AddWithValue("@MontoAnterior", anterior.MONTOPAGO);
+                                auditCmd.Parameters.AddWithValue("@MontoNuevo", nuevo.MONTOPAGO);
+                                auditCmd.Parameters.AddWithValue("@IdUsuario", UsuarioActual.Usuario.IDUSUARIO);
+                                auditCmd.Parameters.AddWithValue("@UsuarioNombre", UsuarioActual.Usuario.NOMBRE);
+                                auditCmd.ExecuteNonQuery();
+                            }
                         }
                     }
 
                     transaction.Commit();
-                    mensaje = "Pagos actualizados correctamente.";
+                    mensaje = "Pagos actualizados y auditoría registrada correctamente.";
                     return true;
                 }
                 catch (Exception ex)
@@ -126,6 +175,7 @@ namespace CapaDatos
                 }
             }
         }
+
         public static Pedido ObtenerPedidoPorId(int idPedido)
         {
             Pedido pedido = null;
@@ -174,6 +224,82 @@ namespace CapaDatos
             }
 
             return pedido;
+        }
+        // CapaDatos ▸ CD_Pago.cs  (agrega al final de la clase)
+        private void RegistrarAuditoria(SqlConnection cn, SqlTransaction trx, CobroAuditoria audit)
+        {
+            string sql = @"INSERT INTO cobro_auditoria
+                   (IDPAGO, IDPEDIDO, MONTO_ANTERIOR, MONTO_NUEVO,
+                    FECHA_CAMBIO, IDUSUARIO, USUARIO_NOMBRE)
+                   VALUES (@IdPago,@IdPedido,@MontoAnterior,@MontoNuevo,
+                           GETDATE(),@IdUsuario,@UsuarioNombre);";
+
+            using (SqlCommand cmd = new SqlCommand(sql, cn, trx))
+            {
+                cmd.Parameters.AddWithValue("@IdPago", audit.IDPAGO);
+                cmd.Parameters.AddWithValue("@IdPedido", audit.IDPEDIDO);
+                cmd.Parameters.AddWithValue("@MontoAnterior", audit.MONTO_ANTERIOR);
+                cmd.Parameters.AddWithValue("@MontoNuevo", audit.MONTO_NUEVO);
+                cmd.Parameters.AddWithValue("@IdUsuario", audit.IDUSUARIO);
+                cmd.Parameters.AddWithValue("@UsuarioNombre", audit.USUARIO_NOMBRE);
+                cmd.ExecuteNonQuery();
+            }
+        }
+        // dentro de CD_Pago
+        public bool ActualizarPago(Pago pagoEditado,
+                                   decimal montoAnterior,
+                                   out string mensaje)
+        {
+            mensaje = "";
+            bool ok = false;
+
+            using (SqlConnection cn = new SqlConnection(Conexion.ObtenerCadenaConexion()))
+            {
+                cn.Open();
+                SqlTransaction trx = cn.BeginTransaction();
+
+                try
+                {
+                    // 1) UPDATE del pago
+                    string sqlUp = @"UPDATE Pago
+                             SET MONTOPAGO = @MontoNuevo,
+                                 MEDIOPAGO = @MedioPago,
+                                 FECHAPAGO = @FechaPago
+                             WHERE IDPAGO = @IdPago";
+
+                    using (SqlCommand cmdUp = new SqlCommand(sqlUp, cn, trx))
+                    {
+                        cmdUp.Parameters.AddWithValue("@MontoNuevo", pagoEditado.MONTOPAGO);
+                        cmdUp.Parameters.AddWithValue("@MedioPago", pagoEditado.MONTOPAGO);
+                        cmdUp.Parameters.AddWithValue("@FechaPago", pagoEditado.FECHAPAGO);
+                        cmdUp.Parameters.AddWithValue("@IdPago", pagoEditado.IDPAGO);
+                        cmdUp.ExecuteNonQuery();
+                    }
+
+                    // 2) Auditoría
+                    var audit = new CobroAuditoria
+                    {
+                        IDPAGO = pagoEditado.IDPAGO,
+                        IDPEDIDO = pagoEditado.IDPEDIDO,
+                        MONTO_ANTERIOR = montoAnterior,
+                        MONTO_NUEVO = pagoEditado.MONTOPAGO,
+                        IDUSUARIO = UsuarioActual.Usuario.IDUSUARIO,
+                        USUARIO_NOMBRE = UsuarioActual.Usuario.NOMBRE
+                    };
+                    RegistrarAuditoria(cn, trx, audit);
+
+                    trx.Commit();
+                    ok = true;
+                    mensaje = "Cobro actualizado y auditado correctamente.";
+                }
+                catch (Exception ex)
+                {
+                    trx.Rollback();
+                    mensaje = "Error al actualizar cobro: " + ex.Message;
+                }
+            }
+
+            return ok;
         }
 
 

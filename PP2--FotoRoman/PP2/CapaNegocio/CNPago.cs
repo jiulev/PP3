@@ -30,7 +30,15 @@ namespace CapaNegocio
                 return false;
             }
         }
-      
+
+        // CapaNegocio ▸ CNPago.cs
+        public static bool EditarPago(Pago pagoEditado,
+                                      decimal montoAnterior,
+                                      out string mensaje)
+        {
+            // validaciones de negocio (rol, fecha, etc.) ya discutidas
+            return new CD_Pago().ActualizarPago(pagoEditado, montoAnterior, out mensaje);
+        }
 
         public static Pedido ObtenerPedidoPorId(int idPedido)
         {
