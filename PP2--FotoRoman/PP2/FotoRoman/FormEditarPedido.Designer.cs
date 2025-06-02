@@ -40,6 +40,8 @@
             label1 = new Label();
             label2 = new Label();
             buttonAgregarItem = new Button();
+            textBoxObservaciones = new TextBox();
+            buttonEliminarItem = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridViewDetallePedido).BeginInit();
             SuspendLayout();
             // 
@@ -79,7 +81,7 @@
             // 
             labelTotal.AutoSize = true;
             labelTotal.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            labelTotal.Location = new Point(630, 340);
+            labelTotal.Location = new Point(585, 347);
             labelTotal.Name = "labelTotal";
             labelTotal.Size = new Size(86, 19);
             labelTotal.TabIndex = 5;
@@ -90,7 +92,7 @@
             // 
             buttonGuardarCambios.BackColor = Color.LightGray;
             buttonGuardarCambios.Font = new Font("Yu Gothic", 9F, FontStyle.Bold);
-            buttonGuardarCambios.Location = new Point(180, 380);
+            buttonGuardarCambios.Location = new Point(283, 380);
             buttonGuardarCambios.Name = "buttonGuardarCambios";
             buttonGuardarCambios.Size = new Size(140, 32);
             buttonGuardarCambios.TabIndex = 7;
@@ -98,24 +100,11 @@
             buttonGuardarCambios.UseVisualStyleBackColor = false;
             buttonGuardarCambios.Click += buttonGuardarCambios_Click;
             // 
-            // 
-            // textBoxObservaciones
-            // 
-            textBoxObservaciones = new TextBox();
-            textBoxObservaciones.Multiline = true;
-            textBoxObservaciones.Font = new Font("Yu Gothic", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
-            textBoxObservaciones.Location = new Point(420, 25); // Ajustá la posición según tu diseño
-            textBoxObservaciones.Size = new Size(350, 60);
-            textBoxObservaciones.ScrollBars = ScrollBars.Vertical;
-            textBoxObservaciones.Name = "textBoxObservaciones";
-            textBoxObservaciones.TabIndex = 9;
-            Controls.Add(textBoxObservaciones);
-
             // buttonCancelar
             // 
             buttonCancelar.BackColor = Color.LightGray;
             buttonCancelar.Font = new Font("Yu Gothic", 9F, FontStyle.Bold);
-            buttonCancelar.Location = new Point(340, 380);
+            buttonCancelar.Location = new Point(440, 380);
             buttonCancelar.Name = "buttonCancelar";
             buttonCancelar.Size = new Size(100, 32);
             buttonCancelar.TabIndex = 8;
@@ -155,11 +144,34 @@
             buttonAgregarItem.UseVisualStyleBackColor = false;
             buttonAgregarItem.Click += buttonAgregarItem_Click;
             // 
+            // textBoxObservaciones
+            // 
+            textBoxObservaciones.Font = new Font("Yu Gothic", 9.75F);
+            textBoxObservaciones.Location = new Point(391, 24);
+            textBoxObservaciones.Multiline = true;
+            textBoxObservaciones.Name = "textBoxObservaciones";
+            textBoxObservaciones.ScrollBars = ScrollBars.Vertical;
+            textBoxObservaciones.Size = new Size(325, 60);
+            textBoxObservaciones.TabIndex = 9;
+            // 
+            // buttonEliminarItem
+            // 
+            buttonEliminarItem.BackColor = Color.LightGray;
+            buttonEliminarItem.Font = new Font("Yu Gothic", 9F, FontStyle.Bold);
+            buttonEliminarItem.Location = new Point(157, 380);
+            buttonEliminarItem.Name = "buttonEliminarItem";
+            buttonEliminarItem.Size = new Size(120, 32);
+            buttonEliminarItem.TabIndex = 10;
+            buttonEliminarItem.Text = "Eliminar  Ítem";
+            buttonEliminarItem.UseVisualStyleBackColor = false;
+            // 
             // FormEditarPedido
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 440);
+            ClientSize = new Size(745, 440);
+            Controls.Add(buttonEliminarItem);
+            Controls.Add(textBoxObservaciones);
             Controls.Add(comboBoxClientes);
             Controls.Add(comboBoxEstado);
             Controls.Add(label1);
@@ -170,6 +182,7 @@
             Controls.Add(buttonGuardarCambios);
             Controls.Add(buttonCancelar);
             Name = "FormEditarPedido";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Editar Pedido";
             Load += FormEditarPedido_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridViewDetallePedido).EndInit();
@@ -180,5 +193,7 @@
 
 
         #endregion
+
+        private Button buttonEliminarItem;
     }
 }

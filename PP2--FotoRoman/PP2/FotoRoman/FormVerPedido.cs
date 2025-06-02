@@ -22,6 +22,7 @@ namespace FotoRoman
             InitializeComponent();
         }
 
+
         private void MostrarPedido(Pedido pedido)
         {
             try
@@ -32,35 +33,50 @@ namespace FotoRoman
                     return;
                 }
 
-                // Asignar datos al TextBox del ID de pedido
+                // Asignar datos
                 textBoxIdPedido.Text = pedido.IDPEDIDO.ToString();
                 textBoxEstado.Text = pedido.ESTADO;
 
-                // Asignar datos al ComboBox de clientes
-                comboBoxClientes.Text = pedido.oCliente.NOMBRE;
-
-                // Asignar datos a los TextBox individuales
-                textBoxDatosCliente.Text = pedido.oCliente.NOMBRE; // Apellido y Nombre
-                textBoxCorreo.Text = pedido.oCliente.CORREO ?? "Sin Correo"; // Correo
-                textBoxLocalidad.Text = pedido.oCliente.LOCALIDAD ?? "Sin Localidad"; // Localidad
-                textBoxProvincia.Text = pedido.oCliente.PROVINCIA ?? "Sin Provincia"; // Provincia
-
-                // Asignar datos al DataGridView de detalles del pedido
-                var detalles = CNPedido.ObtenerDetallesDelPedido(pedido.IDPEDIDO);
-                var detallesPlano = detalles.Select(detalle => new
+                // Estilo y comportamiento del botón Editar
+                if (pedido.ESTADO.Equals("Finalizado", StringComparison.OrdinalIgnoreCase))
                 {
-                    Producto = detalle.oProducto.Nombre, // Nombre del producto
+                    buttonEditar.Enabled = false;
+                    buttonEditar.BackColor = Color.LightGray;
+                    buttonEditar.Font = new System.Drawing.Font("Yu Gothic", 9.75F, System.Drawing.FontStyle.Bold);
+                    buttonEditar.FlatStyle = FlatStyle.Standard;
+                    labelPedidoFinalizado.Visible = true;
+                }
+                else
+                {
+                    buttonEditar.Enabled = true;
+                    buttonEditar.BackColor = Color.DarkSalmon;
+                    buttonEditar.Font = new System.Drawing.Font("Yu Gothic", 9.75F, System.Drawing.FontStyle.Bold);
+                    buttonEditar.FlatStyle = FlatStyle.Standard;
+                    labelPedidoFinalizado.Visible = false;
+                }
+
+                // Cliente y observaciones
+                comboBoxClientes.Text = pedido.oCliente.NOMBRE;
+                textBoxDatosCliente.Text = pedido.oCliente.NOMBRE;
+                textBoxCorreo.Text = pedido.oCliente.CORREO ?? "Sin Correo";
+                textBoxLocalidad.Text = pedido.oCliente.LOCALIDAD ?? "Sin Localidad";
+                textBoxProvincia.Text = pedido.oCliente.PROVINCIA ?? "Sin Provincia";
+
+                // Observaciones
+                label2.Text = "Observaciones del pedido:\n" +
+                    (string.IsNullOrWhiteSpace(pedido.OBSERVACIONES) ? "Sin observaciones Indicadas" : pedido.OBSERVACIONES);
+
+                // Detalles
+                var detalles = CNPedido.ObtenerDetallesDelPedido(pedido.IDPEDIDO);
+                dataGridViewDetallePedido.DataSource = detalles.Select(detalle => new
+                {
+                    Producto = detalle.oProducto.Nombre,
                     Cantidad = detalle.CANTIDAD,
                     PrecioUnitario = detalle.PRECIOUNITARIO,
                     Subtotal = detalle.SUBTOTAL
                 }).ToList();
 
-                dataGridViewDetallePedido.DataSource = detallesPlano;
-                label2.Text = "Observaciones del pedido:\n" +
-     (string.IsNullOrWhiteSpace(pedido.OBSERVACIONES) ? "Sin observaciones Indicadas" : pedido.OBSERVACIONES);
-
-
-                // Configuración de pagos
+                // Pagos
                 dataGridViewPagos.DataSource = CNPedido.ObtenerPagosDelPedido(pedido.IDPEDIDO);
                 dataGridViewPagos.AutoResizeColumns();
                 dataGridViewPagos.AutoResizeRows();
@@ -429,7 +445,7 @@ namespace FotoRoman
                 {
                     if (formEditar.ShowDialog() == DialogResult.OK)
                     {
-                        MessageBox.Show("Pedido editado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Este pedido ha sido Editado.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         MostrarPedido(CNPedido.BuscarPedidoPorId(idPedido)); // Actualizar visualización
                     }
                 }

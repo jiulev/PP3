@@ -110,6 +110,7 @@ namespace CapaDatos
                                 return new Pedido
                                 {
                                     IDPEDIDO = Convert.ToInt32(reader["IDPEDIDO"]),
+                                    IDCliente = Convert.ToInt32(reader["IDCLIENTE"]), // ✅ AGREGALO
                                     oCliente = new Cliente
                                     {
                                         IDCliente = Convert.ToInt32(reader["IDCLIENTE"]),
@@ -120,10 +121,10 @@ namespace CapaDatos
                                     },
                                     TOTAL = Convert.ToDecimal(reader["TOTAL"]),
                                     FECHAPEDIDO = reader["FECHAPEDIDO"] != DBNull.Value ? Convert.ToDateTime(reader["FECHAPEDIDO"]) : DateTime.MinValue,
-
                                     ESTADO = reader["ESTADO"]?.ToString() ?? string.Empty,
-                                    OBSERVACIONES = reader["OBSERVACIONES"]?.ToString() ?? string.Empty  // ✅ NUEVO
+                                    OBSERVACIONES = reader["OBSERVACIONES"]?.ToString() ?? string.Empty
                                 };
+
                             }
                         }
                     }

@@ -18,19 +18,31 @@ namespace FotoRoman
         private void FormEditarCobro_Load(object sender, EventArgs e)
         {
             CargarClientes();
-            dateTimePickerDesde.Value = DateTime.Now.AddMonths(-1);
             dateTimePickerHasta.Value = DateTime.Now;
 
-            // Definir columnas si no usás DataSource
+            // Validación de rol
+            if (UsuarioActual.Usuario.oRol.DESCRIPCION == "Vendedor")
+            {
+                dateTimePickerDesde.Enabled = false;
+                dateTimePickerDesde.Value = DateTime.Now.AddDays(-30); // solo últimos 30 días
+            }
+            else
+            {
+                dateTimePickerDesde.Enabled = true;
+                dateTimePickerDesde.Value = DateTime.Now.AddMonths(-1);
+            }
+
+            // Configuración columnas
             dataGridViewCobros.Columns.Clear();
             dataGridViewCobros.Columns.Add("IDPEDIDO", "ID Pedido");
             dataGridViewCobros.Columns.Add("FECHAPEDIDO", "Fecha");
             dataGridViewCobros.Columns.Add("ESTADO", "Estado");
             dataGridViewCobros.Columns.Add("TOTAL", "Total Pedido");
             dataGridViewCobros.Columns.Add("TOTALPAGADO", "Total Pagado");
-            // Configuración del combo para que permita buscar escribiendo
+
+            // Configurar combo
             comboClientes.DropDownStyle = ComboBoxStyle.DropDown;
-          comboClientes.AutoCompleteMode = AutoCompleteMode.Suggest;
+            comboClientes.AutoCompleteMode = AutoCompleteMode.Suggest;
             comboClientes.AutoCompleteSource = AutoCompleteSource.ListItems;
 
             comboClientes.TextUpdate += (s, e) =>
@@ -38,8 +50,8 @@ namespace FotoRoman
                 if (comboClientes.DroppedDown)
                     comboClientes.DroppedDown = false;
             };
-
         }
+
 
 
         private void CargarClientes()
@@ -81,30 +93,42 @@ namespace FotoRoman
                     if (pedido.FECHAPEDIDO.Date >= fechaDesde && pedido.FECHAPEDIDO.Date <= fechaHasta)
                     {
                         var pagosPedido = CNPago.ObtenerPagosDelPedido(pedido.IDPEDIDO);
-                        decimal totalPagado = 0;
-
-                        foreach (var p in pagosPedido)
-                        {
-                            totalPagado += p.MONTOPAGO;
-                        }
-
+                        decimal totalPagado = pagosPedido.Sum(p => p.MONTOPAGO);
                         pagos.Add((pedido, totalPagado));
                     }
                 }
 
                 dataGridViewCobros.Rows.Clear();
+
                 foreach (var item in pagos)
                 {
-                    dataGridViewCobros.Rows.Add(
+                    int rowIndex = dataGridViewCobros.Rows.Add(
                         item.pedido.IDPEDIDO,
                         item.pedido.FECHAPEDIDO.ToShortDateString(),
                         item.pedido.ESTADO,
                         item.pedido.TOTAL.ToString("0.00"),
                         item.totalPagado.ToString("0.00")
                     );
+
+                    DataGridViewRow row = dataGridViewCobros.Rows[rowIndex];
+                    string estado = item.pedido.ESTADO;
+
+                    if (estado == "Finalizado")
+                    {
+                        row.DefaultCellStyle.BackColor = Color.FromArgb(255, 160, 160); // Rojo claro
+                        row.DefaultCellStyle.ForeColor = Color.Black;
+                        row.DefaultCellStyle.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+                    }
+                    else if (estado == "En proceso")
+                    {
+                        row.DefaultCellStyle.BackColor = Color.FromArgb(144, 238, 144); // Verde claro
+                        row.DefaultCellStyle.ForeColor = Color.Black;
+                    }
+                    // "Pendiente" → sin formato: queda en blanco
                 }
             }
         }
+
         private void buttonCerrar_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -115,6 +139,27 @@ namespace FotoRoman
             if (dataGridViewCobros.SelectedRows.Count > 0)
             {
                 int idPedido = Convert.ToInt32(dataGridViewCobros.SelectedRows[0].Cells[0].Value);
+                string estado = dataGridViewCobros.SelectedRows[0].Cells["ESTADO"].Value.ToString();
+                DateTime fecha = Convert.ToDateTime(dataGridViewCobros.SelectedRows[0].Cells["FECHAPEDIDO"].Value);
+                string rolUsuario = UsuarioActual.Usuario.oRol.DESCRIPCION;
+
+                // Restricciones para vendedores
+                if (rolUsuario == "Vendedor")
+                {
+                    if (estado == "Finalizado")
+                    {
+                        MessageBox.Show("No tiene permiso para editar cobros de pedidos finalizados.", "Acceso denegado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    if (fecha < DateTime.Now.AddDays(-30))
+                    {
+                        MessageBox.Show("Solo puede editar cobros de los últimos 30 días.", "Acceso denegado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                }
+
+                // Si pasa las validaciones
                 FormEditarPagoSeleccionado formEditarPago = new FormEditarPagoSeleccionado(idPedido);
                 formEditarPago.ShowDialog();
             }
@@ -123,5 +168,6 @@ namespace FotoRoman
                 MessageBox.Show("Seleccione un pedido para editar el cobro.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+
     }
 }

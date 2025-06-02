@@ -61,6 +61,7 @@
             pictureBox1 = new PictureBox();
             label7 = new Label();
             toolStripContainer2 = new ToolStripContainer();
+            labelCantidadObligatoria = new Label();
             label5 = new Label();
             toolStripContainer3 = new ToolStripContainer();
             label6 = new Label();
@@ -68,6 +69,8 @@
             labelObservaciones = new Label();
             textBoxObservaciones = new TextBox();
             labelCaracteresRestantes = new Label();
+            label8 = new Label();
+            label9 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             toolStripContainer1.ContentPanel.SuspendLayout();
             toolStripContainer1.SuspendLayout();
@@ -82,7 +85,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold);
-            label1.Location = new Point(12, 187);
+            label1.Location = new Point(394, 129);
             label1.Name = "label1";
             label1.Size = new Size(122, 19);
             label1.TabIndex = 0;
@@ -101,7 +104,7 @@
             // 
             num.AutoSize = true;
             num.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            num.Location = new Point(137, 187);
+            num.Location = new Point(522, 127);
             num.Name = "num";
             num.Size = new Size(22, 21);
             num.TabIndex = 2;
@@ -252,12 +255,12 @@
             // precio4
             // 
             precio4.AutoSize = true;
-            precio4.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold);
-            precio4.Location = new Point(601, 81);
+            precio4.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            precio4.Location = new Point(588, 80);
             precio4.Name = "precio4";
-            precio4.Size = new Size(55, 19);
+            precio4.Size = new Size(68, 19);
             precio4.TabIndex = 18;
-            precio4.Text = "Precio";
+            precio4.Text = "Precio $";
             precio4.Click += precio4_Click;
             // 
             // buttonAgregar
@@ -378,7 +381,7 @@
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
             pictureBox1.Location = new Point(639, -1);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(131, 113);
+            pictureBox1.Size = new Size(131, 125);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 30;
             pictureBox1.TabStop = false;
@@ -400,6 +403,7 @@
             // toolStripContainer2.ContentPanel
             // 
             toolStripContainer2.ContentPanel.BorderStyle = BorderStyle.FixedSingle;
+            toolStripContainer2.ContentPanel.Controls.Add(labelCantidadObligatoria);
             toolStripContainer2.ContentPanel.Controls.Add(buttonAgregar);
             toolStripContainer2.ContentPanel.Controls.Add(textCantidad1);
             toolStripContainer2.ContentPanel.Controls.Add(comboProducto);
@@ -417,6 +421,18 @@
             toolStripContainer2.TabIndex = 27;
             toolStripContainer2.Text = "toolStripContainer2";
             toolStripContainer2.TopToolStripPanelVisible = false;
+            // 
+            // labelCantidadObligatoria
+            // 
+            labelCantidadObligatoria.AutoSize = true;
+            labelCantidadObligatoria.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            labelCantidadObligatoria.ForeColor = Color.Red;
+            labelCantidadObligatoria.Location = new Point(420, 150);
+            labelCantidadObligatoria.Name = "labelCantidadObligatoria";
+            labelCantidadObligatoria.Size = new Size(15, 19);
+            labelCantidadObligatoria.TabIndex = 100;
+            labelCantidadObligatoria.Text = "*";
+            labelCantidadObligatoria.Visible = false;
             // 
             // label5
             // 
@@ -478,9 +494,9 @@
             labelObservaciones.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
             labelObservaciones.Location = new Point(12, 568);
             labelObservaciones.Name = "labelObservaciones";
-            labelObservaciones.Size = new Size(107, 17);
+            labelObservaciones.Size = new Size(176, 17);
             labelObservaciones.TabIndex = 30;
-            labelObservaciones.Text = "Observaciones:";
+            labelObservaciones.Text = "Observaciones (opcional):";
             // 
             // textBoxObservaciones
             // 
@@ -502,6 +518,28 @@
             labelCaracteresRestantes.TabIndex = 0;
             labelCaracteresRestantes.Text = "100 caracteres.";
             // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Font = new Font("Yu Gothic Medium", 9.75F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            label8.ForeColor = Color.Navy;
+            label8.Location = new Point(660, 130);
+            label8.Name = "label8";
+            label8.Size = new Size(79, 17);
+            label8.TabIndex = 20;
+            label8.Text = "Pendiente";
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label9.ForeColor = Color.Navy;
+            label9.Location = new Point(598, 130);
+            label9.Name = "label9";
+            label9.Size = new Size(56, 17);
+            label9.TabIndex = 32;
+            label9.Text = "Estado:";
+            // 
             // FormCrearPedido
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -510,6 +548,8 @@
             AutoSize = true;
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
             ClientSize = new Size(830, 749);
+            Controls.Add(label9);
+            Controls.Add(label8);
             Controls.Add(labelCaracteresRestantes);
             Controls.Add(label5);
             Controls.Add(crear1);
@@ -567,6 +607,8 @@
         private Label dni4;
         private Label localidad5;
         private TextBox textCantidad1;
+        private Label labelCantidadObligatoria;
+
         private TextBox textPrecio1;
         private Label precio4;
         private Button buttonAgregar;
@@ -588,9 +630,7 @@
         private TextBox textBoxObservaciones;
         private Label labelCaracteresRestantes;
         private Label label4;
-
-
-
-
+        private Label label8;
+        private Label label9;
     }
 }

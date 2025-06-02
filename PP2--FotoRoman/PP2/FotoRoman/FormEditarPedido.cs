@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Microsoft.VisualBasic;
+using System.Windows.Forms.VisualStyles;
 
 
 namespace FotoRoman
@@ -16,6 +17,9 @@ namespace FotoRoman
         private Pedido pedidoActual;
         private readonly List<DetallePedido> detallesOriginalesOriginal;
         private int cantidadOriginalDeItems;
+        private bool estadoEditable = true;
+
+
 
         private List<DetallePedido> detallesOriginales;
 
@@ -23,37 +27,53 @@ namespace FotoRoman
         {
             InitializeComponent();
             pedidoActual = pedido;
-            detallesOriginales = new List<DetallePedido>(detalles); // Copia editable
-            detallesOriginalesOriginal = new List<DetallePedido>(detalles); // Copia original para comparación
-            cantidadOriginalDeItems = detalles.Count;
 
+            // Copia editable
+            detallesOriginales = new List<DetallePedido>(detalles);
+
+            // 🔁 Clon profundo para que los cambios no afecten la original
+            detallesOriginalesOriginal = detalles.Select(d => new DetallePedido
+            {
+                oProducto = new Producto
+                {
+                    IdProducto = d.oProducto.IdProducto,
+                    Nombre = d.oProducto.Nombre
+                },
+                CANTIDAD = d.CANTIDAD,
+                PRECIOUNITARIO = d.PRECIOUNITARIO,
+                SUBTOTAL = d.SUBTOTAL
+            }).ToList();
+
+            cantidadOriginalDeItems = detalles.Count;
         }
+
 
 
         private void FormEditarPedido_Load(object sender, EventArgs e)
         {
             textBoxObservaciones.Text = pedidoActual.OBSERVACIONES ?? string.Empty;
 
-            // Habilitar solo si el estado es Pendiente
+            // Habilitar edición solo si el estado es Pendiente
             textBoxObservaciones.ReadOnly = !pedidoActual.ESTADO.Equals("Pendiente", StringComparison.OrdinalIgnoreCase);
 
-
-
-
-            // Cargar datos del pedido (cliente, estado)
+            // Cargar datos (cliente, estado)
             CargarDatosPedido();
 
-            // Cargar detalles en el DataGridView
+            // Asociar eventos
+            comboBoxEstado.SelectedIndexChanged += comboBoxEstado_SelectedIndexChanged;
+            buttonEliminarItem.Click += buttonEliminarItem_Click;
+            dataGridViewDetallePedido.CellClick += dataGridViewDetallePedido_CellClick;
+
+            // Cargar detalles
             RefrescarDataGrid();
 
-            // Eliminar las columnas si ya existen para evitar duplicados
+            // Quitar columnas si ya estaban
             if (dataGridViewDetallePedido.Columns.Contains("Editar"))
                 dataGridViewDetallePedido.Columns.Remove("Editar");
-
             if (dataGridViewDetallePedido.Columns.Contains("Eliminar"))
                 dataGridViewDetallePedido.Columns.Remove("Eliminar");
 
-            // Agregar botones Editar y Eliminar (al final)
+            // Agregar columna Editar
             var btnEditar = new DataGridViewButtonColumn
             {
                 Name = "Editar",
@@ -65,18 +85,7 @@ namespace FotoRoman
             };
             dataGridViewDetallePedido.Columns.Add(btnEditar);
 
-            var btnEliminar = new DataGridViewButtonColumn
-            {
-                Name = "Eliminar",
-                HeaderText = "Eliminar",
-                Text = "🗑️",
-                UseColumnTextForButtonValue = true,
-                Width = 70,
-                DefaultCellStyle = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleCenter }
-            };
-            dataGridViewDetallePedido.Columns.Add(btnEliminar);
-
-            // 🎨 Estética general del DataGridView
+            // Aplicar estilo visual
             dataGridViewDetallePedido.DefaultCellStyle.Font = new Font("Yu Gothic", 10);
             dataGridViewDetallePedido.ColumnHeadersDefaultCellStyle.Font = new Font("Yu Gothic", 10, FontStyle.Bold);
             dataGridViewDetallePedido.ColumnHeadersDefaultCellStyle.BackColor = Color.LightGray;
@@ -85,24 +94,104 @@ namespace FotoRoman
             dataGridViewDetallePedido.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridViewDetallePedido.RowTemplate.Height = 28;
 
-            // Validar estado para habilitar o no agregar ítem
-            if (pedidoActual.ESTADO.Equals("En proceso", StringComparison.OrdinalIgnoreCase))
-            {
-                buttonAgregarItem.Enabled = false;
-            }
-
+            // Estado original del pedido (para bloquear si ya está Finalizado)
             if (pedidoActual.ESTADO.Equals("Finalizado", StringComparison.OrdinalIgnoreCase))
             {
-                MessageBox.Show("Este pedido está finalizado y no puede ser editado.", "Pedido finalizado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Este pedido está finalizado. Solo se permite visualizarlo. Si querés cambiar su estado, hacelo manualmente y luego presioná Guardar.", "Pedido finalizado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                 buttonAgregarItem.Enabled = false;
-                buttonGuardarCambios.Enabled = false;
+                buttonEliminarItem.Enabled = false;
+
                 dataGridViewDetallePedido.ReadOnly = true;
-                comboBoxEstado.Enabled = false;
+
+                // ❗ NO BLOQUEAMOS comboBoxEstado NI Guardar Cambios aquí
+                // Permitimos que se modifique el estado (ej. En proceso ➡ Finalizado) y se pueda guardar
             }
 
-            // Deshabilitar combo de cliente para que no se edite
+            else if (pedidoActual.ESTADO.Equals("En proceso", StringComparison.OrdinalIgnoreCase))
+            {
+                // Solo se podrá editar precio unitario
+                buttonAgregarItem.Enabled = false;
+                buttonEliminarItem.Enabled = false;
+
+                buttonAgregarItem.BackColor = Color.LightGray;
+                buttonEliminarItem.BackColor = Color.LightGray;
+
+                dataGridViewDetallePedido.ReadOnly = false;
+
+                MessageBox.Show("El pedido está en proceso. Solo se permite modificar el precio unitario.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                // Estado Pendiente
+                buttonAgregarItem.Enabled = true;
+                buttonEliminarItem.Enabled = true;
+
+                buttonAgregarItem.BackColor = SystemColors.Control;
+                buttonEliminarItem.BackColor = SystemColors.Control;
+
+                dataGridViewDetallePedido.ReadOnly = false;
+            }
+
+            // Combo cliente solo lectura
             comboBoxClientes.Enabled = false;
             comboBoxClientes.BackColor = SystemColors.Control;
+        }
+
+
+
+        private void AgregarColumnasDeAcciones()
+        {
+            // Eliminar si ya existen
+            if (dataGridViewDetallePedido.Columns.Contains("Editar"))
+                dataGridViewDetallePedido.Columns.Remove("Editar");
+            if (dataGridViewDetallePedido.Columns.Contains("Eliminar"))
+                dataGridViewDetallePedido.Columns.Remove("Eliminar");
+
+            // Botón Editar
+            var btnEditar = new DataGridViewButtonColumn
+            {
+                Name = "Editar",
+                HeaderText = "Editar",
+                Text = "✏️",
+                UseColumnTextForButtonValue = true,
+                Width = 60,
+                DefaultCellStyle = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleCenter }
+            };
+            dataGridViewDetallePedido.Columns.Add(btnEditar);   }
+        // Botón Eliminar
+        //var btnEliminar = new DataGridViewDisableButtonColumn
+        //{
+        //  Name = "Eliminar",
+        // HeaderText = "Eliminar",
+        // Text = "🗑️",
+        // UseColumnTextForButtonValue = true,
+        //  Width = 70,
+        // DefaultCellStyle = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleCenter }
+        // };
+        // dataGridViewDetallePedido.Columns.Add(btnEliminar);
+        //  }
+
+        public class DataGridViewDisableButtonColumn : DataGridViewButtonColumn
+        {
+            public override DataGridViewCell CellTemplate
+            {
+                get => base.CellTemplate;
+                set
+                {
+                    if (value != null &&
+                        !value.GetType().IsAssignableFrom(typeof(DataGridViewDisableButtonCell)))
+                    {
+                        throw new InvalidCastException("Debe ser una celda de tipo DataGridViewDisableButtonCell");
+                    }
+                    base.CellTemplate = value;
+                }
+            }
+
+            public DataGridViewDisableButtonColumn()
+            {
+                this.CellTemplate = new DataGridViewDisableButtonCell();
+            }
         }
 
 
@@ -118,79 +207,199 @@ namespace FotoRoman
                 Subtotal = d.SUBTOTAL
             }).ToList();
 
+            AgregarColumnasDeAcciones(); // 🔁 Reagrega los botones al final
+
             CalcularTotal();
         }
+        private void comboBoxEstado_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string nuevoEstado = comboBoxEstado.SelectedItem?.ToString() ?? "";
+
+            if (pedidoActual.ESTADO == "Finalizado")
+            {
+                // Si el pedido original ya era Finalizado, no se puede editar nada
+                buttonAgregarItem.Enabled = false;
+                buttonEliminarItem.Enabled = false;
+                buttonGuardarCambios.Enabled = false;
+                dataGridViewDetallePedido.ReadOnly = true;
+                MessageBox.Show("Este pedido está finalizado. No se puede modificar.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            // Si el usuario cambia el estado a Finalizado, no bloqueamos el Guardar
+            if (nuevoEstado == "Pendiente")
+            {
+                buttonAgregarItem.Enabled = true;
+                buttonEliminarItem.Enabled = true;
+                buttonGuardarCambios.Enabled = true;
+
+                buttonAgregarItem.BackColor = SystemColors.Control;
+                buttonEliminarItem.BackColor = SystemColors.Control;
+
+                dataGridViewDetallePedido.ReadOnly = false;
+            }
+            else if (nuevoEstado == "En proceso")
+            {
+                buttonAgregarItem.Enabled = false;
+                buttonEliminarItem.Enabled = false;
+                buttonGuardarCambios.Enabled = true;
+
+                buttonAgregarItem.BackColor = Color.LightGray;
+                buttonEliminarItem.BackColor = Color.LightGray;
+
+                dataGridViewDetallePedido.ReadOnly = false;
+
+                MessageBox.Show("El pedido está en proceso. Solo se permite modificar el precio unitario.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else if (nuevoEstado == "Finalizado")
+            {
+                buttonAgregarItem.Enabled = false;
+                buttonEliminarItem.Enabled = false;
+                buttonGuardarCambios.Enabled = true; // ✅ Te permite guardar el cambio de estado
+
+                buttonAgregarItem.BackColor = Color.LightGray;
+                buttonEliminarItem.BackColor = Color.LightGray;
+
+                dataGridViewDetallePedido.ReadOnly = true;
+
+                MessageBox.Show("Al finalizar el pedido, no se podrán realizar más modificaciones.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
 
 
         private void dataGridViewDetallePedido_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            // Tomar el estado actual seleccionado en el combo
+            if (e.RowIndex < 0)
+                return;
+
             string estadoActual = comboBoxEstado.SelectedItem?.ToString() ?? "";
 
-            if (estadoActual == "En proceso" || estadoActual == "Finalizado")
+            if (dataGridViewDetallePedido.Columns[e.ColumnIndex].Name == "Eliminar")
             {
-                MessageBox.Show("No se pueden eliminar o editar ítems en un pedido en proceso o finalizado.", "Acción no permitida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            // El resto sigue igual
-            if (e.RowIndex >= 0)
-            {
-                if (dataGridViewDetallePedido.Columns[e.ColumnIndex].Name == "Eliminar")
+                if (estadoActual == "Pendiente")
                 {
                     detallesOriginales.RemoveAt(e.RowIndex);
                     RefrescarDataGrid();
+                    comboBoxEstado.Enabled = false;
+                    estadoEditable = false;
+                    MessageBox.Show("Se eliminó un ítem. Ya no se puede cambiar el estado del pedido.", "Estado bloqueado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                else if (dataGridViewDetallePedido.Columns[e.ColumnIndex].Name == "Editar")
+                else
                 {
-                    var detalle = detallesOriginales[e.RowIndex];
+                    MessageBox.Show("No se pueden eliminar ítems en un pedido en proceso o finalizado.", "Acción no permitida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
 
-                    string inputCantidad = Interaction.InputBox("Editar cantidad:", "Cantidad", detalle.CANTIDAD.ToString());
-                    string inputPrecio = Interaction.InputBox("Editar precio unitario:", "Precio", detalle.PRECIOUNITARIO.ToString("F2"));
+            if (dataGridViewDetallePedido.Columns[e.ColumnIndex].Name == "Editar")
+            {
+                if (estadoActual == "Finalizado")
+                {
+                    MessageBox.Show("No se pueden editar ítems en un pedido finalizado.", "Acción no permitida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
-                    if (int.TryParse(inputCantidad, out int nuevaCantidad) &&
-                        decimal.TryParse(inputPrecio, out decimal nuevoPrecio))
+                var detalle = detallesOriginales[e.RowIndex];
+
+                DialogResult resultado = MessageBox.Show(
+                    "Usted podrá modificar únicamente el precio unitario de este producto.",
+                    "Modificar precio",
+                    MessageBoxButtons.OKCancel,
+                    MessageBoxIcon.Information
+                );
+
+                if (resultado == DialogResult.OK)
+                {
+                    string inputPrecio = Interaction.InputBox(
+                        "Ingrese el nuevo precio unitario:",
+                        "Editar Precio",
+                        detalle.PRECIOUNITARIO.ToString("F2")
+                    );
+
+                    if (decimal.TryParse(inputPrecio, out decimal nuevoPrecio))
                     {
-                        detalle.CANTIDAD = nuevaCantidad;
                         detalle.PRECIOUNITARIO = nuevoPrecio;
-                        detalle.SUBTOTAL = nuevaCantidad * nuevoPrecio;
-
+                        detalle.SUBTOTAL = detalle.CANTIDAD * nuevoPrecio;
                         RefrescarDataGrid();
+                    }
+                    else
+                    {
+                        MessageBox.Show("El precio ingresado no es válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
+
+            // Habilitar botón eliminar si está en pendiente y se seleccionó una fila
+            buttonEliminarItem.Enabled = (estadoActual == "Pendiente") && dataGridViewDetallePedido.Rows[e.RowIndex].Selected;
         }
 
 
 
-        private void CargarDatosPedido()
+        private void buttonEliminarItem_Click(object sender, EventArgs e)
         {
-            var clientes = CNPedido.ListarTodosLosClientes();
-
-            comboBoxClientes.Enabled = false;
-            comboBoxClientes.BackColor = SystemColors.Control;
-
-            comboBoxClientes.DataSource = null; // importante para resetear
-            comboBoxClientes.DisplayMember = "NOMBRE";
-            comboBoxClientes.ValueMember = "IDCliente";
-            comboBoxClientes.DataSource = clientes;
-
-            // Buscar el índice del cliente y setearlo
-            int index = clientes.FindIndex(c => c.IDCliente == pedidoActual.IDCliente);
-
-            // Solo seteamos si lo encuentra, sin mostrar cartel
-            if (index >= 0)
+            if (dataGridViewDetallePedido.SelectedRows.Count == 0)
             {
-                comboBoxClientes.SelectedIndex = index;
+                MessageBox.Show("Seleccioná una fila para eliminar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
 
+            var filaSeleccionada = dataGridViewDetallePedido.SelectedRows[0];
+            int index = filaSeleccionada.Index;
 
-            // Estado
-            comboBoxEstado.Items.Clear();
-            comboBoxEstado.Items.AddRange(new string[] { "Pendiente", "En proceso", "Finalizado" });
-            comboBoxEstado.SelectedItem = pedidoActual.ESTADO;
+            if (index >= 0 && index < detallesOriginales.Count)
+            {
+                detallesOriginales.RemoveAt(index);
+                RefrescarDataGrid();
 
-            CalcularTotal();
+                comboBoxEstado.Enabled = false;
+                estadoEditable = false;
+
+                MessageBox.Show("Se eliminó un ítem. Ya no se puede cambiar el estado del pedido.", "Estado bloqueado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void CargarDatosPedido()
+        {
+            try
+            {
+                var clientes = CNPedido.ListarTodosLosClientes();
+
+                // Si el cliente del pedido no está en la lista, agregarlo
+                if (!clientes.Any(c => c.IDCliente == pedidoActual.IDCliente))
+                {
+                    clientes.Add(pedidoActual.oCliente);
+                }
+
+
+                comboBoxClientes.DataSource = null;
+                comboBoxClientes.DisplayMember = "NOMBRE";
+                comboBoxClientes.ValueMember = "IDCliente";
+                comboBoxClientes.DataSource = clientes;
+               
+
+
+                // ✅ Buscar cliente por ID y setear SelectedIndex
+                int index = clientes.FindIndex(c => c.IDCliente == pedidoActual.IDCliente);
+                if (index >= 0)
+                {
+                    comboBoxClientes.SelectedIndex = index;
+                }
+                else
+                {
+                    MessageBox.Show("Cliente del pedido no encontrado en la lista actual.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+
+                // Estado del pedido
+                comboBoxEstado.Items.Clear();
+                comboBoxEstado.Items.AddRange(new string[] { "Pendiente", "En proceso", "Finalizado" });
+                comboBoxEstado.SelectedItem = pedidoActual.ESTADO;
+
+                CalcularTotal();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar datos del pedido: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
 
@@ -214,6 +423,8 @@ namespace FotoRoman
         {
             try
             {
+                string observacionesOriginales = pedidoActual.OBSERVACIONES ?? "";
+
                 if (!textBoxObservaciones.ReadOnly)
                     pedidoActual.OBSERVACIONES = textBoxObservaciones.Text;
 
@@ -223,19 +434,15 @@ namespace FotoRoman
                     return;
                 }
 
-                if (comboBoxClientes.SelectedIndex != -1 && comboBoxClientes.SelectedItem is Cliente clienteSeleccionado)
+                if (comboBoxClientes.SelectedItem is Cliente clienteSeleccionado)
                 {
                     pedidoActual.IDCliente = clienteSeleccionado.IDCliente;
                 }
-                else
-                {
-                    // Si no se seleccionó un cliente distinto, conservar el cliente original
-                    // No hacer nada, se mantiene pedidoActual.IDCliente
-                }
-                string estadoAnterior = pedidoActual.ESTADO;
-                string estadoNuevo = comboBoxEstado.SelectedItem.ToString();
 
-                // Validación: no se puede cambiar a "En proceso" si se agregaron o eliminaron ítems
+                string estadoAnterior = pedidoActual.ESTADO;
+                string estadoNuevo = comboBoxEstado.SelectedItem?.ToString() ?? "";
+
+                // Validación: no se puede pasar de Pendiente a En proceso si se agregaron/eliminaron ítems
                 if (estadoAnterior == "Pendiente" && estadoNuevo == "En proceso")
                 {
                     if (detallesOriginales.Count != cantidadOriginalDeItems)
@@ -245,29 +452,39 @@ namespace FotoRoman
                     }
                 }
 
-
-
-
-
                 if (comboBoxEstado.SelectedItem == null)
                 {
                     MessageBox.Show("Debe seleccionar un estado.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
+
                 // Validar que solo se puede pasar a Finalizado si antes estaba En proceso
-                if (comboBoxEstado.SelectedItem.ToString() == "Finalizado" &&
-                    pedidoActual.ESTADO != "En proceso")
+                if (estadoNuevo == "Finalizado" && estadoAnterior != "En proceso")
                 {
                     MessageBox.Show("Solo se puede finalizar un pedido que está en proceso.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                pedidoActual.ESTADO = comboBoxEstado.SelectedItem.ToString();
+                if (!estadoEditable && estadoNuevo != estadoAnterior)
+                {
+                    MessageBox.Show("No se puede cambiar el estado del pedido porque se modificaron los ítems.", "Cambio de estado no permitido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Verificar que haya al menos un ítem
+                if (dataGridViewDetallePedido.Rows.Count == 0 ||
+                    dataGridViewDetallePedido.Rows.Cast<DataGridViewRow>().All(r => r.IsNewRow))
+                {
+                    MessageBox.Show("El pedido debe tener al menos un ítem para poder guardarlo.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Actualizar datos del pedido
+                pedidoActual.ESTADO = estadoNuevo;
                 pedidoActual.FECHAPEDIDO = DateTime.Now;
                 pedidoActual.TOTAL = CalcularTotal();
 
                 List<DetallePedido> nuevosDetalles = new List<DetallePedido>();
-
                 foreach (DataGridViewRow fila in dataGridViewDetallePedido.Rows)
                 {
                     if (fila.IsNewRow) continue;
@@ -283,14 +500,44 @@ namespace FotoRoman
                         PRECIOUNITARIO = Convert.ToDecimal(fila.Cells["PrecioUnitario"].Value)
                     };
                     detalle.SUBTOTAL = detalle.CANTIDAD * detalle.PRECIOUNITARIO;
-
                     nuevosDetalles.Add(detalle);
                 }
-                MessageBox.Show($"IDPedido: {pedidoActual.IDPEDIDO}\nCliente: {pedidoActual.IDCliente}\nEstado: {pedidoActual.ESTADO}\nTotal: {pedidoActual.TOTAL}");
 
-                pedidoActual.IDUsuario = 3; // 👈 setear el ID del usuario que está editando
+                // Detectar si hubo cambios reales
+                bool sinCambios = estadoAnterior == estadoNuevo &&
+                     observacionesOriginales == (textBoxObservaciones.Text ?? "") &&
+                     detallesOriginales.Count == detallesOriginalesOriginal.Count;
 
+                if (sinCambios)
+                {
+                    for (int i = 0; i < detallesOriginales.Count; i++)
+                    {
+                        var nuevo = detallesOriginales[i];
+                        var original = detallesOriginalesOriginal[i];
 
+                        if (nuevo.oProducto.IdProducto != original.oProducto.IdProducto ||
+                            nuevo.CANTIDAD != original.CANTIDAD ||
+                            nuevo.PRECIOUNITARIO != original.PRECIOUNITARIO)
+                        {
+                            sinCambios = false;
+                            break;
+                        }
+                    }
+                }
+
+                // ✅ Permitir guardar si el estado fue modificado
+                if (estadoAnterior != estadoNuevo)
+                {
+                    sinCambios = false;
+                }
+
+                if (sinCambios)
+                {
+                    MessageBox.Show("No se detectaron cambios para guardar.", "Sin cambios", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                pedidoActual.IDUsuario = 3; // ⚠️ Ajustar según el usuario logueado
 
                 if (CNPedido.ActualizarPedido(pedidoActual, nuevosDetalles, out string mensaje))
                 {
@@ -319,22 +566,47 @@ namespace FotoRoman
                 if (formAgregar.ShowDialog() == DialogResult.OK)
                 {
                     var nuevoDetalle = formAgregar.DetalleAgregado;
-
-                    // Agregar directamente a la lista original
                     detallesOriginales.Add(nuevoDetalle);
 
-                    // Refrescar el DataGridView con todos los detalles actuales
-                    dataGridViewDetallePedido.DataSource = null;
-                    dataGridViewDetallePedido.DataSource = detallesOriginales.Select(d => new
-                    {
-                        IdProducto = d.oProducto.IdProducto,
-                        Producto = d.oProducto.Nombre,
-                        Cantidad = d.CANTIDAD,
-                        PrecioUnitario = d.PRECIOUNITARIO,
-                        Subtotal = d.SUBTOTAL
-                    }).ToList();
+                    RefrescarDataGrid();
 
-                    CalcularTotal();
+                    // Deshabilitar cambio de estado
+                    comboBoxEstado.Enabled = false;
+                    estadoEditable = false;
+                    MessageBox.Show("Se agregó un ítem. Ya no se puede cambiar el estado del pedido.", "Estado bloqueado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+
+        public class DataGridViewDisableButtonCell : DataGridViewButtonCell
+        {
+            public bool Enabled { get; set; } = true;
+
+            public override object Clone()
+            {
+                var cell = (DataGridViewDisableButtonCell)base.Clone();
+                cell.Enabled = this.Enabled;
+                return cell;
+            }
+
+            protected override void Paint(Graphics graphics,
+                Rectangle clipBounds, Rectangle cellBounds, int rowIndex,
+                DataGridViewElementStates cellState, object value,
+                object formattedValue, string errorText,
+                DataGridViewCellStyle cellStyle,
+                DataGridViewAdvancedBorderStyle advancedBorderStyle,
+                DataGridViewPaintParts paintParts)
+            {
+                if (!this.Enabled)
+                {
+                    ButtonRenderer.DrawButton(graphics, cellBounds, PushButtonState.Disabled);
+                    TextRenderer.DrawText(graphics, formattedValue?.ToString(), cellStyle.Font, cellBounds, Color.Gray);
+                }
+                else
+                {
+                    base.Paint(graphics, clipBounds, cellBounds, rowIndex,
+                        cellState, value, formattedValue, errorText,
+                        cellStyle, advancedBorderStyle, paintParts);
                 }
             }
         }

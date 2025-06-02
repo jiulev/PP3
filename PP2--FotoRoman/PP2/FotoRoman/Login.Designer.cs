@@ -79,18 +79,20 @@
             // 
             // txtdocumento
             // 
+            txtdocumento.Font = new Font("Segoe UI", 9.75F, FontStyle.Italic, GraphicsUnit.Point, 0);
             txtdocumento.Location = new Point(370, 77);
             txtdocumento.Name = "txtdocumento";
-            txtdocumento.Size = new Size(235, 23);
+            txtdocumento.Size = new Size(235, 25);
             txtdocumento.TabIndex = 3;
             txtdocumento.TextChanged += textBox1_TextChanged;
             // 
             // txtclave
             // 
+            txtclave.Font = new Font("Segoe UI", 9.75F, FontStyle.Italic, GraphicsUnit.Point, 0);
             txtclave.Location = new Point(370, 144);
             txtclave.Name = "txtclave";
             txtclave.PasswordChar = '*';
-            txtclave.Size = new Size(235, 23);
+            txtclave.Size = new Size(235, 25);
             txtclave.TabIndex = 4;
             // 
             // label3

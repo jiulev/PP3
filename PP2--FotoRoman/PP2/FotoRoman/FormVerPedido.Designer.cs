@@ -44,6 +44,7 @@ namespace FotoRoman
             flowLayoutPanel1 = new FlowLayoutPanel();
             label1 = new Label();
             buttonEditar = new Button();
+            labelPedidoFinalizado = new Label();
             groupBoxCliente.SuspendLayout();
             groupBoxDetallePedido.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewDetallePedido).BeginInit();
@@ -152,10 +153,10 @@ namespace FotoRoman
             // label2
             // 
             label2.AutoSize = true;
-            label2.BackColor = Color.FromArgb(220, 200, 210);
+            label2.BackColor = Color.FromArgb(192, 255, 255);
             label2.BorderStyle = BorderStyle.FixedSingle;
             label2.Font = new Font("Yu Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.ForeColor = Color.DarkRed;
+            label2.ForeColor = Color.MidnightBlue;
             label2.Location = new Point(506, 29);
             label2.MaximumSize = new Size(300, 0);
             label2.Name = "label2";
@@ -208,7 +209,7 @@ namespace FotoRoman
             // 
             groupBoxDetallePedido.Controls.Add(dataGridViewDetallePedido);
             groupBoxDetallePedido.Font = new Font("Yu Gothic", 9F, FontStyle.Bold);
-            groupBoxDetallePedido.ForeColor = Color.Brown;
+            groupBoxDetallePedido.ForeColor = SystemColors.ActiveCaptionText;
             groupBoxDetallePedido.Location = new Point(20, 270);
             groupBoxDetallePedido.Name = "groupBoxDetallePedido";
             groupBoxDetallePedido.Size = new Size(830, 150);
@@ -231,7 +232,7 @@ namespace FotoRoman
             // 
             groupBoxPagos.Controls.Add(dataGridViewPagos);
             groupBoxPagos.Font = new Font("Yu Gothic", 9F, FontStyle.Bold);
-            groupBoxPagos.ForeColor = Color.Brown;
+            groupBoxPagos.ForeColor = Color.Black;
             groupBoxPagos.Location = new Point(20, 440);
             groupBoxPagos.Name = "groupBoxPagos";
             groupBoxPagos.Size = new Size(830, 165);
@@ -287,9 +288,20 @@ namespace FotoRoman
             buttonEditar.UseVisualStyleBackColor = false;
             buttonEditar.Click += buttonEditar_Click;
             // 
+            // labelPedidoFinalizado
+            // 
+            labelPedidoFinalizado.AutoSize = true;
+            labelPedidoFinalizado.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelPedidoFinalizado.Location = new Point(259, 632);
+            labelPedidoFinalizado.Name = "labelPedidoFinalizado";
+            labelPedidoFinalizado.Size = new Size(231, 17);
+            labelPedidoFinalizado.TabIndex = 14;
+            labelPedidoFinalizado.Text = "⚠️ Este pedido No se permite editar";
+            // 
             // FormVerPedido
             // 
             ClientSize = new Size(900, 670);
+            Controls.Add(labelPedidoFinalizado);
             Controls.Add(buttonEditar);
             Controls.Add(label1);
             Controls.Add(flowLayoutPanel1);
@@ -328,5 +340,6 @@ namespace FotoRoman
 
         private Button buttonEditar;
         private Label label2;
+        private Label labelPedidoFinalizado;
     }
 }

@@ -43,6 +43,9 @@ namespace FotoRoman
                 comboCliente.AutoCompleteMode = AutoCompleteMode.None;
                 comboCliente.TextChanged += comboCliente_TextChanged;
                 comboCliente.DropDown += comboCliente_DropDown;
+                textCantidad1.TextChanged += textCantidad1_TextChanged;
+                textCantidad1.MaxLength = 4;
+
 
                 formularioCargado = true;
 
@@ -63,6 +66,11 @@ namespace FotoRoman
                 MessageBox.Show($"Error al cargar el formulario: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        private void textCantidad1_TextChanged(object sender, EventArgs e)
+        {
+            labelCantidadObligatoria.Visible = string.IsNullOrWhiteSpace(textCantidad1.Text);
+        }
+
         private void comboCliente_TextChanged(object sender, EventArgs e)
         {
             if (!formularioCargado) return;
@@ -93,7 +101,9 @@ namespace FotoRoman
                 if (!string.IsNullOrWhiteSpace(texto) && resultados.Count > 0)
                 {
                     comboCliente.DroppedDown = true;
-                    comboCliente.DropDownHeight = comboCliente.ItemHeight * Math.Min(resultados.Count, 10);
+                    int itemHeight = Math.Max(comboCliente.ItemHeight, 16);
+                    comboCliente.DropDownHeight = itemHeight * Math.Min(resultados.Count, 10);
+
                 }
                 else
                 {
@@ -120,17 +130,29 @@ namespace FotoRoman
 
         private void comboCliente_DropDown(object sender, EventArgs e)
         {
-            if (!formularioCargado) return;
+            if (!formularioCargado)
+                return;
 
-            if (string.IsNullOrWhiteSpace(comboCliente.Text))
+            try
             {
-                comboCliente.BeginUpdate();
-                comboCliente.Items.Clear();
-                comboCliente.Items.AddRange(nombresClientes.ToArray());
-                comboCliente.DropDownHeight = comboCliente.ItemHeight * Math.Min(nombresClientes.Count, 10);
-                comboCliente.EndUpdate();
+                if (string.IsNullOrWhiteSpace(comboCliente.Text))
+                {
+                    comboCliente.BeginUpdate();
+                    comboCliente.Items.Clear();
+                    comboCliente.Items.AddRange(nombresClientes.ToArray());
+
+                    int itemHeight = Math.Max(comboCliente.ItemHeight, 16); // ✅ Altura segura
+                    comboCliente.DropDownHeight = itemHeight * Math.Min(nombresClientes.Count, 10);
+
+                    comboCliente.EndUpdate();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al mostrar el ComboBox: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
 
         private void ConfigurarDataGridView()
@@ -212,13 +234,20 @@ namespace FotoRoman
                     MessageBox.Show("El precio debe ser un número válido mayor a cero.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-
                 // Validar cantidad: debe ser entero y mayor a cero
-                if (!int.TryParse(textCantidad1.Text.Trim(), out int cantidad) || cantidad <= 0)
+                if (!int.TryParse(textCantidad1.Text.Trim(), out int cantidad) || cantidad <= 0 || cantidad > 9999)
                 {
-                    MessageBox.Show("Ingrese una cantidad válida. Debe ser un número entero positivo.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    labelCantidadObligatoria.Visible = true; // ✅ muestra el asterisco
+                    MessageBox.Show("Ingrese una cantidad válida entre 1 y 9999.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
+                else
+                {
+                    labelCantidadObligatoria.Visible = false; // ✅ lo oculta si está todo bien
+                }
+
+
+
 
                 // Obtener nombre del producto
                 string productoNombre = comboProducto.SelectedItem is Producto producto ? producto.Nombre : "Sin nombre";
@@ -243,7 +272,8 @@ namespace FotoRoman
                 };
 
                 detallesPedido.Add(detalle);
-                dataGridView1.Rows.Add(productoNombre, precio, subtotal);
+                dataGridView1.Rows.Add(productoNombre, $"${precio:F2}", $"${subtotal:F2}");
+
                 CalcularTotal();
                 ActualizarAlturaDataGridView();
 
@@ -707,6 +737,11 @@ namespace FotoRoman
                     var productoSeleccionado = (Producto)comboProducto.SelectedItem;
                     textPrecio1.Text = productoSeleccionado.Precio.ToString("F2");
                 }
+                if (string.IsNullOrWhiteSpace(textCantidad1.Text))
+                {
+                    labelCantidadObligatoria.Visible = true;
+                }
+
             }
             catch (Exception ex)
             {
