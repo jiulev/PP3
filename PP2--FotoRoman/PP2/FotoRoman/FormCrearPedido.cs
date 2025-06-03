@@ -4,6 +4,9 @@ using System.Linq;
 using System.Windows.Forms;
 using CapaEntidad;
 using CapaNegocio;
+using System.Net;
+using System.Net.Mail;
+
 
 namespace FotoRoman
 {
@@ -381,6 +384,15 @@ namespace FotoRoman
                 if (resultado)
                 {
                     idPedidoGenerado = CNPedido.ObtenerUltimoIdPedido();
+
+                    // 📧 Enviar mail de confirmación
+                    var cliente = listaClientes[comboCliente.SelectedIndex];
+                    string mailCliente = cliente.CORREO?.Trim();
+                    if (!string.IsNullOrWhiteSpace(mailCliente))
+                    {
+                        EnviarCorreoConfirmacion(mailCliente, cliente.NOMBRE, idPedidoGenerado, totalPedido);
+                    }
+
                     var respuesta = MessageBox.Show("Pedido creado exitosamente. ¿Desea registrar el Cobro?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                     if (respuesta == DialogResult.Yes)
@@ -788,7 +800,82 @@ namespace FotoRoman
         {
 
         }
+        private void EnviarCorreoConfirmacion(string destinatario, string nombreCliente, int numeroPedido, decimal total)
+        {
+            Cursor.Current = Cursors.WaitCursor;
 
+            Task.Run(() =>
+            {
+                try
+                {
+                    string remitente = "julieta.sofya@gmail.com";
+                    string contraseña = "zyvvaoulzogouqvz"; // contraseña de aplicación
+                    string asunto = "Confirmación de Pedido";
+
+                    string cuerpo = $@"
+<html>
+  <body style='font-family: Arial, sans-serif;'>
+    <p>Hola <b>{nombreCliente}</b>,</p>
+
+    <p>Gracias por tu compra. Tu pedido <b>N°{numeroPedido}</b> fue registrado con éxito.</p>
+    <p><b>Total:</b> ${total:F2}</p>
+
+    <p>Podés ver nuestro catálogo actualizado acá:</p>
+    <div style='margin: 20px 0; text-align: center;'>
+      <a href='https://drive.google.com/file/d/1byxwC-NIFFzwpb5msqYQxXF-yK-p7rtc/view?usp=sharing'
+         style='background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;'>
+         Ver Catálogo
+      </a>
+    </div>
+
+    <p>Si tenés dudas o querés hacer otro pedido, escribinos directamente por WhatsApp:</p>
+    <div style='text-align: center; margin-top: 10px;'>
+      <a href='https://wa.me/5493535639877' style='color: green; font-weight: bold; font-size: 16px;'>📱 Enviar mensaje por WhatsApp</a>
+    </div>
+
+  <div style='text-align: center; margin-top: 40px;'>
+    <p style='color: #666; font-size: 14px; margin-bottom: 10px;'>Equipo de <b>FotoRomán</b></p>
+    <img src='https://drive.google.com/uc?export=view&id=1nZj4konsPIwlsVYXjmdkhkuC5ALaxVdU'
+         alt='Logo FotoRomán'
+         height='130'
+         style='display: block; margin: 0 auto;' />
+</div>
+
+  </body>
+</html>";
+
+                    MailMessage mensaje = new MailMessage(remitente, destinatario, asunto, cuerpo);
+                    mensaje.IsBodyHtml = true;
+
+                    SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587)
+                    {
+                        Credentials = new NetworkCredential(remitente, contraseña),
+                        EnableSsl = true
+                    };
+
+                    smtp.Send(mensaje);
+
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        MessageBox.Show($"📧 Mail enviado correctamente a {destinatario}", "Confirmación de correo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    });
+                }
+                catch (Exception ex)
+                {
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        MessageBox.Show("❌ Error al enviar correo:\n\n" + ex.Message, "Correo no enviado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    });
+                }
+                finally
+                {
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        Cursor.Current = Cursors.Default;
+                    });
+                }
+            });
+        }
 
 
 

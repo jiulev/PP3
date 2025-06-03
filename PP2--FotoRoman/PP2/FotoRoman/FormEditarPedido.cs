@@ -158,7 +158,8 @@ namespace FotoRoman
                 Width = 60,
                 DefaultCellStyle = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleCenter }
             };
-            dataGridViewDetallePedido.Columns.Add(btnEditar);   }
+            dataGridViewDetallePedido.Columns.Add(btnEditar);
+        }
         // Botón Eliminar
         //var btnEliminar = new DataGridViewDisableButtonColumn
         //{
@@ -266,32 +267,16 @@ namespace FotoRoman
             }
         }
 
-
-
         private void dataGridViewDetallePedido_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0)
+            if (e.RowIndex < 0 || e.ColumnIndex < 0 || e.ColumnIndex >= dataGridViewDetallePedido.Columns.Count)
                 return;
 
             string estadoActual = comboBoxEstado.SelectedItem?.ToString() ?? "";
 
-            if (dataGridViewDetallePedido.Columns[e.ColumnIndex].Name == "Eliminar")
-            {
-                if (estadoActual == "Pendiente")
-                {
-                    detallesOriginales.RemoveAt(e.RowIndex);
-                    RefrescarDataGrid();
-                    comboBoxEstado.Enabled = false;
-                    estadoEditable = false;
-                    MessageBox.Show("Se eliminó un ítem. Ya no se puede cambiar el estado del pedido.", "Estado bloqueado", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    MessageBox.Show("No se pueden eliminar ítems en un pedido en proceso o finalizado.", "Acción no permitida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-            }
+            string nombreColumna = dataGridViewDetallePedido.Columns[e.ColumnIndex].Name;
 
-            if (dataGridViewDetallePedido.Columns[e.ColumnIndex].Name == "Editar")
+            if (nombreColumna == "Editar")
             {
                 if (estadoActual == "Finalizado")
                 {
@@ -375,7 +360,7 @@ namespace FotoRoman
                 comboBoxClientes.DisplayMember = "NOMBRE";
                 comboBoxClientes.ValueMember = "IDCliente";
                 comboBoxClientes.DataSource = clientes;
-               
+
 
 
                 // ✅ Buscar cliente por ID y setear SelectedIndex
@@ -618,5 +603,62 @@ namespace FotoRoman
         {
             this.Close();
         }
+
+        private void buttonEliminarPedido_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // 1. Validar estado
+                if (!pedidoActual.ESTADO.Equals("Pendiente", StringComparison.OrdinalIgnoreCase))
+                {
+                    MessageBox.Show("Solo se pueden eliminar pedidos en estado 'Pendiente'.", "Acción no permitida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // 2. Validar que no tenga cobros asociados
+                bool tieneCobros = CNPago.TieneCobros(pedidoActual.IDPEDIDO);
+
+                if (tieneCobros)
+                {
+                    MessageBox.Show("No se puede eliminar el pedido porque tiene cobros registrados.", "Acción no permitida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // 3. Verificar si es administrador o el vendedor que lo creó
+                var usuario = UsuarioActual.Usuario;
+                bool esAdmin = usuario.oRol.IDROL == 1;
+                bool esMismoVendedor = usuario.IDUSUARIO == pedidoActual.IDUsuario;
+
+                if (!esAdmin && !esMismoVendedor)
+                {
+                    MessageBox.Show("Solo el administrador o el vendedor que generó el pedido pueden eliminarlo.", "Acción no permitida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // 4. Confirmar
+                DialogResult respuesta = MessageBox.Show("¿Estás seguro de que querés eliminar este pedido definitivamente?", "Confirmar eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (respuesta != DialogResult.Yes)
+                    return;
+
+                // 5. Eliminar
+                bool eliminado = CNPedido.EliminarPedido(pedidoActual.IDPEDIDO, out string mensaje);
+                if (eliminado)
+                {
+                    MessageBox.Show(mensaje, "Pedido eliminado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.DialogResult = DialogResult.Abort;
+
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show(mensaje, "Error al eliminar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error inesperado: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
     }
 }

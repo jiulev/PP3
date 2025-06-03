@@ -30,6 +30,10 @@ namespace CapaNegocio
                 return false;
             }
         }
+        public static bool TieneCobrosAsociados(int idPedido)
+        {
+            return CD_Pago.TieneCobros(idPedido);
+        }
 
         // CapaNegocio ▸ CNPago.cs
         public static bool EditarPago(Pago pagoEditado,
@@ -74,6 +78,12 @@ namespace CapaNegocio
         {
             return CD_Pago.ObtenerPedidosPorCliente(idCliente); // Lo hacemos ahora en la capa de datos
         }
+
+        public static bool TieneCobros(int idPedido)
+        {
+            return CD_Pago.TieneCobros(idPedido);
+        }
+
 
     }
 }

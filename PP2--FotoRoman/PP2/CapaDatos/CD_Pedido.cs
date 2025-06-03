@@ -83,6 +83,7 @@ namespace CapaDatos
                 }
             }
         }
+        
 
         // Método para buscar un pedido por ID
         public static Pedido? BuscarPedidoPorId(int idPedido)
@@ -666,6 +667,50 @@ namespace CapaDatos
         }
 
 
+        public static bool EliminarPedido(int idPedido, out string mensaje)
+        {
+            mensaje = "";
+            try
+            {
+                using (SqlConnection conexion = new SqlConnection(Conexion.ObtenerCadenaConexion()))
+                {
+                    conexion.Open();
+                    SqlTransaction transaccion = conexion.BeginTransaction();
+
+                    try
+                    {
+                        // Primero eliminamos los detalles
+                        using (SqlCommand cmdDetalles = new SqlCommand("DELETE FROM DETALLE_PEDIDO WHERE IDPEDIDO = @idPedido", conexion, transaccion))
+                        {
+                            cmdDetalles.Parameters.AddWithValue("@idPedido", idPedido);
+                            cmdDetalles.ExecuteNonQuery();
+                        }
+
+                        // Luego eliminamos el pedido
+                        using (SqlCommand cmdPedido = new SqlCommand("DELETE FROM PEDIDO WHERE IDPEDIDO = @idPedido", conexion, transaccion))
+                        {
+                            cmdPedido.Parameters.AddWithValue("@idPedido", idPedido);
+                            cmdPedido.ExecuteNonQuery();
+                        }
+
+                        transaccion.Commit();
+                        mensaje = "Pedido eliminado correctamente.";
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        transaccion.Rollback();
+                        mensaje = "Error al eliminar el pedido: " + ex.Message;
+                        return false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                mensaje = "Error general: " + ex.Message;
+                return false;
+            }
+        }
 
 
 

@@ -25,10 +25,14 @@ namespace FotoRoman
                 EMAIL = u.EMAIL,
                 PASSWORD = u.PASSWORD,
                 ROL = string.IsNullOrEmpty(u.oRol.DESCRIPCION) ? "Sin Rol" : u.oRol.DESCRIPCION,
-                FECHACREACION = u.FECHACREACION
+                ALTA = u.FECHACREACION
             }).ToList();
 
             dataGridViewUsuarios.DataSource = usuarios;
+            dataGridViewUsuarios.DefaultCellStyle.Font = new Font("Yu Gothic", 10);
+            dataGridViewUsuarios.ColumnHeadersDefaultCellStyle.Font = new Font("Yu Gothic", 10, FontStyle.Bold);
+
+
         }
 
         // Método para el botón Editar
@@ -88,12 +92,14 @@ namespace FotoRoman
                     EMAIL = u.EMAIL,
                     PASSWORD = u.PASSWORD,
                     ROL = string.IsNullOrEmpty(u.oRol.DESCRIPCION) ? "Sin Rol" : u.oRol.DESCRIPCION,
-                    FECHACREACION = u.FECHACREACION
+                    ALTA = u.FECHACREACION
                 })
                 .ToList();
 
             // Asignar los datos filtrados al DataGridView
             dataGridViewUsuarios.DataSource = usuariosFiltrados;
+            dataGridViewUsuarios.DefaultCellStyle.Font = new Font("Yu Gothic", 10);
+            dataGridViewUsuarios.ColumnHeadersDefaultCellStyle.Font = new Font("Yu Gothic", 10, FontStyle.Bold);
         }
 
         // Método para el botón Eliminar

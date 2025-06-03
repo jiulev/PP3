@@ -431,7 +431,7 @@ namespace FotoRoman
                     return;
                 }
 
-                // ✅ Nueva validación: si el pedido está finalizado, mostrar mensaje y salir
+                // ✅ Validar que no sea Finalizado
                 if (pedido.ESTADO.Equals("Finalizado", StringComparison.OrdinalIgnoreCase))
                 {
                     MessageBox.Show("Este pedido está finalizado y no puede ser editado.", "Acción no permitida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -440,13 +440,29 @@ namespace FotoRoman
 
                 List<DetallePedido> detalles = CNPedido.ObtenerDetallesDelPedido(idPedido);
 
-                // Abrimos el formulario de edición y le pasamos el pedido + detalles
                 using (FormEditarPedido formEditar = new FormEditarPedido(pedido, detalles))
                 {
-                    if (formEditar.ShowDialog() == DialogResult.OK)
+                    DialogResult resultado = formEditar.ShowDialog();
+
+                    if (resultado == DialogResult.OK)
                     {
                         MessageBox.Show("Este pedido ha sido Editado.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        MostrarPedido(CNPedido.BuscarPedidoPorId(idPedido)); // Actualizar visualización
+                        var pedidoActualizado = CNPedido.BuscarPedidoPorId(idPedido);
+
+                        if (pedidoActualizado != null)
+                        {
+                            MostrarPedido(pedidoActualizado);
+                        }
+                        else
+                        {
+                            MessageBox.Show("El pedido fue eliminado. No se puede mostrar.", "Pedido eliminado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            LimpiarFormulario();
+                        }
+                    }
+                    else if (resultado == DialogResult.Abort)
+                    {
+                        MessageBox.Show("El pedido fue eliminado. No se puede mostrar.", "Pedido eliminado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LimpiarFormulario();
                     }
                 }
             }
@@ -455,7 +471,22 @@ namespace FotoRoman
                 MessageBox.Show("Error al intentar editar el pedido: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-      
+
+        private void LimpiarFormulario()
+        {
+            textBoxIdPedido.Clear();
+            comboBoxClientes.SelectedIndex = -1;
+            textBoxEstado.Clear();
+            textBoxDatosCliente.Clear();
+            textBoxCorreo.Clear();
+            textBoxLocalidad.Clear();
+            textBoxProvincia.Clear();
+            dataGridViewDetallePedido.DataSource = null;
+            dataGridViewPagos.DataSource = null;
+            label2.Text = "Observaciones del pedido:\nSin observaciones indicadas";
+            labelPedidoFinalizado.Visible = false;
+        }
+
 
         private void label2_Click(object sender, EventArgs e)
         {

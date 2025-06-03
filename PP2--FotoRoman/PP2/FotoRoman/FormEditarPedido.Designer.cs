@@ -31,6 +31,7 @@
 
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             comboBoxClientes = new ComboBox();
             comboBoxEstado = new ComboBox();
             dataGridViewDetallePedido = new DataGridView();
@@ -42,6 +43,8 @@
             buttonAgregarItem = new Button();
             textBoxObservaciones = new TextBox();
             buttonEliminarItem = new Button();
+            buttonEliminarPedido = new Button();
+            toolTip = new ToolTip(components);
             ((System.ComponentModel.ISupportInitialize)dataGridViewDetallePedido).BeginInit();
             SuspendLayout();
             // 
@@ -92,9 +95,9 @@
             // 
             buttonGuardarCambios.BackColor = Color.LightGray;
             buttonGuardarCambios.Font = new Font("Yu Gothic", 9F, FontStyle.Bold);
-            buttonGuardarCambios.Location = new Point(283, 380);
+            buttonGuardarCambios.Location = new Point(251, 380);
             buttonGuardarCambios.Name = "buttonGuardarCambios";
-            buttonGuardarCambios.Size = new Size(140, 32);
+            buttonGuardarCambios.Size = new Size(119, 32);
             buttonGuardarCambios.TabIndex = 7;
             buttonGuardarCambios.Text = "Guardar Cambios";
             buttonGuardarCambios.UseVisualStyleBackColor = false;
@@ -104,11 +107,11 @@
             // 
             buttonCancelar.BackColor = Color.LightGray;
             buttonCancelar.Font = new Font("Yu Gothic", 9F, FontStyle.Bold);
-            buttonCancelar.Location = new Point(440, 380);
+            buttonCancelar.Location = new Point(614, 380);
             buttonCancelar.Name = "buttonCancelar";
-            buttonCancelar.Size = new Size(100, 32);
+            buttonCancelar.Size = new Size(111, 32);
             buttonCancelar.TabIndex = 8;
-            buttonCancelar.Text = "Cancelar";
+            buttonCancelar.Text = "Salir";
             buttonCancelar.UseVisualStyleBackColor = false;
             buttonCancelar.Click += buttonCancelar_Click;
             // 
@@ -138,7 +141,7 @@
             buttonAgregarItem.Font = new Font("Yu Gothic", 9F, FontStyle.Bold);
             buttonAgregarItem.Location = new Point(30, 380);
             buttonAgregarItem.Name = "buttonAgregarItem";
-            buttonAgregarItem.Size = new Size(120, 32);
+            buttonAgregarItem.Size = new Size(100, 32);
             buttonAgregarItem.TabIndex = 6;
             buttonAgregarItem.Text = "Agregar Ítem";
             buttonAgregarItem.UseVisualStyleBackColor = false;
@@ -158,18 +161,32 @@
             // 
             buttonEliminarItem.BackColor = Color.LightGray;
             buttonEliminarItem.Font = new Font("Yu Gothic", 9F, FontStyle.Bold);
-            buttonEliminarItem.Location = new Point(157, 380);
+            buttonEliminarItem.Location = new Point(136, 380);
             buttonEliminarItem.Name = "buttonEliminarItem";
-            buttonEliminarItem.Size = new Size(120, 32);
+            buttonEliminarItem.Size = new Size(100, 32);
             buttonEliminarItem.TabIndex = 10;
             buttonEliminarItem.Text = "Eliminar  Ítem";
             buttonEliminarItem.UseVisualStyleBackColor = false;
+            // 
+            // buttonEliminarPedido
+            // 
+            buttonEliminarPedido.BackColor = Color.LightGray;
+            buttonEliminarPedido.Font = new Font("Yu Gothic", 9F, FontStyle.Bold);
+            buttonEliminarPedido.Location = new Point(480, 380);
+            buttonEliminarPedido.Name = "buttonEliminarPedido";
+            buttonEliminarPedido.Size = new Size(111, 32);
+            buttonEliminarPedido.TabIndex = 11;
+            buttonEliminarPedido.Text = "Eliminar Pedido";
+            toolTip.SetToolTip(buttonEliminarPedido, "Este botón elimina el pedido definitivamente");
+            buttonEliminarPedido.UseVisualStyleBackColor = false;
+            buttonEliminarPedido.Click += buttonEliminarPedido_Click;
             // 
             // FormEditarPedido
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(745, 440);
+            Controls.Add(buttonEliminarPedido);
             Controls.Add(buttonEliminarItem);
             Controls.Add(textBoxObservaciones);
             Controls.Add(comboBoxClientes);
@@ -195,5 +212,7 @@
         #endregion
 
         private Button buttonEliminarItem;
+        private Button buttonEliminarPedido;
+        private ToolTip toolTip;
     }
 }

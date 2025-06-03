@@ -29,6 +29,9 @@ namespace FotoRoman
             }).ToList();
 
             dataGridViewClientes.DataSource = clientes;
+            dataGridViewClientes.DefaultCellStyle.Font = new Font("Yu Gothic", 10);
+            dataGridViewClientes.ColumnHeadersDefaultCellStyle.Font = new Font("Yu Gothic", 10, FontStyle.Bold);
+
             labelCantidadClientes.Text = $"{clientes.Count} cliente{(clientes.Count == 1 ? "" : "s")} encontrado{(clientes.Count == 1 ? "" : "s")}";
         }
 
@@ -54,6 +57,9 @@ namespace FotoRoman
 
 
             dataGridViewClientes.DataSource = clientesFiltrados;
+            dataGridViewClientes.DefaultCellStyle.Font = new Font("Yu Gothic", 10);
+            dataGridViewClientes.ColumnHeadersDefaultCellStyle.Font = new Font("Yu Gothic", 10, FontStyle.Bold);
+
             labelCantidadClientes.Text = $"{clientesFiltrados.Count} cliente{(clientesFiltrados.Count == 1 ? "" : "s")} encontrado{(clientesFiltrados.Count == 1 ? "" : "s")}";
         }
 

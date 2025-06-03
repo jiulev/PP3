@@ -62,6 +62,7 @@ namespace CapaNegocio
                 throw new Exception($"Error al obtener el próximo número de pedido: {ex.Message}");
             }
         }
+     
 
         // Método para obtener el último ID de pedido
         public static int ObtenerUltimoIdPedido()
@@ -254,6 +255,10 @@ namespace CapaNegocio
             }
         }
 
+        public static bool EliminarPedido(int idPedido, out string mensaje)
+        {
+            return CD_Pedido.EliminarPedido(idPedido, out mensaje);
+        }
 
 
 

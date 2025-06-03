@@ -45,6 +45,8 @@ namespace CapaDatos
             }
         }
 
+
+
         // Método para obtener los pedidos con pagos según el ID del cliente
         public static List<int> ObtenerPedidosConPagos(int idCliente)
         {
@@ -598,5 +600,24 @@ namespace CapaDatos
 
             return listaPagos;
         }
+
+
+
+        public static bool TieneCobros(int idPedido)
+        {
+            using (SqlConnection conexion = new SqlConnection(Conexion.ObtenerCadenaConexion()))
+            {
+                conexion.Open();
+                string query = "SELECT COUNT(*) FROM PAGO WHERE IDPEDIDO = @idPedido";
+
+                using (SqlCommand cmd = new SqlCommand(query, conexion))
+                {
+                    cmd.Parameters.AddWithValue("@idPedido", idPedido);
+                    int cantidad = Convert.ToInt32(cmd.ExecuteScalar());
+                    return cantidad > 0;
+                }
+            }
+        }
+
     }
 }
