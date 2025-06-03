@@ -127,7 +127,7 @@
             iconMenuItem1.IconColor = Color.Black;
             iconMenuItem1.IconFont = FontAwesome.Sharp.IconFont.Auto;
             iconMenuItem1.Name = "iconMenuItem1";
-            iconMenuItem1.Size = new Size(180, 22);
+            iconMenuItem1.Size = new Size(160, 22);
             iconMenuItem1.Text = "Crear Pedido";
             iconMenuItem1.Click += iconMenuItem1_Click;
             // 
@@ -137,7 +137,7 @@
             iconMenuItem3.IconColor = Color.Black;
             iconMenuItem3.IconFont = FontAwesome.Sharp.IconFont.Auto;
             iconMenuItem3.Name = "iconMenuItem3";
-            iconMenuItem3.Size = new Size(180, 22);
+            iconMenuItem3.Size = new Size(160, 22);
             iconMenuItem3.Text = "Eliminar Pedido";
             // 
             // iconMenuItem4
@@ -146,7 +146,7 @@
             iconMenuItem4.IconColor = Color.Black;
             iconMenuItem4.IconFont = FontAwesome.Sharp.IconFont.Auto;
             iconMenuItem4.Name = "iconMenuItem4";
-            iconMenuItem4.Size = new Size(180, 22);
+            iconMenuItem4.Size = new Size(160, 22);
             iconMenuItem4.Text = "Ver Pedido";
             iconMenuItem4.Click += iconMenuItem4_Click;
             // 
@@ -296,22 +296,23 @@
             iconMenuItem22.IconColor = Color.Black;
             iconMenuItem22.IconFont = FontAwesome.Sharp.IconFont.Auto;
             iconMenuItem22.Name = "iconMenuItem22";
-            iconMenuItem22.Size = new Size(260, 22);
+            iconMenuItem22.Size = new Size(308, 22);
             iconMenuItem22.Text = "Reportes de Ventas Por Vendedor";
             iconMenuItem22.Click += iconMenuItem22_Click;
             // 
             // reporteProducto
             // 
             reporteProducto.Name = "reporteProducto";
-            reporteProducto.Size = new Size(260, 22);
+            reporteProducto.Size = new Size(308, 22);
             reporteProducto.Text = "Productos Más Vendidos";
             reporteProducto.Click += reporteProducto_Click;
             // 
             // listadoDePedidosPorClientesToolStripMenuItem
             // 
             listadoDePedidosPorClientesToolStripMenuItem.Name = "listadoDePedidosPorClientesToolStripMenuItem";
-            listadoDePedidosPorClientesToolStripMenuItem.Size = new Size(260, 22);
-            listadoDePedidosPorClientesToolStripMenuItem.Text = "Listado de pedidos por Clientes";
+            listadoDePedidosPorClientesToolStripMenuItem.Size = new Size(308, 22);
+            listadoDePedidosPorClientesToolStripMenuItem.Text = "Reportes de Pedidos por Estados y Cobros";
+            listadoDePedidosPorClientesToolStripMenuItem.Click += listadoDePedidosPorClientesToolStripMenuItem_Click;
             // 
             // menuacercade
             // 

@@ -16,5 +16,8 @@ namespace CapaEntidad
         // Referencias a otras entidades
         public Cliente oCliente { get; set; } = new Cliente();
         public Usuario oUsuario { get; set; } = new Usuario();
+
+        // Propiedad adicional para el reporte
+        public string EstadoPago { get; set; } = "Sin pagos";
     }
 }

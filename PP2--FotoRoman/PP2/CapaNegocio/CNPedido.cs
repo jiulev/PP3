@@ -76,7 +76,11 @@ namespace CapaNegocio
                 throw new Exception($"Error al obtener el último ID de pedido: {ex.Message}");
             }
         }
-
+        // ✅ Nuevo método solo para reportes (no afecta lo ya existente)
+        public static List<Pedido> ObtenerPedidosFiltradosParaReporte(int idCliente, string estado, string filtroPago, DateTime desde, DateTime hasta)
+        {
+            return CD_Pedido.FiltrarPedidosParaReporte(idCliente, estado, filtroPago, desde, hasta);
+        }
         // Método para buscar un pedido por ID
         public static Pedido? BuscarPedidoPorId(int idPedido)
         {
@@ -253,6 +257,10 @@ namespace CapaNegocio
                 mensaje = $"Error al actualizar el pedido: {ex.Message}";
                 return false;
             }
+        }
+        public static int ContarTodosLosPedidos()
+        {
+            return CD_Pedido.ContarTodosLosPedidos();
         }
 
         public static bool EliminarPedido(int idPedido, out string mensaje)

@@ -1,6 +1,8 @@
 using System;
 using System.Windows.Forms;
 using CapaEntidad;
+using CapaPresentacion;
+
 
 namespace FotoRoman
 {
@@ -250,6 +252,13 @@ namespace FotoRoman
                 FormVerCategoria form = new FormVerCategoria();
                 form.ShowDialog(); // menu categoria  para ver
             }
+
+        }
+
+        private void listadoDePedidosPorClientesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormReportePedidos form = new FormReportePedidos();
+            form.ShowDialog();
 
         }
     }

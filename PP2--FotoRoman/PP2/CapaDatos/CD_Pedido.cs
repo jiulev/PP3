@@ -712,6 +712,99 @@ namespace CapaDatos
             }
         }
 
+        public static List<Pedido> FiltrarPedidosParaReporte(int idCliente, string estado, string filtroPago, DateTime fechaDesde, DateTime fechaHasta)
+        {
+            List<Pedido> lista = new List<Pedido>();
+
+            using (SqlConnection connection = new SqlConnection(Conexion.ObtenerCadenaConexion()))
+            {
+                try
+                {
+                    connection.Open();
+                    string query = @"
+                SELECT p.IDPEDIDO, p.IDCLIENTE, p.TOTAL, p.FECHAPEDIDO, p.ESTADO,
+                       c.NOMBRE AS NombreCliente
+                FROM PEDIDO p
+                INNER JOIN CLIENTE c ON p.IDCLIENTE = c.IDCLIENTE
+                WHERE CAST(p.FECHAPEDIDO AS DATE) BETWEEN @Desde AND @Hasta";
+
+                    if (idCliente > 0)
+                        query += " AND p.IDCLIENTE = @IDCLIENTE";
+
+                    if (!string.Equals(estado, "Todos", StringComparison.OrdinalIgnoreCase))
+                        query += " AND p.ESTADO = @ESTADO";
+
+                    using (SqlCommand cmd = new SqlCommand(query, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@Desde", fechaDesde.Date);
+                        cmd.Parameters.AddWithValue("@Hasta", fechaHasta.Date);
+
+                        if (idCliente > 0)
+                            cmd.Parameters.AddWithValue("@IDCLIENTE", idCliente);
+
+                        if (!string.Equals(estado, "Todos", StringComparison.OrdinalIgnoreCase))
+                            cmd.Parameters.AddWithValue("@ESTADO", estado);
+
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                Pedido p = new Pedido
+                                {
+                                    IDPEDIDO = Convert.ToInt32(reader["IDPEDIDO"]),
+                                    IDCliente = Convert.ToInt32(reader["IDCLIENTE"]),
+                                    TOTAL = Convert.ToDecimal(reader["TOTAL"]),
+                                    FECHAPEDIDO = Convert.ToDateTime(reader["FECHAPEDIDO"]),
+                                    ESTADO = reader["ESTADO"].ToString(),
+                                    oCliente = new Cliente
+                                    {
+                                        NOMBRE = reader["NombreCliente"].ToString()
+                                    }
+                                };
+
+                                lista.Add(p);
+                            }
+                        }
+                    }
+
+                    foreach (var pedido in lista.ToList())
+                    {
+                        var pagos = CD_Pago.ObtenerPagosDelPedido(pedido.IDPEDIDO);
+                        decimal totalPagado = pagos.Sum(p => p.MONTOPAGO);
+
+                        if (totalPagado == 0)
+                            pedido.EstadoPago = "Sin pagos";
+                        else if (totalPagado < pedido.TOTAL)
+                            pedido.EstadoPago = "Pagado parcial";
+                        else
+                            pedido.EstadoPago = "Pagado total";
+
+                        if (!string.Equals(filtroPago, "Todos", StringComparison.OrdinalIgnoreCase) &&
+                            !string.Equals(pedido.EstadoPago, filtroPago, StringComparison.OrdinalIgnoreCase))
+                        {
+                            lista.Remove(pedido);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error al filtrar pedidos para el reporte: " + ex.Message);
+                }
+            }
+
+            return lista;
+        }
+        public static int ContarTodosLosPedidos()
+        {
+            using (SqlConnection conexion = new SqlConnection(Conexion.ObtenerCadenaConexion()))
+            {
+                conexion.Open();
+                using (SqlCommand comando = new SqlCommand("SELECT COUNT(*) FROM PEDIDO", conexion))
+                {
+                    return (int)comando.ExecuteScalar();
+                }
+            }
+        }
 
 
 
