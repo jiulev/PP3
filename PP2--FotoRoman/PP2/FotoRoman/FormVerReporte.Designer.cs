@@ -68,7 +68,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Yu Gothic", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.ForeColor = Color.Brown;
+            label1.ForeColor = Color.DimGray;
             label1.Location = new Point(10, 125);
             label1.Name = "label1";
             label1.Size = new Size(156, 19);

@@ -17,6 +17,7 @@ namespace FotoRoman
         public FormReporteProducto()
         {
             InitializeComponent();
+            this.DoubleBuffered = true;
         }
 
         private void FormReporteProducto_Load(object sender, EventArgs e)
@@ -130,74 +131,77 @@ namespace FotoRoman
                 return;
 
             Graphics g = e.Graphics;
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
-            // Configuración inicial
-            int margenIzquierdo = 50;
+            int margenIzquierdo = 60;
             int margenInferior = 100;
             int alturaMaxima = 300;
-            int anchoBarra = 50;
-            int espacioEntreBarras = 20;
+            int anchoBarra = 40;
+            int espacioEntreBarras = 30;
 
-            // Fuente común
-            Font font = new Font("Arial", 8);
+            Font font = new Font("Segoe UI", 8);
+            Font fontEje = new Font("Segoe UI", 8, FontStyle.Bold);
+            Font fontTitulo = new Font("Segoe UI", 14, FontStyle.Bold);
 
-            // Buscar el valor máximo para escalar las barras
             int maximo = datosProductos.Max(dp => dp.CantidadVendida);
+            int step = (int)Math.Ceiling(maximo / 5.0 / 10.0) * 10; // salto más "estético"
 
-            // Dibujar líneas horizontales (guías)
-            for (int i = 100; i <= maximo; i += 100)
+            Pen ejePen = new Pen(Color.DimGray, 1.5f);
+            Pen guiaPen = new Pen(Color.LightGray) { DashStyle = System.Drawing.Drawing2D.DashStyle.Dash };
+
+            // Líneas guías horizontales
+            for (int i = 0; i <= maximo; i += step)
             {
                 int y = margenInferior + alturaMaxima - (int)((double)i / maximo * alturaMaxima);
-                g.DrawLine(Pens.LightGray, margenIzquierdo, y, margenIzquierdo + 700, y);
-                g.DrawString(i.ToString(), font, Brushes.Gray, 5, y - 7);
+                g.DrawLine(guiaPen, margenIzquierdo, y, margenIzquierdo + 700, y);
+                g.DrawString(i.ToString(), fontEje, Brushes.Gray, 10, y - 7);
             }
 
-            // Dibujar ejes X e Y
-            Pen pen = new Pen(Color.Black, 2);
-            g.DrawLine(pen, margenIzquierdo, margenInferior, margenIzquierdo, margenInferior + alturaMaxima);
-            g.DrawLine(pen, margenIzquierdo, margenInferior + alturaMaxima, margenIzquierdo + 700, margenInferior + alturaMaxima);
+            // Ejes
+            g.DrawLine(ejePen, margenIzquierdo, margenInferior, margenIzquierdo, margenInferior + alturaMaxima);
+            g.DrawLine(ejePen, margenIzquierdo, margenInferior + alturaMaxima, margenIzquierdo + 700, margenInferior + alturaMaxima);
 
-            // Colores para las barras
             Brush[] brushes = new Brush[]
             {
-        Brushes.SteelBlue, Brushes.OrangeRed, Brushes.MediumSeaGreen, Brushes.SlateBlue,
-        Brushes.DarkCyan, Brushes.Tomato, Brushes.CadetBlue, Brushes.DarkOrange,
-        Brushes.IndianRed, Brushes.MediumPurple
+        new SolidBrush(Color.FromArgb(72, 126, 176)), new SolidBrush(Color.FromArgb(243, 156, 18)),
+        new SolidBrush(Color.FromArgb(46, 204, 113)), new SolidBrush(Color.FromArgb(155, 89, 182)),
+        new SolidBrush(Color.FromArgb(230, 126, 34)), new SolidBrush(Color.FromArgb(231, 76, 60))
             };
 
-            int colorIndex = 0;
             int xActual = margenIzquierdo + 20;
+            int colorIndex = 0;
 
             foreach (var dato in datosProductos)
             {
                 int alturaBarra = (int)((double)dato.CantidadVendida / maximo * alturaMaxima);
-
-                // Dibujar barra
                 Brush barraBrush = brushes[colorIndex % brushes.Length];
-                g.FillRectangle(barraBrush, xActual, margenInferior + alturaMaxima - alturaBarra, anchoBarra, alturaBarra);
 
-                // Truncar y centrar nombre
-                string nombreCorto = dato.NombreProducto.Length > 8 ? dato.NombreProducto.Substring(0, 8) + "..." : dato.NombreProducto;
-                SizeF textoSize = g.MeasureString(nombreCorto, font);
+                Rectangle barra = new Rectangle(xActual, margenInferior + alturaMaxima - alturaBarra, anchoBarra, alturaBarra);
+                g.FillRectangle(barraBrush, barra);
+
+                // Bordes redondeados visuales (simulados con overlay más claro arriba)
+                g.FillRectangle(new SolidBrush(Color.FromArgb(50, Color.White)), barra.X, barra.Y, barra.Width, 5);
+
+                // Nombre del producto (rotado si es muy largo)
+                string nombre = dato.NombreProducto.Length > 10 ? dato.NombreProducto.Substring(0, 10) + "..." : dato.NombreProducto;
+                SizeF textoSize = g.MeasureString(nombre, font);
                 float xTexto = xActual + (anchoBarra / 2) - (textoSize.Width / 2);
-                g.DrawString(nombreCorto, font, Brushes.Black, xTexto, margenInferior + alturaMaxima + 5);
+                g.DrawString(nombre, font, Brushes.Black, xTexto, margenInferior + alturaMaxima + 5);
 
-                // Valor encima de la barra
-                string cantidadTexto = dato.CantidadVendida.ToString();
-                SizeF cantidadSize = g.MeasureString(cantidadTexto, font);
-                float xCantidad = xActual + (anchoBarra / 2) - (cantidadSize.Width / 2);
-                g.DrawString(cantidadTexto, font, Brushes.Black, xCantidad, margenInferior + alturaMaxima - alturaBarra - 15);
+                // Valor encima
+                string valorTexto = dato.CantidadVendida.ToString();
+                SizeF valorSize = g.MeasureString(valorTexto, font);
+                float xValor = xActual + (anchoBarra / 2) - (valorSize.Width / 2);
+                g.DrawString(valorTexto, font, Brushes.Black, xValor, margenInferior + alturaMaxima - alturaBarra - 15);
 
                 xActual += anchoBarra + espacioEntreBarras;
                 colorIndex++;
             }
 
             // Título centrado
-            string titulo = "Productos Más Vendidos";
-            Font tituloFont = new Font("Arial", 12, FontStyle.Bold);
-            SizeF tituloSize = g.MeasureString(titulo, tituloFont);
-            float xTitulo = (this.Width / 2) - (tituloSize.Width / 2);
-            g.DrawString(titulo, tituloFont, Brushes.Black, xTitulo, 10);
+            string titulo = "Top 10 Productos Más Vendidos";
+            SizeF tituloSize = g.MeasureString(titulo, fontTitulo);
+            g.DrawString(titulo, fontTitulo, Brushes.Black, (this.Width - tituloSize.Width) / 2, 15);
         }
 
 

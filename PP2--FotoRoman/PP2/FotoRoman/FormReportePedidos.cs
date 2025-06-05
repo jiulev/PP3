@@ -7,6 +7,7 @@ using CapaNegocio;
 using System.IO;
 using System.Diagnostics;
 using CapaDatos;
+using System.Threading.Tasks; // ✅ agregado para await
 
 namespace CapaPresentacion
 {
@@ -45,8 +46,20 @@ namespace CapaPresentacion
             dateHasta.Enabled = checkHasta.Checked;
         }
 
-        private void btnGenerarReporte_Click(object sender, EventArgs e)
+        private async void btnGenerarReporte_Click(object sender, EventArgs e) // ✅ async agregado
         {
+            if (checkHasta.Checked && dateHasta.Value.Date > DateTime.Today)
+            {
+                MessageBox.Show("La fecha 'Hasta' no puede ser posterior al día de hoy.", "Fecha inválida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (checkDesde.Checked && checkHasta.Checked && dateDesde.Value.Date > dateHasta.Value.Date)
+            {
+                MessageBox.Show("La fecha 'Desde' no puede ser mayor que la fecha 'Hasta'.", "Rango inválido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             int? idCliente = null;
             if (comboCliente.SelectedItem is Cliente clienteSeleccionado)
                 idCliente = clienteSeleccionado.IDCliente;
@@ -59,21 +72,20 @@ namespace CapaPresentacion
             DateTime? fechaHasta = checkHasta.Checked ? dateHasta.Value.Date : null;
 
             var pedidos = CNPedido.ObtenerPedidosFiltradosParaReporte(
-    idCliente ?? 0,
-    estado ?? "Todos",
-    filtroPago,
-    fechaDesde ?? DateTime.MinValue,
-    fechaHasta ?? DateTime.MaxValue
-);
+                idCliente ?? 0,
+                estado ?? "Todos",
+                filtroPago,
+                fechaDesde ?? DateTime.MinValue,
+                fechaHasta ?? DateTime.MaxValue
+            );
 
-
-            string html = GenerarHTML(pedidos);
+            string html = await GenerarHTML(pedidos); // ✅ await
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "reporte_pedidos.html");
             File.WriteAllText(path, html);
             Process.Start(new ProcessStartInfo(path) { UseShellExecute = true });
         }
 
-        private string GenerarHTML(List<Pedido> pedidos)
+        private async Task<string> GenerarHTML(List<Pedido> pedidos) // ✅ async Task
         {
             int pendientes = pedidos.Count(p => p.ESTADO == "Pendiente");
             int enProceso = pedidos.Count(p => p.ESTADO.Equals("En proceso", StringComparison.OrdinalIgnoreCase));
@@ -83,12 +95,48 @@ namespace CapaPresentacion
             int parcial = pedidos.Count(p => p.EstadoPago.Equals("Pagado parcial", StringComparison.OrdinalIgnoreCase));
             int totalPago = pedidos.Count(p => p.EstadoPago.Equals("Pagado total", StringComparison.OrdinalIgnoreCase));
 
-
             int totalPedidosSistema = CNPedido.ContarTodosLosPedidos();
 
-            string rows = string.Join("", pedidos.Select(p =>
-                $"<tr><td>{p.IDPEDIDO}</td><td>{p.oCliente.NOMBRE}</td><td>{p.FECHAPEDIDO:dd/MM/yyyy}</td><td>{p.ESTADO}</td><td>{p.EstadoPago}</td><td>${p.TOTAL:F2}</td></tr>"));
+            string rows = "";
+            foreach (var p in pedidos)
+            {
+                string telefono = p.oCliente.TELEFONO?.Replace("+", "").Replace(" ", "").Trim();
 
+                var pagos = CNPedido.ObtenerPagosDelPedido(p.IDPEDIDO);
+                decimal montoPagado = pagos.Sum(pg => pg.MONTOPAGO);
+                decimal pendiente = p.TOTAL - montoPagado;
+
+                string linkPago = "";
+                if (pendiente > 0)
+                {
+                    linkPago = await MercadoPagoService.GenerarLinkPago($"Pedido #{p.IDPEDIDO}", pendiente);
+                }
+
+                string mensaje = $"Hola {p.oCliente.NOMBRE}, te informamos el estado de tu pedido #{p.IDPEDIDO}.\n" +
+                                 $"Estado: {p.ESTADO}\n" +
+                                 $"Cobro: {p.EstadoPago}\n" +
+                                 $"Total: ${p.TOTAL:F2}\n";
+
+                if (pendiente > 0 && !string.IsNullOrEmpty(linkPago))
+                {
+                    mensaje += $"\n💳 Podés abonar tu pedido con este link:\n{linkPago}\n" +
+                               $"📲 Una vez abonado, notificanos respondiendo este mensaje o escribiendo a info@fotoroman.com.ar\n";
+                }
+
+                mensaje += "\n¡Gracias por confiar en nosotros! 📸";
+
+                string urlWhatsApp = !string.IsNullOrEmpty(telefono)
+                    ? $"https://wa.me/{telefono}?text={Uri.EscapeDataString(mensaje)}"
+                    : "#";
+
+                string boton = !string.IsNullOrEmpty(telefono)
+                    ? $"<a href='{urlWhatsApp}' target='_blank' style='color:#00f7ff;text-decoration:none;'>📲 Notificar</a>"
+                    : "<span style='color:gray;'>Sin Teléfono</span>";
+
+                rows += $"<tr><td>{p.IDPEDIDO}</td><td>{p.oCliente.NOMBRE}</td><td>{p.FECHAPEDIDO:dd/MM/yyyy}</td><td>{p.ESTADO}</td><td>{p.EstadoPago}</td><td>${p.TOTAL:F2}</td><td>{boton}</td></tr>";
+            }
+
+            // Resto del HTML se mantiene igual (desde string html = $@"...) sin cambios
             string html = $@"
 <!DOCTYPE html>
 <html lang='es'>
@@ -166,16 +214,18 @@ namespace CapaPresentacion
     <div class='container'>
         <div class='table-container'>
             <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Cliente</th>
-                        <th>Fecha</th>
-                        <th>Estado</th>
-                        <th>Pago</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
+           <thead>
+    <tr>
+        <th>ID</th>
+        <th>Cliente</th>
+        <th>Fecha</th>
+        <th>Estado</th>
+        <th>Pago</th>
+        <th>Total</th>
+        <th>Notificar</th>
+    </tr>
+</thead>
+
                 <tbody>
                     {rows}
                 </tbody>

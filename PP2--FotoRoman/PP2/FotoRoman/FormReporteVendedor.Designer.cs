@@ -68,6 +68,8 @@
             dtpFechaDesde.Name = "dtpFechaDesde";
             dtpFechaDesde.Size = new Size(100, 28);
             dtpFechaDesde.TabIndex = 1;
+            dtpFechaDesde.ShowUpDown = false; // Mostrar calendario en vez de control tipo spinner
+           
             // 
             // dtpFechaHasta
             // 
@@ -77,6 +79,7 @@
             dtpFechaHasta.Name = "dtpFechaHasta";
             dtpFechaHasta.Size = new Size(100, 28);
             dtpFechaHasta.TabIndex = 2;
+            dtpFechaHasta.ShowUpDown = false;
             // 
             // lblFechaDesde
             // 
@@ -105,17 +108,17 @@
             dataGridViewPedidos.BackgroundColor = SystemColors.Control;
             dataGridViewPedidos.BorderStyle = BorderStyle.None;
             dataGridViewPedidos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewPedidos.Location = new Point(72, 151);
+            dataGridViewPedidos.Location = new Point(47, 144);
             dataGridViewPedidos.Name = "dataGridViewPedidos";
             dataGridViewPedidos.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
-            dataGridViewPedidos.Size = new Size(306, 200);
+            dataGridViewPedidos.Size = new Size(370, 200);
             dataGridViewPedidos.TabIndex = 5;
             // 
             // buttonGenerar
             // 
             buttonGenerar.BackColor = Color.LightGray;
             buttonGenerar.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
-            buttonGenerar.Location = new Point(47, 374);
+            buttonGenerar.Location = new Point(47, 372);
             buttonGenerar.Name = "buttonGenerar";
             buttonGenerar.Size = new Size(98, 36);
             buttonGenerar.TabIndex = 6;
@@ -127,7 +130,7 @@
             // 
             buttonImprimir.BackColor = Color.LightGray;
             buttonImprimir.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
-            buttonImprimir.Location = new Point(160, 374);
+            buttonImprimir.Location = new Point(181, 372);
             buttonImprimir.Name = "buttonImprimir";
             buttonImprimir.Size = new Size(98, 36);
             buttonImprimir.TabIndex = 7;
@@ -139,7 +142,7 @@
             // 
             buttonCancelar.BackColor = Color.LightGray;
             buttonCancelar.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold);
-            buttonCancelar.Location = new Point(272, 374);
+            buttonCancelar.Location = new Point(319, 372);
             buttonCancelar.Name = "buttonCancelar";
             buttonCancelar.Size = new Size(98, 36);
             buttonCancelar.TabIndex = 8;

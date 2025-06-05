@@ -28,113 +28,186 @@
 
         private void InitializeComponent()
         {
-            this.comboCliente = new System.Windows.Forms.ComboBox();
-            this.comboEstado = new System.Windows.Forms.ComboBox();
-            this.comboPago = new System.Windows.Forms.ComboBox();
-            this.dateDesde = new System.Windows.Forms.DateTimePicker();
-            this.dateHasta = new System.Windows.Forms.DateTimePicker();
-            this.checkDesde = new System.Windows.Forms.CheckBox();
-            this.checkHasta = new System.Windows.Forms.CheckBox();
-            this.btnGenerarReporte = new System.Windows.Forms.Button();
-            this.lblCliente = new System.Windows.Forms.Label();
-            this.lblEstado = new System.Windows.Forms.Label();
-            this.lblPago = new System.Windows.Forms.Label();
-            this.lblDesde = new System.Windows.Forms.Label();
-            this.lblHasta = new System.Windows.Forms.Label();
-            this.SuspendLayout();
-
+            comboCliente = new ComboBox();
+            comboEstado = new ComboBox();
+            comboPago = new ComboBox();
+            dateDesde = new DateTimePicker();
+            dateHasta = new DateTimePicker();
+            checkDesde = new CheckBox();
+            checkHasta = new CheckBox();
+            btnGenerarReporte = new Button();
+            lblCliente = new Label();
+            lblEstado = new Label();
+            lblPago = new Label();
+            lblDesde = new Label();
+            lblHasta = new Label();
+            SuspendLayout();
+            // 
             // comboCliente
-            this.comboCliente.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboCliente.FormattingEnabled = true;
-            this.comboCliente.Location = new System.Drawing.Point(120, 30);
-            this.comboCliente.Name = "comboCliente";
-            this.comboCliente.Size = new System.Drawing.Size(220, 24);
-
+            // 
+            comboCliente.BackColor = Color.White;
+            comboCliente.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboCliente.FlatStyle = FlatStyle.Flat;
+            comboCliente.Font = new Font("Yu Gothic UI", 10F);
+            comboCliente.FormattingEnabled = true;
+            comboCliente.Location = new Point(105, 32);
+            comboCliente.Name = "comboCliente";
+            comboCliente.Size = new Size(193, 25);
+            comboCliente.TabIndex = 0;
+            // 
             // comboEstado
-            this.comboEstado.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboEstado.FormattingEnabled = true;
-            this.comboEstado.Items.AddRange(new object[] { "Todos", "Pendiente", "En proceso", "Finalizado" });
-            this.comboEstado.Location = new System.Drawing.Point(120, 70);
-            this.comboEstado.Name = "comboEstado";
-            this.comboEstado.Size = new System.Drawing.Size(220, 24);
-
+            // 
+            comboEstado.BackColor = Color.White;
+            comboEstado.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboEstado.FlatStyle = FlatStyle.Flat;
+            comboEstado.Font = new Font("Yu Gothic UI", 10F);
+            comboEstado.FormattingEnabled = true;
+            comboEstado.Items.AddRange(new object[] { "Todos", "Pendiente", "En proceso", "Finalizado" });
+            comboEstado.Location = new Point(105, 74);
+            comboEstado.Name = "comboEstado";
+            comboEstado.Size = new Size(193, 25);
+            comboEstado.TabIndex = 1;
+            // 
             // comboPago
-            this.comboPago.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboPago.FormattingEnabled = true;
-            this.comboPago.Items.AddRange(new object[] { "Todos", "Sin cobros", "Parcial", "Total" });
-            this.comboPago.Location = new System.Drawing.Point(120, 110);
-            this.comboPago.Name = "comboPago";
-            this.comboPago.Size = new System.Drawing.Size(220, 24);
-
-            // checkDesde
-            this.checkDesde.AutoSize = true;
-            this.checkDesde.Location = new System.Drawing.Point(30, 155);
-            this.checkDesde.Name = "checkDesde";
-            this.checkDesde.Size = new System.Drawing.Size(70, 20);
-            this.checkDesde.Text = "Desde";
-            this.checkDesde.CheckedChanged += new System.EventHandler(this.CheckDesde_CheckedChanged);
-
+            // 
+            comboPago.BackColor = Color.White;
+            comboPago.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboPago.FlatStyle = FlatStyle.Flat;
+            comboPago.Font = new Font("Yu Gothic UI", 10F);
+            comboPago.FormattingEnabled = true;
+            comboPago.Items.AddRange(new object[] { "Todos", "Sin cobros", "Parcial", "Total" });
+            comboPago.Location = new Point(105, 117);
+            comboPago.Name = "comboPago";
+            comboPago.Size = new Size(193, 25);
+            comboPago.TabIndex = 2;
+            // 
             // dateDesde
-            this.dateDesde.Location = new System.Drawing.Point(120, 150);
-            this.dateDesde.Name = "dateDesde";
-            this.dateDesde.Size = new System.Drawing.Size(220, 22);
-            this.dateDesde.Enabled = false;
-
-            // checkHasta
-            this.checkHasta.AutoSize = true;
-            this.checkHasta.Location = new System.Drawing.Point(30, 195);
-            this.checkHasta.Name = "checkHasta";
-            this.checkHasta.Size = new System.Drawing.Size(65, 20);
-            this.checkHasta.Text = "Hasta";
-            this.checkHasta.CheckedChanged += new System.EventHandler(this.CheckHasta_CheckedChanged);
-
+            // 
+            dateDesde.CalendarForeColor = Color.Black;
+            dateDesde.CalendarMonthBackground = Color.White;
+            dateDesde.Enabled = false;
+            dateDesde.Font = new Font("Yu Gothic UI", 10F);
+            dateDesde.Location = new Point(105, 159);
+            dateDesde.Name = "dateDesde";
+            dateDesde.Size = new Size(193, 25);
+            dateDesde.TabIndex = 4;
+            // 
             // dateHasta
-            this.dateHasta.Location = new System.Drawing.Point(120, 190);
-            this.dateHasta.Name = "dateHasta";
-            this.dateHasta.Size = new System.Drawing.Size(220, 22);
-            this.dateHasta.Enabled = false;
-
+            // 
+            dateHasta.CalendarForeColor = Color.Black;
+            dateHasta.CalendarMonthBackground = Color.White;
+            dateHasta.Enabled = false;
+            dateHasta.Font = new Font("Yu Gothic UI", 10F);
+            dateHasta.Location = new Point(105, 202);
+            dateHasta.Name = "dateHasta";
+            dateHasta.Size = new Size(193, 25);
+            dateHasta.TabIndex = 6;
+            // 
+            // checkDesde
+            // 
+            checkDesde.AutoSize = true;
+            checkDesde.Font = new Font("Yu Gothic UI", 10F);
+            checkDesde.Location = new Point(26, 165);
+            checkDesde.Name = "checkDesde";
+            checkDesde.Size = new Size(66, 23);
+            checkDesde.TabIndex = 3;
+            checkDesde.Text = "Desde";
+            checkDesde.CheckedChanged += CheckDesde_CheckedChanged;
+            // 
+            // checkHasta
+            // 
+            checkHasta.AutoSize = true;
+            checkHasta.Font = new Font("Yu Gothic UI", 10F);
+            checkHasta.Location = new Point(26, 207);
+            checkHasta.Name = "checkHasta";
+            checkHasta.Size = new Size(63, 23);
+            checkHasta.TabIndex = 5;
+            checkHasta.Text = "Hasta";
+            checkHasta.CheckedChanged += CheckHasta_CheckedChanged;
+            // 
             // btnGenerarReporte
-            this.btnGenerarReporte.Location = new System.Drawing.Point(120, 230);
-            this.btnGenerarReporte.Name = "btnGenerarReporte";
-            this.btnGenerarReporte.Size = new System.Drawing.Size(220, 30);
-            this.btnGenerarReporte.Text = "Generar Reporte";
-            this.btnGenerarReporte.UseVisualStyleBackColor = true;
-            this.btnGenerarReporte.Click += new System.EventHandler(this.btnGenerarReporte_Click);
-
-            // Labels
-            this.lblCliente.AutoSize = true;
-            this.lblCliente.Location = new System.Drawing.Point(30, 33);
-            this.lblCliente.Text = "Cliente:";
-
-            this.lblEstado.AutoSize = true;
-            this.lblEstado.Location = new System.Drawing.Point(30, 73);
-            this.lblEstado.Text = "Estado:";
-
-            this.lblPago.AutoSize = true;
-            this.lblPago.Location = new System.Drawing.Point(30, 113);
-            this.lblPago.Text = "Pago:";
-
+            // 
+            btnGenerarReporte.BackColor = Color.Silver;
+            btnGenerarReporte.Cursor = Cursors.Hand;
+            btnGenerarReporte.FlatAppearance.BorderSize = 0;
+            btnGenerarReporte.Font = new Font("Yu Gothic UI Semibold", 10F, FontStyle.Bold);
+            btnGenerarReporte.ForeColor = Color.Black;
+            btnGenerarReporte.Location = new Point(105, 244);
+            btnGenerarReporte.Name = "btnGenerarReporte";
+            btnGenerarReporte.Size = new Size(192, 37);
+            btnGenerarReporte.TabIndex = 7;
+            btnGenerarReporte.Text = "Generar Reporte";
+            btnGenerarReporte.UseVisualStyleBackColor = false;
+            btnGenerarReporte.Click += btnGenerarReporte_Click;
+            // 
+            // lblCliente
+            // 
+            lblCliente.AutoSize = true;
+            lblCliente.Font = new Font("Yu Gothic UI", 10F);
+            lblCliente.Location = new Point(26, 35);
+            lblCliente.Name = "lblCliente";
+            lblCliente.Size = new Size(54, 19);
+            lblCliente.TabIndex = 8;
+            lblCliente.Text = "Cliente:";
+            // 
+            // lblEstado
+            // 
+            lblEstado.AutoSize = true;
+            lblEstado.Font = new Font("Yu Gothic UI", 10F);
+            lblEstado.Location = new Point(26, 78);
+            lblEstado.Name = "lblEstado";
+            lblEstado.Size = new Size(53, 19);
+            lblEstado.TabIndex = 9;
+            lblEstado.Text = "Estado:";
+            // 
+            // lblPago
+            // 
+            lblPago.AutoSize = true;
+            lblPago.Font = new Font("Yu Gothic UI", 10F);
+            lblPago.Location = new Point(26, 120);
+            lblPago.Name = "lblPago";
+            lblPago.Size = new Size(43, 19);
+            lblPago.TabIndex = 10;
+            lblPago.Text = "Pago:";
+            // 
+            // lblDesde
+            // 
+            lblDesde.Location = new Point(0, 0);
+            lblDesde.Name = "lblDesde";
+            lblDesde.Size = new Size(100, 23);
+            lblDesde.TabIndex = 0;
+            // 
+            // lblHasta
+            // 
+            lblHasta.Location = new Point(0, 0);
+            lblHasta.Name = "lblHasta";
+            lblHasta.Size = new Size(100, 23);
+            lblHasta.TabIndex = 0;
+            // 
             // FormReportePedidos
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(400, 280);
-            this.Controls.Add(this.comboCliente);
-            this.Controls.Add(this.comboEstado);
-            this.Controls.Add(this.comboPago);
-            this.Controls.Add(this.checkDesde);
-            this.Controls.Add(this.dateDesde);
-            this.Controls.Add(this.checkHasta);
-            this.Controls.Add(this.dateHasta);
-            this.Controls.Add(this.btnGenerarReporte);
-            this.Controls.Add(this.lblCliente);
-            this.Controls.Add(this.lblEstado);
-            this.Controls.Add(this.lblPago);
-            this.Name = "FormReportePedidos";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Reporte de Pedidos";
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            // 
+            AutoScaleDimensions = new SizeF(7F, 17F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.WhiteSmoke;
+            ClientSize = new Size(350, 308);
+            Controls.Add(comboCliente);
+            Controls.Add(comboEstado);
+            Controls.Add(comboPago);
+            Controls.Add(checkDesde);
+            Controls.Add(dateDesde);
+            Controls.Add(checkHasta);
+            Controls.Add(dateHasta);
+            Controls.Add(btnGenerarReporte);
+            Controls.Add(lblCliente);
+            Controls.Add(lblEstado);
+            Controls.Add(lblPago);
+            Font = new Font("Yu Gothic UI", 10F);
+            ForeColor = Color.FromArgb(30, 30, 30);
+            Name = "FormReportePedidos";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Reporte de Pedidos";
+            ResumeLayout(false);
+            PerformLayout();
         }
     }
 }

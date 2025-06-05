@@ -722,10 +722,8 @@ namespace CapaDatos
                 {
                     connection.Open();
                     string query = @"
-                SELECT p.IDPEDIDO, p.IDCLIENTE, p.TOTAL, p.FECHAPEDIDO, p.ESTADO,
-                       c.NOMBRE AS NombreCliente
+                SELECT p.IDPEDIDO, p.IDCLIENTE, p.TOTAL, p.FECHAPEDIDO, p.ESTADO
                 FROM PEDIDO p
-                INNER JOIN CLIENTE c ON p.IDCLIENTE = c.IDCLIENTE
                 WHERE CAST(p.FECHAPEDIDO AS DATE) BETWEEN @Desde AND @Hasta";
 
                     if (idCliente > 0)
@@ -756,10 +754,7 @@ namespace CapaDatos
                                     TOTAL = Convert.ToDecimal(reader["TOTAL"]),
                                     FECHAPEDIDO = Convert.ToDateTime(reader["FECHAPEDIDO"]),
                                     ESTADO = reader["ESTADO"].ToString(),
-                                    oCliente = new Cliente
-                                    {
-                                        NOMBRE = reader["NombreCliente"].ToString()
-                                    }
+                                    oCliente = CD_Cliente.ObtenerClientePorId(Convert.ToInt32(reader["IDCLIENTE"])) // ✅ cliente completo
                                 };
 
                                 lista.Add(p);
@@ -767,6 +762,7 @@ namespace CapaDatos
                         }
                     }
 
+                    // Calcular estado de pago por cada pedido
                     foreach (var pedido in lista.ToList())
                     {
                         var pagos = CD_Pago.ObtenerPagosDelPedido(pedido.IDPEDIDO);
@@ -794,6 +790,7 @@ namespace CapaDatos
 
             return lista;
         }
+
         public static int ContarTodosLosPedidos()
         {
             using (SqlConnection conexion = new SqlConnection(Conexion.ObtenerCadenaConexion()))

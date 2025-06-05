@@ -8,6 +8,8 @@ using System.Linq; // Necesario para métodos como Select y Sum
 using System.Windows.Forms;
 using Microsoft.VisualBasic.ApplicationServices;
 
+
+
 namespace FotoRoman
 {
     public partial class FormReporteVendedor : Form
@@ -41,41 +43,59 @@ namespace FotoRoman
         }
         private string GenerarGraficoDeTorta(decimal ventasUsuario, decimal totalVentas)
         {
-            // Ruta para guardar la imagen del gráfico
             string rutaImagen = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "GraficoTorta.png");
 
-            // Crear un bitmap donde dibujar
-            using (Bitmap bitmap = new Bitmap(400, 300))
+            using (Bitmap bitmap = new Bitmap(500, 350))
             {
                 using (Graphics g = Graphics.FromImage(bitmap))
                 {
-                    // Colores para las partes del gráfico
-                    Brush brushUsuario = Brushes.Red;
-                    Brush brushRestante = Brushes.Gray;
+                    g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                    g.Clear(Color.White); // Fondo blanco
 
-                    // Fondo blanco
-                    g.Clear(Color.White);
+                    // Colores modernos
+                    Brush brushUsuario = new SolidBrush(Color.FromArgb(231, 76, 60));  // Rojo elegante
+                    Brush brushRestante = new SolidBrush(Color.Silver);                // Gris plata
+                    Brush brushTexto = Brushes.Black;
 
-                    // Calcular ángulos para el gráfico
-                    float porcentajeUsuario = totalVentas > 0 ? (float)((ventasUsuario / totalVentas) * 360) : 0;
-                    float porcentajeRestante = 360 - porcentajeUsuario;
 
-                    // Dibujar gráfico
+                    // Calcular proporciones
+                    float anguloUsuario = totalVentas > 0 ? (float)ventasUsuario / (float)totalVentas * 360f: 0f;
+
+                    float anguloRestante = 360f - anguloUsuario;
+
+
+                    // Dibujar la torta
                     System.Drawing.Rectangle rect = new System.Drawing.Rectangle(50, 50, 200, 200);
-                    g.FillPie(brushUsuario, rect, 0, porcentajeUsuario);
-                    g.FillPie(brushRestante, rect, porcentajeUsuario, porcentajeRestante);
+                    g.FillPie(brushUsuario, rect, 0, anguloUsuario);
+                    g.FillPie(brushRestante, rect, anguloUsuario, anguloRestante);
 
-                    // Dibujar leyenda
-                    g.DrawString("Vendedor", new System.Drawing.Font("Arial", 12), brushUsuario, 270, 70);
-                    g.DrawString("Resto", new System.Drawing.Font("Arial", 12), brushRestante, 270, 100);
+                    // Leyendas
+                    g.FillRectangle(brushUsuario, 280, 70, 20, 20);
+                    g.DrawString("Vendedor", new System.Drawing.Font("Yu Gothic", 10), brushTexto, 310, 70);
+
+                    g.FillRectangle(brushRestante, 280, 100, 20, 20);
+                    g.DrawString("Resto", new System.Drawing.Font("Yu Gothic", 10), brushTexto, 310, 100);
+
+                    // Porcentaje al medio del gráfico
+                    if (totalVentas > 0)
+                    {
+                        float porcentaje = (float)(ventasUsuario / totalVentas * 100);
+                        string textoPorc = $"{porcentaje:F1}%";
+
+                        System.Drawing.Font fuente = new System.Drawing.Font("Yu Gothic", 12, System.Drawing.FontStyle.Bold);
+                        SizeF size = g.MeasureString(textoPorc, fuente);
+                        g.DrawString(textoPorc, fuente, brushTexto,
+                            rect.Left + rect.Width / 2 - size.Width / 2,
+                            rect.Top + rect.Height / 2 - size.Height / 2);
+                    }
                 }
 
-                // Guardar la imagen
                 bitmap.Save(rutaImagen, System.Drawing.Imaging.ImageFormat.Png);
             }
 
             return rutaImagen;
         }
+
 
         private void buttonGenerar_Click(object sender, EventArgs e)
         {
@@ -92,11 +112,24 @@ namespace FotoRoman
                     return;
                 }
 
-                // Ajustar el rango de fechas
-                DateTime fechaDesde = dtpFechaDesde.Value.Date;
-                DateTime fechaHasta = dtpFechaHasta.Value.Date.AddDays(1).AddSeconds(-1);
+                // Validaciones de fechas
+                if (dtpFechaHasta.Value.Date > DateTime.Today)
+                {
+                    MessageBox.Show("La fecha 'Hasta' no puede ser posterior al día de hoy.", "Fecha inválida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
-                // Obtener los pedidos del usuario en el rango de fechas
+                if (dtpFechaDesde.Value.Date > dtpFechaHasta.Value.Date)
+                {
+                    MessageBox.Show("La fecha 'Desde' no puede ser mayor que la fecha 'Hasta'.", "Rango inválido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Ajustar el rango de fechas una vez validadas
+                DateTime fechaDesde = dtpFechaDesde.Value.Date;
+                DateTime fechaHasta = dtpFechaHasta.Value.Date.AddDays(1).AddSeconds(-1); // Incluir todo el día 'hasta'
+
+                // Obtener pedidos
                 var pedidos = CNPedido.ObtenerPedidosPorUsuarioYFechas(usuario.IDUSUARIO, fechaDesde, fechaHasta);
 
                 if (pedidos == null || pedidos.Count == 0)
@@ -104,36 +137,33 @@ namespace FotoRoman
                     MessageBox.Show("No se encontraron pedidos para el usuario en el rango de fechas especificado.",
                         "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     lblTotal.Text = "Total: $0.00";
+                    dataGridViewPedidos.DataSource = null; // Limpiar si no hay resultados
                     return;
                 }
 
-                // Preparar los datos para mostrar en el DataGridView
+                // Preparar datos
                 var detalles = pedidos.Select(p => new
                 {
                     p.IDPEDIDO,
-                    TOTAL = p.TOTAL, // Mostrar la columna TOTAL
-                    FECHA = p.FECHAPEDIDO.ToString("dd/MM/yyyy HH:mm:ss") // Mostrar fecha y hora
+                    TOTAL = p.TOTAL,
+                    FECHA = p.FECHAPEDIDO.ToString("dd/MM/yyyy HH:mm:ss")
                 }).ToList();
 
-                // Asignar el DataSource al DataGridView
                 dataGridViewPedidos.DataSource = detalles;
 
-                // Ajustar las columnas y filas al contenido
                 dataGridViewPedidos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
                 dataGridViewPedidos.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
                 dataGridViewPedidos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 
-                // Calcular el total directamente desde el origen de datos
                 decimal sumaTotal = detalles.Sum(d => d.TOTAL);
-
-                // Mostrar el total en el label
-                lblTotal.Text = $"Total: {sumaTotal:C2}"; // Mostrar el total en formato moneda
+                lblTotal.Text = $"Total: {sumaTotal:C2}";
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error al generar el reporte: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
 
 
@@ -168,20 +198,18 @@ namespace FotoRoman
                 // Generar el gráfico de torta
                 string rutaGrafico = GenerarGraficoDeTorta(ventasUsuario, totalVentas);
 
-                // Ruta para guardar el archivo PDF
+                // Ruta para guardar el PDF
                 string rutaPDF = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "ReporteVentas.pdf");
 
                 // Ruta del logo
                 string rutaLogo = @"C:\Users\JSofia\Desktop\ISSD\2022 SEGUNDO SEMESTRE\PP1\imagens\roman.png";
-                
-                // Verificar si la imagen existe
                 if (!System.IO.File.Exists(rutaLogo))
                 {
                     MessageBox.Show("El archivo de logo no existe en la ruta especificada.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                // Crear el documento PDF
+                // Crear PDF
                 using (FileStream stream = new FileStream(rutaPDF, FileMode.Create))
                 {
                     Document documento = new Document(PageSize.A4, 25, 25, 30, 30);
@@ -189,12 +217,12 @@ namespace FotoRoman
 
                     documento.Open();
 
-                    // Agregar logo al reporte
+                    // Logo
                     try
                     {
                         iTextSharp.text.Image logo = iTextSharp.text.Image.GetInstance(rutaLogo);
-                        logo.ScaleToFit(200, 100); // Ajustar tamaño del logo
-                        logo.Alignment = iTextSharp.text.Element.ALIGN_LEFT;
+                        logo.ScaleToFit(200, 100);
+                        logo.Alignment = Element.ALIGN_LEFT;
                         documento.Add(logo);
                     }
                     catch (Exception ex)
@@ -202,44 +230,40 @@ namespace FotoRoman
                         MessageBox.Show($"Error al agregar el logo: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
 
-                    // Título del reporte
+                    // Título
                     Paragraph titulo = new Paragraph("Reporte de Pedidos", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 16));
                     titulo.Alignment = Element.ALIGN_CENTER;
                     titulo.SpacingAfter = 20;
                     documento.Add(titulo);
 
-                    // Subtítulo con información del usuario y fechas
-                    Paragraph info = new Paragraph($"Usuario: {comboBoxUsuarios.Text}\n" +
-                                                    $"Desde: {dtpFechaDesde.Value:dd/MM/yyyy}\n" +
-                                                    $"Hasta: {dtpFechaHasta.Value:dd/MM/yyyy}\n",
-                                                    FontFactory.GetFont(FontFactory.HELVETICA, 12));
+                    // Subtítulo
+                    Paragraph info = new Paragraph($"Usuario: {comboBoxUsuarios.Text}\nDesde: {dtpFechaDesde.Value:dd/MM/yyyy}\nHasta: {dtpFechaHasta.Value:dd/MM/yyyy}\n",
+                        FontFactory.GetFont(FontFactory.HELVETICA, 12));
                     info.Alignment = Element.ALIGN_LEFT;
                     info.SpacingAfter = 20;
                     documento.Add(info);
 
-                    // Crear la tabla con los datos
+                    // Tabla de pedidos
                     PdfPTable tabla = new PdfPTable(3);
                     tabla.WidthPercentage = 100;
-                    tabla.SetWidths(new float[] { 1, 1, 1 }); // Proporción de las columnas
+                    tabla.SetWidths(new float[] { 1, 1, 1 });
 
-                    // Encabezados de la tabla
                     tabla.AddCell(new PdfPCell(new Phrase("ID Pedido", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12)))
                     {
                         HorizontalAlignment = Element.ALIGN_CENTER,
-                        BackgroundColor = new iTextSharp.text.BaseColor(211, 211, 211) // Gris claro
+                        BackgroundColor = new BaseColor(211, 211, 211)
                     });
                     tabla.AddCell(new PdfPCell(new Phrase("Total", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12)))
                     {
                         HorizontalAlignment = Element.ALIGN_CENTER,
-                        BackgroundColor = new iTextSharp.text.BaseColor(211, 211, 211)
+                        BackgroundColor = new BaseColor(211, 211, 211)
                     });
                     tabla.AddCell(new PdfPCell(new Phrase("Fecha", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12)))
                     {
                         HorizontalAlignment = Element.ALIGN_CENTER,
-                        BackgroundColor = new iTextSharp.text.BaseColor(211, 211, 211)
+                        BackgroundColor = new BaseColor(211, 211, 211)
                     });
 
-                    // Agregar las filas del DataGridView al PDF
                     foreach (DataGridViewRow fila in dataGridViewPedidos.Rows)
                     {
                         if (fila.Cells["IDPEDIDO"].Value != null) tabla.AddCell(fila.Cells["IDPEDIDO"].Value.ToString());
@@ -249,12 +273,12 @@ namespace FotoRoman
 
                     documento.Add(tabla);
 
-                    // Agregar el total al final
+                    // Total
                     Paragraph total = new Paragraph($"\nTotal: {lblTotal.Text}", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12));
                     total.Alignment = Element.ALIGN_RIGHT;
                     documento.Add(total);
 
-                    // Agregar estadísticas de ventas
+                    // Estadísticas
                     Paragraph estadisticas = new Paragraph($"\nEstadísticas de Ventas:\n" +
                                                           $"Total Ventas (Global): {totalVentas:C2}\n" +
                                                           $"Ventas del Vendedor: {ventasUsuario:C2}\n" +
@@ -264,18 +288,41 @@ namespace FotoRoman
                     estadisticas.SpacingBefore = 20;
                     documento.Add(estadisticas);
 
-                    // Agregar el gráfico de torta al reporte
+                    // Si no hay espacio suficiente para el gráfico en esta página, crear una nueva
+                    // Preparamos los elementos pero NO los agregamos aún
+                    Paragraph tituloGrafico = new Paragraph("Participación del Vendedor en las Ventas", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12));
+                    tituloGrafico.Alignment = Element.ALIGN_CENTER;
+                    tituloGrafico.SpacingBefore = 20;
+
                     iTextSharp.text.Image grafico = iTextSharp.text.Image.GetInstance(rutaGrafico);
                     grafico.ScaleToFit(300, 200);
                     grafico.Alignment = Element.ALIGN_CENTER;
-                    grafico.SpacingBefore = 20;
+                    grafico.SpacingBefore = 10;
+
+                    // Estimamos el alto necesario (aproximado: título + espaciado + imagen)
+                    float altoEstimado = 20 + 10 + grafico.ScaledHeight + 20;  // margen de seguridad
+
+                    float espacioDisponible = writer.GetVerticalPosition(true) - documento.BottomMargin;
+
+                    if (espacioDisponible < altoEstimado)
+                    {
+                        documento.NewPage();
+                        Paragraph nuevoTitulo = new Paragraph("-", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 14));
+                        nuevoTitulo.Alignment = Element.ALIGN_CENTER;
+                        nuevoTitulo.SpacingAfter = 15;
+                        documento.Add(nuevoTitulo);
+                    }
+
+                    // Ahora sí: agregar ambos juntos
+                    documento.Add(tituloGrafico);
                     documento.Add(grafico);
+
 
                     documento.Close();
                     writer.Close();
                 }
 
-                // Abrir el PDF generado
+                // Abrir PDF
                 MessageBox.Show($"Reporte generado exitosamente en:\n{rutaPDF}", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
                 {
@@ -292,7 +339,6 @@ namespace FotoRoman
 
 
 
-       
 
         private void buttonCancelar_Click(object sender, EventArgs e)
         {
