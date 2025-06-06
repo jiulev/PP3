@@ -136,6 +136,7 @@ namespace CapaPresentacion
                 rows += $"<tr><td>{p.IDPEDIDO}</td><td>{p.oCliente.NOMBRE}</td><td>{p.FECHAPEDIDO:dd/MM/yyyy}</td><td>{p.ESTADO}</td><td>{p.EstadoPago}</td><td>${p.TOTAL:F2}</td><td>{boton}</td></tr>";
             }
 
+
             // Resto del HTML se mantiene igual (desde string html = $@"...) sin cambios
             string html = $@"
 <!DOCTYPE html>
